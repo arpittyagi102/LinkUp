@@ -1,0 +1,25 @@
+.login-page-outer{
+    display: flex;
+    background-color: #DDEBF6;
+    height: 100vh;
+    justify-content: space-evenly;
+}
+.form-outer{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width:400px;
+}
+.login-page-outer input{
+    background-color: #DDEBF6;
+    border:solid grey;
+    border-radius: 10px;
+}
+.login-page-title{
+    font-size:50px;
+    font-weight: bold;
+}
+.sidebar{
+    height: 100vh;
+    float: right;
+}

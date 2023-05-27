@@ -1,9 +1,10 @@
 import React from "react";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 export default function App(){
   return(
     <>
-      <h1>Ready to start my work</h1>
+      <LoginPage />
     </>
   )
 }
