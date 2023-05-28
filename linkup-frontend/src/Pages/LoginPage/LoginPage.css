@@ -1,25 +1,89 @@
-.login-page-outer{
+.login-page-outer{          /* Full Page */
     display: flex;
     background-color: #DDEBF6;
     height: 100vh;
     justify-content: space-evenly;
 }
-.form-outer{
+.login-form-outer{          /* Form on the left */
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width:400px;
+    width:350px;
+    gap:5px;
 }
-.login-page-outer input{
-    background-color: #DDEBF6;
-    border:solid grey;
-    border-radius: 10px;
-}
-.login-page-title{
-    font-size:50px;
+.login-page-title{        /* Welcome Back */ 
+    font-size:40px;
     font-weight: bold;
+    margin-bottom: 10px;
 }
-.sidebar{
+
+/* Input form */
+.login-form-outer input[type=email], .login-form-outer input[type=password]{    
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    padding-left:20px;
+    font-size: large;
+}
+.login-form-outer input:focus{
+    border-color: blue;
+    outline:none;
+}
+.login-form-outer .label{       /* Labels on Input */
+    margin:6px;
+}
+.login-btn{             /* Login button */
+    margin:20px;
+    margin-bottom: 10px;
+    background-color: #0197E3;
+    border:none;
+    border-radius: 15px;
+    padding:10px;
+    color:white;
+    font-weight: bold;
+    font-size: large;
+    box-shadow: black 1px 1px 3px;
+}
+.login-btn:hover{
+    box-shadow: rgb(0, 0, 0) 3px 3px 10px;
+}
+.or{        /* or */ 
+    display: flex;
+    flex-direction: row;
+}
+.or:before, .or:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid grey;
+    margin: auto;
+    margin:13px;
+  }
+.or:before {
+    margin-right: 10px
+}
+.or:after {
+    margin-left: 10px
+}
+.google-login-btn{
+    margin:20px;
+    margin-bottom: 10px;
+    background-color: white;
+    border:none;
+    border-radius: 15px;
+    padding:6px;
+    color: rgb(94, 94, 94);
+    font-size: large;
+    box-shadow: black 1px 1px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.googleicon{
+    width:30px;
+    margin-left:3px
+}
+.sidebar{           /* 3d Image on the right side*/
     height: 100vh;
     float: right;
 }
