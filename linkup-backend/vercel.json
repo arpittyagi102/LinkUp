@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "name": "Linkup Deployment",
+  "builds": [{ "src": "app.js", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/server.js" }]
+}

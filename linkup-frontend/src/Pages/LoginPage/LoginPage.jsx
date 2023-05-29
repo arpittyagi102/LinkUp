@@ -2,8 +2,15 @@ import React from "react";
 import "./LoginPage.css";   
 import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:3001");
 
 export default function LoginPage(){
+
+    socket.on("CTS",()=>{
+        console.log("connected to Server")
+    })
     return(
         <>
             <div className="login-page-outer">
