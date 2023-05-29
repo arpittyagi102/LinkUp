@@ -3,17 +3,17 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
-const { MongoClient } = require('mongodb'); 
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-app.use(cors());
-const server=http.createServer(app);
+app.use(cors()); // Add cors middleware
 
+const server = http.createServer(app);
 const io = new Server(server, {
-    cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST"],
-    },
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
 });
 
 const MONGO_URI = process.env.MONGO_URI;
