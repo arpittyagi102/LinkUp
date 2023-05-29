@@ -1,12 +1,13 @@
 import LoginPage from './Pages/LoginPage/LoginPage'
 import SignupPage from './Pages/SignupPage/SignupPage';
+import Chat from './Pages/Chat/Chat';
 
 const routes=[
-    /* {
+    {
         path:'/',
         exact:true,
-        component:<h1>Welcome to LinkUp</h1>
-    }, */
+        element:<Chat/>
+    },
     {
         path:'/login',
         exact:true,

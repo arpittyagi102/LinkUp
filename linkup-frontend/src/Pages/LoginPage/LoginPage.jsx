@@ -2,15 +2,21 @@ import React from "react";
 import "./LoginPage.css";   
 import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
-import io from "socket.io-client";
+import { Link,useNavigate } from "react-router-dom";
+//import io from "socket.io-client";
 
-const socket = io.connect("https://link-up-backend.vercel.app/");
+//const socket = io.connect("https://link-up-backend.vercel.app/");
 
 export default function LoginPage(){
 
-    socket.on("CTS",()=>{
+    /* socket.on("CTS",()=>{
         console.log("connected to Server")
-    })
+    }) */
+    const navigate=useNavigate();
+
+    function handlesubmit(){
+        navigate('/chat');
+    }
     return(
         <>
             <div className="login-page-outer">
@@ -25,8 +31,8 @@ export default function LoginPage(){
 
                     <div><input type="checkbox"/> Remember me</div>
 
-                    <input type="submit" className="login-btn" value="Login"/>
-                    <div>Don't have an account, sign in</div>
+                    <input type="submit" className="login-btn" value="Login" onClick={handlesubmit}/>
+                    <div>Don't have an account <Link to={'/signup'}>sign up</Link></div>
                     <div className="or">or</div>
                     <div className="google-login-btn">
                         Login with Google

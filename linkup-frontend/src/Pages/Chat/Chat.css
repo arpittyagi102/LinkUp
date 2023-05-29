@@ -1,0 +1,61 @@
+.outer{
+    background-color: rgb(221, 221, 249);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.friends-list-outer{
+    height: 90%;
+    width: 400px;
+    margin:40px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+}
+.friends-list-upper{
+    width: 100%;
+    background-color: white;
+    box-shadow: 1px 1px 20px rgb(169, 169, 169);
+    border-radius: 50px 50px 0px 0px;
+}
+.add-new-btn{
+    width:90%;
+    border: dotted;
+    border-radius: 40px;
+    height: 70px;
+    margin:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.friends-list-title{
+    align-self: flex-start;
+    margin:0px 0px 20px 20px;
+    width: 90%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+.friends-list-title h1{
+    margin:0px;
+}
+.search-bar{
+    border-radius: 50px;
+    background-color:rgb(221, 221, 249) ;
+}
+.search-bar input{
+    background-color: transparent;
+    border: none;
+}
+.search-bar input:focus{
+    outline:none
+}
+.chat-interface-outer{
+    background-color: aqua;
+    height: 90%;
+    margin: 40px;
+    flex-grow: 1;
+}
