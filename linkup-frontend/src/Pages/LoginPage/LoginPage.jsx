@@ -1,6 +1,6 @@
 import React from "react";
 import "./LoginPage.css";   
-import SidebarImage from "./SidebarImage.jpg";
+import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
 
 export default function LoginPage(){

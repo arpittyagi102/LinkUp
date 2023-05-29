@@ -1,0 +1,106 @@
+.signup-page-outer{          /* Full Page */
+    display: flex;
+    background-color: #F3E8E2;
+    height: 100vh;
+    justify-content: space-evenly;
+}
+.signup-form-outer{          /* Form on the left */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width:350px;
+    gap:5px;
+}
+.signup-page-title{        /* Welcome Back */ 
+    font-size:40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color:rgb(77, 77, 77)
+}
+
+/* Input forms */
+.form-input-names{
+    display: flex;
+}
+.signup-form-outer input[type=text]{    
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    padding-left:20px;
+    font-size: large;
+    width:80%;
+}
+.signup-form-outer input[type=email], .signup-form-outer input[type=password]{    
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    padding-left:20px;
+    font-size: large;
+}
+
+
+.signup-form-outer input:focus{
+    border-color: blue;
+    outline:none;
+}
+
+.signup-form-outer .label{       /* Labels on Input */
+    margin:6px;
+    margin-bottom: 4px;
+}
+.signup-btn{             /* signup button */
+    margin:20px;
+    margin-bottom: 10px;
+    background-color: #0197E3;
+    border:none;
+    border-radius: 15px;
+    padding:10px;
+    color:white;
+    font-weight: bold;
+    font-size: large;
+    box-shadow: black 1px 1px 3px;
+}
+.signup-btn:hover{
+    box-shadow: rgb(0, 0, 0) 3px 3px 10px;
+}
+.or{        /* or */ 
+    display: flex;
+    flex-direction: row;
+}
+.or:before, .or:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid grey;
+    margin: auto;
+    margin:13px;
+  }
+.or:before {
+    margin-right: 10px
+}
+.or:after {
+    margin-left: 10px
+}
+.google-signup-btn{
+    margin:20px;
+    margin-bottom: 10px;
+    background-color: white;
+    border:none;
+    border-radius: 15px;
+    padding:6px;
+    color: rgb(94, 94, 94);
+    font-size: large;
+    box-shadow: black 1px 1px 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.googleicon{
+    width:30px;
+    margin-left:3px
+}
+.sidebar{           /* 3d Image on the right side*/
+    height: 100vh;
+    float: right;
+}

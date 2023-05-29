@@ -1,10 +1,23 @@
 import React from "react";
-import LoginPage from "./Pages/LoginPage/LoginPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import routes from "./Routes";
+
 
 export default function App(){
   return(
     <>
-      <LoginPage />
+        <BrowserRouter>
+      <Routes>
+      {routes.map((route, index) => (
+        <Route
+        key={index}
+        path={route.path}
+        exact={route.exact}
+        element={route.element}
+        />
+        ))}
+      </Routes>
+        </BrowserRouter>
     </>
   )
 }
