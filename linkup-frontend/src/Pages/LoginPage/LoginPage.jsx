@@ -3,15 +3,15 @@ import "./LoginPage.css";
 import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
 import { Link,useNavigate } from "react-router-dom";
-//import io from "socket.io-client";
+import io from "socket.io-client";
 
-//const socket = io.connect("https://link-up-backend.vercel.app/");
+const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
 
 export default function LoginPage(){
 
-//    socket.on("CTS",()=>{
-//        console.log("connected to Server")
-//    })
+    socket.on("CTS",()=>{
+        console.log("connected to Server")
+    }) 
     const navigate=useNavigate();
 
     function handlesubmit(){
