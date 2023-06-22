@@ -17,6 +17,10 @@ app.use((req, res, next) => {
     next();
 });
 
+app.get("/", (req, res) => {
+  res.send("LinkUp-backend is deployed successfully");
+});
+
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
