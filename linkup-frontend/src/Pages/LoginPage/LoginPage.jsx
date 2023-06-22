@@ -9,9 +9,9 @@ import { Link,useNavigate } from "react-router-dom";
 
 export default function LoginPage(){
 
-    /* socket.on("CTS",()=>{
-        console.log("connected to Server")
-    }) */
+//    socket.on("CTS",()=>{
+//        console.log("connected to Server")
+//    })
     const navigate=useNavigate();
 
     function handlesubmit(){
