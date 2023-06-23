@@ -20,10 +20,11 @@ export default function LoginPage(){
 
     const login = useGoogleLogin({
         client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
-        onSuccess: codeResponse => loginsuccess(codeResponse),
+        onSuccess: response => loginsuccess(response),
     });
 
     function loginsuccess(response){
+        console.log("Sucessfully Logged in ",response);
         const userdata=jwtDecode(response.credential);
         console.log("Name : "+userdata.name)    
         console.log("email : "+userdata.email)    
