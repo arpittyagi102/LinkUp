@@ -24,7 +24,7 @@ export default function LoginPage(){
     });
 
     function loginsuccess(response){
-        userdata=jwtDecode(response.credential);
+        const userdata=jwtDecode(response.credential);
         console.log("Name : "+userdata.name)    
         console.log("email : "+userdata.email)    
         console.log("Picture : "+userdata.picture);
