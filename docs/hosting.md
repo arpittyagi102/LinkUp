@@ -38,4 +38,4 @@ app.use((req, res, next) => {
 
 ## Render.com
 
-- on advice to one of my friend I deployed the backend to render.com the link to backend is [https://linkup-backend-k05n.onrender.com/]([https://linkup-backend-k05n.onrender.com/), and the deployment is sucessfull
+- on advice to one of my friend I deployed the backend to render.com the link to backend is [https://linkup-backend-k05n.onrender.com/](https://linkup-backend-k05n.onrender.com/), and the deployment is sucessfull
