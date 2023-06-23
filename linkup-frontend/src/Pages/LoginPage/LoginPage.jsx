@@ -5,6 +5,7 @@ import googleicon from "../../Assets/google-icon.svg";
 import { Link,useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { useGoogleLogin } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
 
 const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
 
@@ -20,11 +21,13 @@ export default function LoginPage(){
     const login = useGoogleLogin({
         client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
         onSuccess: codeResponse => loginsuccess(codeResponse),
-      });
+    });
 
     function loginsuccess(response){
-        navigate('/chat');
-        console.log(response);
+        userdata=jwtDecode(response.credential);
+        console.log("Name : "+userdata.name)    
+        console.log("email : "+userdata.email)    
+        console.log("Picture : "+userdata.picture);
     }
 
     const [emailinput, setemailinput] = useState("");
