@@ -4,6 +4,7 @@ import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
 import { Link,useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import { useGoogleLogin } from '@react-oauth/google';
 
 const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
 
@@ -15,6 +16,15 @@ export default function LoginPage(){
             console.log("We are now connected to server")
         }) 
     },[])
+
+    const login = useGoogleLogin({
+        client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
+        onSuccess: codeResponse => loggedin(codeResponse),
+      });
+
+    function loggedin(response){
+        console.log("Logged in");
+    }
 
     const [emailinput, setemailinput] = useState("");
     const [passwordinput, setpasswordinput] = useState("");
@@ -43,7 +53,7 @@ export default function LoginPage(){
                     <input type="submit" className="login-btn" value="Login" onClick={handlesubmit}/>
                     <div>Don't have an account <Link to={'/signup'}>sign up</Link></div>
                     <div className="or">or</div>
-                    <div className="google-login-btn">
+                    <div className="google-login-btn" onClick={()=>{login()}}>
                         Login with Google
                         <img src={googleicon} className="googleicon" alt="google-icon"/>
                     </div>
