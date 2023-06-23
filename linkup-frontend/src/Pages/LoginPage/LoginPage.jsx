@@ -19,11 +19,12 @@ export default function LoginPage(){
 
     const login = useGoogleLogin({
         client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
-        onSuccess: codeResponse => loggedin(codeResponse),
+        onSuccess: codeResponse => loginsuccess(codeResponse),
       });
 
-    function loggedin(response){
-        console.log("Logged in");
+    function loginsuccess(response){
+        navigate('/chat');
+        console.log(response);
     }
 
     const [emailinput, setemailinput] = useState("");
