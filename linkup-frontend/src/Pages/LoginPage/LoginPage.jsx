@@ -25,7 +25,7 @@ export default function LoginPage(){
 
     function loginsuccess(response){
         console.log("Sucessfully Logged in ",response);
-        const userdata=jwtDecode(response.credential);
+        const userdata=jwtDecode(response.access_token);
         console.log("Name : "+userdata.name)    
         console.log("email : "+userdata.email)    
         console.log("Picture : "+userdata.picture);
