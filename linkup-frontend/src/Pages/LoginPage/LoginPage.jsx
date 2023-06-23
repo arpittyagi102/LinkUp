@@ -15,6 +15,7 @@ export default function LoginPage(){
     useEffect(()=>{
         socket.on("CTS",()=>{
             console.log("We are now connected to server")
+            
         }) 
     },[])
 
@@ -23,19 +24,35 @@ export default function LoginPage(){
         onSuccess: response => loginsuccess(response),
     });
 
-    function loginsuccess(response){
-        console.log("Sucessfully Logged in ",response);
-        const userdata=jwtDecode(response.access_token);
-        console.log("Name : "+userdata.name)    
-        console.log("email : "+userdata.email)    
-        console.log("Picture : "+userdata.picture);
-    }
+    function loginsuccess(response) {
+        //const { access_token } = response;
+        const access_token = "ya29.a0AWY7CklhH7eBiKdnvIoZKEmqtMqMPmcYos2NOC9GvAqqIIIo3vNnGujZq2XZWMHOonVF3yG0hUw-GFaemq7AtNoH9Of-aex_Lx2vPxczwOb0KEukj8JCVYpWIGCA1bjuNMVMLSM9SUl_U3a4MG-p6KX_NxN8aCgYKAS0SARASFQG1tDrppWrI42exUVDpbpNs_48WpA0163";
+      
+        // Make a request to the Google API to get user data
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        })
+          .then(response => response.json())
+          .then(userData => {
+            console.log("User Data:", userData);
+            // Access specific properties of the userData object
+            console.log("Name:", userData.name);
+            console.log("Email:", userData.email);
+            console.log("Picture:", userData.picture);
+          })
+          .catch(error => {
+            console.error("Error fetching user data:", error);
+          });
+      }
 
     const [emailinput, setemailinput] = useState("");
     const [passwordinput, setpasswordinput] = useState("");
 
     function handlesubmit(){
         //navigate('/chat');
+        loginsuccess()
         console.log(`Email Address = ${emailinput}`)
         console.log(`Password = ${passwordinput}`)
     }
