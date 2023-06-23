@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginPage.css";   
 import SidebarImage from "../../Assets/SidebarImagelogin.jpg";
 import googleicon from "../../Assets/google-icon.svg";
@@ -8,14 +8,21 @@ import io from "socket.io-client";
 const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
 
 export default function LoginPage(){
-
-    socket.on("CTS",()=>{
-        console.log("connected to Server")
-    }) 
+    
     const navigate=useNavigate();
+    useEffect(()=>{
+        socket.on("CTS",()=>{
+            console.log("We are now connected to server")
+        }) 
+    },[])
+
+    const [emailinput, setemailinput] = useState("");
+    const [passwordinput, setpasswordinput] = useState("");
 
     function handlesubmit(){
-        navigate('/chat');
+        //navigate('/chat');
+        console.log(`Email Address = ${emailinput}`)
+        console.log(`Password = ${passwordinput}`)
     }
     return(
         <>
@@ -24,10 +31,12 @@ export default function LoginPage(){
                     <div className="login-page-title">Welcome back</div>
 
                     <div className="label">Email Address</div>
-                    <input type="email" placeholder="youremail@example.com"/>
+                    <input type="email" placeholder="youremail@example.com" 
+                            value={emailinput} onChange={(e)=>{setemailinput(e.target.value)}}/>
 
                     <div className="label">Password</div>
-                    <input type="password" placeholder="••••••••••"/>
+                    <input type="password" placeholder="••••••••••"
+                            value={passwordinput} onChange={(e)=>{setpasswordinput(e.target.value)}}   />
 
                     <div><input type="checkbox"/> Remember me</div>
 
