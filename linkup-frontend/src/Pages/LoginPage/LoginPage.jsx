@@ -25,8 +25,7 @@ export default function LoginPage(){
     });
 
     function loginsuccess(response) {
-        //const { access_token } = response;
-        const access_token = "ya29.a0AWY7CklhH7eBiKdnvIoZKEmqtMqMPmcYos2NOC9GvAqqIIIo3vNnGujZq2XZWMHOonVF3yG0hUw-GFaemq7AtNoH9Of-aex_Lx2vPxczwOb0KEukj8JCVYpWIGCA1bjuNMVMLSM9SUl_U3a4MG-p6KX_NxN8aCgYKAS0SARASFQG1tDrppWrI42exUVDpbpNs_48WpA0163";
+        const { access_token } = response;
       
         // Make a request to the Google API to get user data
         fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
