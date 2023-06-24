@@ -72,6 +72,7 @@ export default function LoginPage(){
                     <div><input type="checkbox"/> Remember me</div>
 
                     <input type="submit" className="login-btn" value="Login" onClick={handlesubmit}/>
+                    <div style={{ textAlign: "center" }} ><Link to={'/forgot'}>Forgot your Password?</Link></div>
                     <div>Don't have an account <Link to={'/signup'}>sign up</Link></div>
                     <div className="or">or</div>
                     <div className="google-login-btn" onClick={()=>{login()}}>

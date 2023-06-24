@@ -1,0 +1,67 @@
+.forgot-page-outer {
+    display: flex;
+    background-color: #ffffff;
+    height: 100vh;
+    justify-content: space-evenly;
+}
+
+.forgot-form-outer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 350px;
+    gap: 5px;
+}
+
+.forgot-page-title {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.forgot-form-outer input[type="email"],
+.forgot-form-outer input[type="password"] {
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: none;
+    height: 40px;
+    padding-left: 20px;
+    font-size: large;
+}
+
+.forgot-form-outer input:focus {
+    border-color: blue;
+    outline: none;
+}
+
+.forgot-form-outer .label {
+    margin: 6px;
+}
+
+.forgot-btn {
+    margin: 20px;
+    margin-bottom: 10px;
+    background-color: #0197E3;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    box-shadow: black 1px 1px 3px;
+}
+
+.forgot-btn:hover {
+    box-shadow: rgb(0, 0, 0) 6px 6px 60px;
+}
+
+.sidebar {
+    height: 100vh;
+    mix-blend-mode: multiply;
+    float: right;
+}
+
+.sidebar {
+    height: 50vh;
+    margin-top: 10%;
+}
