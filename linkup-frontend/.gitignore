@@ -12,8 +12,7 @@
 /build
 
 # misc
-linkup-frontend/.env
-linkup-backend/.env
+.env
 .DS_Store
 .env.local
 .env.development.local
