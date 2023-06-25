@@ -5,25 +5,48 @@ import googleicon from "../../Assets/google-icon.svg";
 import { Link,useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { useGoogleLogin } from '@react-oauth/google';
-import jwtDecode from 'jwt-decode';
-
-const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
 
 export default function LoginPage(){
-    
+
+    const [emailinput, setemailinput] = useState("");
+    const [passwordinput, setpasswordinput] = useState("");
+    const [socket, setSocket] = useState("");
     const navigate=useNavigate();
-    useEffect(()=>{
-        socket.on("CTS",()=>{
-            console.log("We are now connected to server")
-            
-        }) 
-    },[])
+       
+    useEffect(() => {
+        //const socket = io.connect("http://localhost:3001");
+        const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
+        setSocket(socket);
+        
+        socket.on("login-attempt-response", (response) => {
+            console.log("A response came ",response)
+            if(response === "SUCCESSFULL"){
+                navigate('/chat')
+            }
+            else if(response === "WRONGPASSWORD")
+                alert("Wrong Password")
+            else if(response === "WRONGEMAIL")
+                alert("Couldn't find an account with this email")
+            else if(response === "UNSUCCESSFULL")
+                alert("Couldn't login")
+        });
+    
+        return () => {
+          socket.disconnect();
+        };
+      }, []);
+
+      function handlesubmit(){
+          socket.emit("login-attempt",{email:emailinput,password:passwordinput})
+      }
+    
+    
 
     const login = useGoogleLogin({
         client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
         onSuccess: response => loginsuccess(response),
     });
-
+    
     function loginsuccess(response) {
         const { access_token } = response;
       
@@ -38,7 +61,7 @@ export default function LoginPage(){
             console.log("User Data:", userData);
             // Access specific properties of the userData object
             console.log("Name:", userData.name);
-            console.log("Email:", userData.email);
+            console.log("Email:", userData.email); 
             console.log("Picture:", userData.picture);
           })
           .catch(error => {
@@ -46,15 +69,7 @@ export default function LoginPage(){
           });
       }
 
-    const [emailinput, setemailinput] = useState("");
-    const [passwordinput, setpasswordinput] = useState("");
 
-    function handlesubmit(){
-        //navigate('/chat');
-        loginsuccess()
-        console.log(`Email Address = ${emailinput}`)
-        console.log(`Password = ${passwordinput}`)
-    }
     return(
         <>
             <div className="login-page-outer">

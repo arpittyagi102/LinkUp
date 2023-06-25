@@ -3,13 +3,16 @@ import io from "socket.io-client";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage() {
+
   const [fname, setfname] = useState("");
   const [lname, setlname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [socket, setSocket] = useState(null);
+  const navigate=useNavigate();
 
   useEffect(() => {
     //const socket = io.connect("http://localhost:3001");
@@ -17,7 +20,15 @@ export default function SignupPage() {
     setSocket(socket);
 
     socket.on("signup-attempt-response", (response) => {
-      console.log("Signup attempt response came ", response);
+        console.log("Signup attempt response came ", response);
+        if(response === "SUCCESSFULL"){
+            navigate('/login')
+        }
+        else if(response === "USERALREADYEXISTS")
+            alert("A user with this email address is already exists")
+        else if(response === "UNSUCCESSFULL")
+            alert("An error Occured")
+    
     });
 
     return () => {

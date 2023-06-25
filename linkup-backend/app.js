@@ -13,7 +13,7 @@ const server = http.createServer(app);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'https://getlinkup.vercel.app');
-//    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
@@ -71,6 +71,20 @@ io.on("connection",(socket)=>{
         socket.emit("signup-attempt-response","UNSUCCESSFULL")
       })}
     }) 
+
+    socket.on("login-attempt",async (userdata) =>{
+      console.log("A login attempt is made with ",userdata);
+      const users = db.collection('users');
+      const user = await users.findOne({email:userdata.email})
+      if(!user)
+        socket.emit("login-attempt-response","WRONGEMAIL")
+      else if(user.email===userdata.email && user.password===userdata.password)
+        socket.emit("login-attempt-response","SUCCESSFULL")
+      else if(user.email===userdata.email && user.password!==userdata.password)
+        socket.emit("login-attempt-response","WRONGPASSWORD")
+      else
+        socket.emit("login-attempt-response","UNSUCCESSFULL")
+    })
     socket.on("disconnect",()=>{
       console.log("A user disconnected")
     })

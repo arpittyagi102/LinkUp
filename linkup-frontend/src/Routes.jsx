@@ -10,6 +10,11 @@ const routes=[
         element:<Chat/>
     },
     {
+        path:'/chat',
+        exact:true,
+        element:<Chat/>
+    },
+    {
         path:'/login',
         exact:true,
         element:<LoginPage/>
