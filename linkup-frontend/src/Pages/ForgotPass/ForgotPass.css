@@ -55,13 +55,10 @@
     box-shadow: rgb(0, 0, 0) 6px 6px 60px;
 }
 
-.sidebar {
+.forgot-sidebar {
     height: 100vh;
     mix-blend-mode: multiply;
     float: right;
-}
-
-.sidebar {
     height: 50vh;
     margin-top: 10%;
 }

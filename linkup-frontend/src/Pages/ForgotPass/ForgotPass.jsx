@@ -30,7 +30,7 @@ export default function ForgotPass() {
     return (
         <>
             <div className="login-page-outer" style={{ backgroundColor: 'rgb(255, 222, 162)' }}>
-                <img style={{ mixBlendMode: "multiply" }} src={banner} alt="Internet Error" className="sidebar" />
+                <img style={{ mixBlendMode: "multiply" }} src={banner} alt="Internet Error" className="forgot-sidebar" />
                 <div className="login-form-outer">
                     <div className="login-page-title">Password Reset</div>
                     <p>

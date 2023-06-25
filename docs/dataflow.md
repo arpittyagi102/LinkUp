@@ -21,21 +21,3 @@ flowchart TD
 ```
 
 ---
-## Login Page
-
-```bash
-https://getlinkup.vercel.app/login
-```
-```mermaid
-    flowchart LR
-        A -- username,password --> B
-        DB --> users
-        subgraph Frontend
-            A["Login Button"]
-        end
-        subgraph Backend
-            B["data"]
-            B -- findOne --> users
-        end
-        DB[("MongoDB")]
-```
