@@ -69,7 +69,7 @@ http://localhost:3000
 ```
 
 ## Contributing
-This project still needs a lot of improvement hence it has a lot of scope for contribution. Follow the steps or contact me
+We welcome contributions from the community to enhance LinkUp further. To contribute, please follow these steps:
 
 1. Fork the repository.
 
@@ -80,3 +80,6 @@ This project still needs a lot of improvement hence it has a lot of scope for co
 4. Submit a pull request, clearly documenting the changes and their purpose.
 
 We will review your pull request, provide feedback if necessary, and merge it once it meets the project's standards.
+
+## Contact
+If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact us at arpittyagirocks@gmail.com
