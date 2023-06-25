@@ -12,7 +12,8 @@ export default function SignupPage() {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:3001");
+    //const socket = io.connect("http://localhost:3001");
+    const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
     setSocket(socket);
 
     socket.on("signup-attempt-response", (response) => {
