@@ -4,7 +4,6 @@ const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
 const { MongoClient } = require('mongodb');
-const { disconnect } = require("process");
 require('dotenv').config();
 
 app.use(cors()); // Add cors middleware
@@ -19,9 +18,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", (req, res) => {
-  res.send("LinkUp-backend is deployed successfully");
-});
 
 const io = new Server(server, {
   cors: {
@@ -78,8 +74,9 @@ io.on("connection",(socket)=>{
       const user = await users.findOne({email:userdata.email})
       if(!user)
         socket.emit("login-attempt-response","WRONGEMAIL")
-      else if(user.email===userdata.email && user.password===userdata.password)
+      else if(user.email===userdata.email && user.password===userdata.password){
         socket.emit("login-attempt-response","SUCCESSFULL")
+      }
       else if(user.email===userdata.email && user.password!==userdata.password)
         socket.emit("login-attempt-response","WRONGPASSWORD")
       else

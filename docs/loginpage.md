@@ -2,10 +2,11 @@
 ```bash
 https://getlinkup.vercel.app/login
 ```
+## Login data flow
 In the Login page of LinkUp the following logic is implemented..
 When the user clicks on the `login button`. it takes the input value of `email` and `password`.
 
-| [Issue #4](https://github.com/arpittyagirocks/LinkUp/issues/4) | 
+| [Problem #4](https://github.com/arpittyagirocks/LinkUp/issues/4) | 
 | -------- |         
 | Here even if the fields are empty it still tries to send response to Backend |
 | There is no Validator which confirms that value entered in `email` field is a valid email or not |
@@ -40,9 +41,11 @@ socket.on("login-attempt",async (userdata) =>{
     })
     // Any other error
 ```
+Now if the Frontend gets the response to be SUCCESSFULL it route to the `/chat` page
 
-Now if the Frontend gets the response to be SUCCESSFULL it redirects to the `/chat` page
-
+| [Problem #6](https://github.com/arpittyagirocks/LinkUp/issues/6) | 
+| -------- |         
+| When the login is Successfull it backend should send all the data of user to frontend, then react should store all the data into cookies and then route to `/chat` where the chatting page will receive all the data from cookies and display it according to the UI.|
 
 ```mermaid
     flowchart TD
@@ -61,3 +64,6 @@ Now if the Frontend gets the response to be SUCCESSFULL it redirects to the `/ch
         DB[("MongoDB")]
 ```
 
+## Google Authentication
+
+The project is using `useGoogleLogin` from `@react-oauth/google` library for google authentication 

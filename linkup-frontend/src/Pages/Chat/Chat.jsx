@@ -10,7 +10,7 @@ export default function Chat(){
     const [message,setmessage]=useState("");
     const [messagelist,setmessagelist]=useState([]);
     const sendby="Arpit Tyagi";
-    const username="Arpit Tyagi";
+    const username="User Name";
 
     function sendmessage(){
         setmessagelist([...messagelist,message]);
@@ -44,32 +44,34 @@ export default function Chat(){
 
                 </div>
                 <div className="chat-interface-outer">
+                    <h1>{username}</h1>
                     <div className="chat-interface">
-                        {messagelist.map((index,key)=>{
-                            return(
-                                <Message
-                                    username={username}
-                                    sendby={sendby}
-                                    time={"pata nahi"}
-                                    message={index}
-                                    />
-                            )
-                        })}
-                    </div>
-
-                    <div className="message-input-outer">
-                        <input  type="text" 
-                            className="message-input" 
-                            value={message}
-                            onChange={(e) => {
-                                setmessage(e.target.value);
-                            }}
-                            onKeyPress={(e) => {
-                                if (e.key === "Enter") {
-                                    sendmessage();
-                                }
-                            }}
-                        />                        
+                        <div className="chat-messages">
+                            {messagelist.map((index,key)=>{
+                                return(
+                                    <Message
+                                        username={username}
+                                        sendby={sendby}
+                                        time={"pata nahi"}
+                                        message={index}
+                                        />
+                                )
+                            })}
+                        </div>
+                        <div className="message-input-outer">
+                            <input  type="text" 
+                                className="message-input" 
+                                value={message}
+                                onChange={(e) => {
+                                    setmessage(e.target.value);
+                                }}
+                                onKeyPress={(e) => {
+                                    if (e.key === "Enter") {
+                                        sendmessage();
+                                    }
+                                }}
+                            />                        
+                        </div>
                     </div>
                 </div>
             </div>

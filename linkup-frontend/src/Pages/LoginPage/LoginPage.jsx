@@ -14,8 +14,8 @@ export default function LoginPage(){
     const navigate=useNavigate();
        
     useEffect(() => {
-        //const socket = io.connect("http://localhost:3001");
-        const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
+        const socket = io.connect("http://localhost:3001");
+        //const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
         setSocket(socket);
         
         socket.on("login-attempt-response", (response) => {
@@ -43,7 +43,7 @@ export default function LoginPage(){
     
 
     const login = useGoogleLogin({
-        client_id: '727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com',
+        client_id: process.env.client_id,
         onSuccess: response => loginsuccess(response),
     });
     
