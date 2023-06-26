@@ -85,6 +85,7 @@ io.on("connection",(socket)=>{
       else
         socket.emit("login-attempt-response","UNSUCCESSFULL")
     })
+    
     socket.on("disconnect",()=>{
       console.log("A user disconnected")
     })
