@@ -64,9 +64,9 @@
 }
 .chat-messages{
     width: 100%; 
-    display: flex;   
+    display: flex;
+    max-height: 500px;   
     flex-direction: column;
-    max-height: 80%;
     overflow-y: scroll;
 }
 ::-webkit-scrollbar {

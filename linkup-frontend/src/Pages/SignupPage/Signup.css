@@ -104,3 +104,11 @@
     height: 100vh;
     float: right;
 }
+@media screen and (max-width: 1000px) {
+    .sidebar{
+        display:none;
+    }
+    .signup-form-outer{
+        margin:0px 30px;
+    }
+}

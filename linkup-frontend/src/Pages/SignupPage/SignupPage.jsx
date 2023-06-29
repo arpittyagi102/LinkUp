@@ -1,47 +1,97 @@
-import React, { useState, useEffect } from "react";
-import io from "socket.io-client";
+import React, { useState } from "react";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
 import { useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from 'axios';
 
 export default function SignupPage() {
 
-  const [fname, setfname] = useState("");
-  const [lname, setlname] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [socket, setSocket] = useState(null);
+  const [formData,setFormData] = useState({
+    fname:'',
+    lname:'',
+    email:'',
+    password:'',
+  })
+  const [output,setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate=useNavigate();
 
-  useEffect(() => {
-    //const socket = io.connect("http://localhost:3001");
-    const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
-    setSocket(socket);
+  function handleChange(e){
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
-    socket.on("signup-attempt-response", (response) => {
-        console.log("Signup attempt response came ", response);
-        if(response === "SUCCESSFULL"){
-            navigate('/login')
+  const handleSubmit = async (e) => {
+    setLoading(true);
+    if(!formData.fname || !formData.lname || !formData.email || !formData.password){
+      setOutput("all fields are required");
+      setLoading(false);
+      return;
+    }
+    if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+      setOutput("please enter a valid email");
+      setLoading(false);
+      return;
+    }
+    if(formData.password.length < 6){
+      setOutput("password must be at least 6 characters long");
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:3001/signup', formData);
+      setLoading(false);
+      console.log(response);
+
+      if(!navigator.onLine){
+        setOutput("You are connected to internet")
+      }
+      if(response.status === 200){
+        navigate("/login");
+      }
+      else if(response.status === 404){
+        setOutput("Unable to connect to server");
+      }
+
+    } catch (err) {
+      console.log(err);
+      if (err.response) {
+        setLoading(false);
+        if (err.response.status === 404) {
+          setOutput("Unable to connect to server");
+        } else {
+          setOutput(err.response.data.message);
         }
-        else if(response === "USERALREADYEXISTS")
-            alert("A user with this email address is already exists")
-        else if(response === "UNSUCCESSFULL")
-            alert("An error Occured")
-    
+      } else {
+        setOutput("Network error occurred");
+      }
+    }}
+
+    const googlelogin = useGoogleLogin({
+      client_id: process.env.client_id || "727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com",
+      onSuccess: response => loginsuccess(response),
+  });
+
+  function loginsuccess(response){
+    const { access_token } = response;
+    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    })
+    .then(response => response.json())
+    .then(userData => {
+      console.log("User Data:", userData);
+      // Access specific properties of the userData object
+      console.log("Name:", userData.name);
+      console.log("Email:", userData.email); 
+      console.log("Picture:", userData.picture);
+    })
+    .catch(error => {
+      console.error("Error fetching user data:", error);
     });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  const handlesubmit = function () {
-    if (!socket) console.error("Not connected to server");
-    const userdata = { fname: fname, lname: lname, email: email, password: password };
-    console.log("Register Button clicked");
-    socket.emit("signup-attempt", userdata);
-  };
+  }
 
   return (
     <>
@@ -55,27 +105,32 @@ export default function SignupPage() {
           <div className="form-input-names">
             <div>
               <div className="label">First Name</div>
-              <input type="text" placeholder="Arpit" value={fname} onChange={(e) => setfname(e.target.value)} />
+              <input type="text" placeholder="Arpit" value={formData.fname} name="fname" onChange={handleChange} />
             </div>
             <div>
               <div className="label">Last Name</div>
-              <input type="text" placeholder="Tyagi" value={lname} onChange={(e) => setlname(e.target.value)} />
+              <input type="text" placeholder="Tyagi" value={formData.lname} name="lname" onChange={handleChange} />
             </div>
           </div>
 
           <div className="label">Email Address</div>
-          <input type="email" placeholder="youremail@example.com" value={email} onChange={(e) => setemail(e.target.value)} />
+          <input type="email" placeholder="youremail@example.com" value={formData.email} name="email" onChange={handleChange} />
 
           <div className="label">Password</div>
-          <input type="password" placeholder="••••••••••" value={password} onChange={(e) => setpassword(e.target.value)} />
-
-          <div>
-            <input type="checkbox" /> Remember me
+          <input type="password" placeholder="••••••••••" value={formData.password} name="password" onChange={handleChange} />
+          <div style={{color:"red"}}>
+            {output}
           </div>
 
-          <input type="submit" className="signup-btn" onClick={handlesubmit} value="Register" />
+          <button className="signup-btn"  onClick={handleSubmit}>
+            {loading===false?(
+              <div>Sign Up</div>
+            ):(
+              <div class="spinner-border" style={{height:"20px",width:"20px"}}></div>       
+            )}
+          </button>
           <div className="or">or</div>
-          <div className="google-signup-btn">
+          <div className="google-signup-btn" onClick={googlelogin}>
             Sign up with Google
             <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>

@@ -5,6 +5,7 @@ import googleicon from "../../Assets/google-icon.svg";
 import { Link,useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { useGoogleLogin } from '@react-oauth/google';
+import Cookies from 'js-cookie'
 
 export default function LoginPage(){
 
@@ -20,14 +21,16 @@ export default function LoginPage(){
         
         socket.on("login-attempt-response", (response) => {
             console.log("A response came ",response)
-            if(response === "SUCCESSFULL"){
-                navigate('/chat')
+            if(response.status === "SUCCESSFULL"){
+              console.log(emailinput);
+                Cookies.set('linkup-email', response.email, { expires: 7 });
+                navigate('/chat');
             }
-            else if(response === "WRONGPASSWORD")
+            else if(response.status === "WRONGPASSWORD")
                 alert("Wrong Password")
-            else if(response === "WRONGEMAIL")
+            else if(response.status === "WRONGEMAIL")
                 alert("Couldn't find an account with this email")
-            else if(response === "UNSUCCESSFULL")
+            else if(response.status === "UNSUCCESSFULL")
                 alert("Couldn't login")
         });
     
@@ -43,7 +46,7 @@ export default function LoginPage(){
     
 
     const login = useGoogleLogin({
-        client_id: process.env.client_id,
+        client_id: process.env.client_id || "727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com",
         onSuccess: response => loginsuccess(response),
     });
     
