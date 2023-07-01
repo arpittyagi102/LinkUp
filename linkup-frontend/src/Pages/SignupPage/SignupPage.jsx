@@ -69,7 +69,7 @@ export default function SignupPage() {
       }
     }}
 
-    const googlelogin = useGoogleLogin({
+  const googlelogin = useGoogleLogin({
       client_id: process.env.client_id || "727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com",
       onSuccess: response => loginsuccess(response),
   });

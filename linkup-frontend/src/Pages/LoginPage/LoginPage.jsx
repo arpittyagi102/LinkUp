@@ -20,7 +20,7 @@ export default function LoginPage(){
           return;
         }
         try {
-          const response = await axios.post('http://localhost:3001/login',{emailinput,passwordinput} );
+          const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{emailinput,passwordinput} );
           console.log(response.data);     
         } catch (err) {
           console.log(err.response.data);
