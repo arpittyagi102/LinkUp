@@ -86,6 +86,7 @@ export default function SignupPage() {
       //const response = axios.post('http://localhost:3001/auth/googleLogin', userData);
       console.warn(userData)
       const response = axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
+      console.log(response);
     })
     .catch(error => {
       console.error("Error fetching user data:", error);
