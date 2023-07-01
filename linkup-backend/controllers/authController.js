@@ -40,12 +40,16 @@ const googleLogin = async (req, res, db) => {
 
 const login = async (req, res, db) => {
     const { email, password } = req.body;
+    if(!email){
+        res.status(400).json({message:"Data is not found",data:req.body})
+        return;
+    }
 
     const allusers = db.collection('users');
-    const user = await allusers.findOne({ email });
+    const user = await allusers.findOne({ email:email });
 
     if (!user) {
-        res.status(401).json({ message: 'Could not find a user with this email' });
+        res.status(404).json({ message: 'Could not find a user with this email' });
         return;
     } else {
         try {

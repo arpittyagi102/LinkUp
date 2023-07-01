@@ -15,15 +15,15 @@ export default function LoginPage(){
     const navigate=useNavigate();
 
     const handleSubmit = async (e)=>{
-        if(emailinput==="" || passwordinput===""){
+       if(emailinput==="" || passwordinput===""){
           setOutput("all fields are required");
           return;
         }
         try {
-          const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{emailinput,passwordinput} );
+          const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput} );
           console.log(response.data);     
         } catch (err) {
-          console.log(err.response.data);
+          console.log(err.response);
         }
     }
       
@@ -32,25 +32,23 @@ export default function LoginPage(){
         onSuccess: response => loginsuccess(response),
     });
     
-    function loginsuccess(response) {
+    async function loginsuccess(response) {
+      try {
         const { access_token } = response;
-        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
-        })
-        .then(response => response.json())
-        .then(userData => {
-          console.log("User Data:", userData);
-          // Access specific properties of the userData object
-          console.log("Name:", userData.name);
-          console.log("Email:", userData.email); 
-          console.log("Picture:", userData.picture);
-        })
-        .catch(error => {
-          console.error("Error fetching user data:", error);
         });
-    }
+        const userData = userInfoResponse.data;
+        console.warn(userData);
+        
+        const loginResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
+        console.log(loginResponse);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }  
 
     return(
         <>
