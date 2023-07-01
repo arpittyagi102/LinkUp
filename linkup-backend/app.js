@@ -8,7 +8,7 @@ require("dotenv").config();
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://getlinkup.vercel.app"],
+  origin: ["http://localhost:3000", "https://getlinkup.vercel.app"],
 };
 app.use(cors(corsOptions));
 
