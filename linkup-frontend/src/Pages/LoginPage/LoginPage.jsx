@@ -20,7 +20,13 @@ export default function LoginPage(){
           return;
         }
         try {
-          const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput} );
+          const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput});
+          if(response.status===200){
+            const { payload } = response.data;
+            const accessToken = jwt.sign(payload,process.env.JWT_SECRET);
+            Cookies.set('linkupdata',accessToken);
+            navigate('/chat');
+          }
           console.log(response.data);     
         } catch (err) {
           console.log(err.response);

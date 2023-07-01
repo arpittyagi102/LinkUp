@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, db) => {
     const { fname, lname, email, password } = req.body;
@@ -9,7 +10,14 @@ const signup = async (req, res, db) => {
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = { fname, lname, email, hashedPassword };
+        const newUser = { 
+            name:fname+' '+lname,
+            email:email,
+            email_verified:false,
+            hashedPassword:hashedPassword,
+            picture:null,
+            friends:[]
+        };
 
         const allusers = db.collection('users');
         const user = await allusers.findOne({ email: newUser.email });
@@ -29,8 +37,8 @@ const signup = async (req, res, db) => {
 
 const googleLogin = async (req, res, db) => {
     try {
-        //const allusers = db.collection('users');
-        //await allusers.insertOne(req.body);
+        const allusers = db.collection('users');
+         await allusers.insertOne(req.body);
         res.status(200).json({ message: "User successfully created", ...req.body });
     } catch (err) {
         console.log(err);
@@ -55,7 +63,13 @@ const login = async (req, res, db) => {
         try {
             const isPasswordValid = await bcrypt.compare(password, user.hashedPassword);
             if (isPasswordValid) {
-                res.status(200).json({ message: 'Successfully logged in' });
+                const payload = {
+                    name : user.name,
+                    email : user.email,
+                    picture : user.picture,
+                    friends : user.friends,
+                } 
+                res.status(200).json({ message: 'Successfully logged in',payload });
             } else {
                 res.status(401).json({ message: 'Wrong password' });
             }
