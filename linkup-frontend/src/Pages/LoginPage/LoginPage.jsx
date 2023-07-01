@@ -6,6 +6,7 @@ import { Link,useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 
 export default function LoginPage(){
 
