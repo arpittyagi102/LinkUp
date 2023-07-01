@@ -40,8 +40,8 @@ export default function SignupPage() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/auth/signup', formData);
-      //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
+      //const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
       setLoading(false);
       console.log(response);
 
@@ -83,9 +83,9 @@ export default function SignupPage() {
     })
     .then(response => response.json())
     .then(userData => {
-      const response = axios.post('http://localhost:3001/auth/googleLogin', formData);
-      console.warn(formData)
-      //const response = axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', formData);
+      //const response = axios.post('http://localhost:3001/auth/googleLogin', userData);
+      console.warn(userData)
+      const response = axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
     })
     .catch(error => {
       console.error("Error fetching user data:", error);
