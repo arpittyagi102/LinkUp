@@ -22,12 +22,16 @@ export default function LoginPage(){
         try {
           const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput});
           if(response.status===200){
+            console.log("Login Successfull")
             const { payload } = response.data;
+            console.log("Payload Generated",payload)
             const accessToken = jwt.sign(payload,process.env.JWT_SECRET);
+            console.log("accessToken Generated",accessToken)
             Cookies.set('linkupdata',accessToken);
+            console.log("Cookies are Set !!!");
+            console.log(Cookies.get('linkupdata'));
             navigate('/chat');
-          }
-          console.log(response.data);     
+          }    
         } catch (err) {
           console.log(err.response);
         }
