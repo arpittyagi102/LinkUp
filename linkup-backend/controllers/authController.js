@@ -29,8 +29,8 @@ const signup = async (req, res, db) => {
 
 const googleLogin = async (req, res, db) => {
     try {
-        const allusers = db.collection('users');
-        await allusers.insertOne(req.body);
+        //const allusers = db.collection('users');
+        //await allusers.insertOne(req.body);
         res.status(200).json({ message: "User successfully created", ...req.body });
     } catch (err) {
         console.log(err);

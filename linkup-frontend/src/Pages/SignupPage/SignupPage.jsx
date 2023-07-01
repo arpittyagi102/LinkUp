@@ -74,26 +74,24 @@ export default function SignupPage() {
       onSuccess: response => loginsuccess(response),
   });
 
-  function loginsuccess(response){
-    const { access_token } = response;
-    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    })
-    .then(response => response.json())
-    .then(userData => {
-      //const response = axios.post('http://localhost:3001/auth/googleLogin', userData);
-      console.warn(userData)
-      return axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
+  async function loginsuccess(response) {
+    try {
+      const { access_token } = response;
+      const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      const userData = userInfoResponse.data;
+      console.warn(userData);
+      
+      const loginResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
+      console.log(loginResponse);
+    } catch (error) {
       console.error("Error fetching user data:", error);
-    });
+    }
   }
+  
 
   return (
     <>
