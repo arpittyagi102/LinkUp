@@ -40,7 +40,8 @@ export default function SignupPage() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/signup', formData);
+      const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
       setLoading(false);
       console.log(response);
 
@@ -82,7 +83,9 @@ export default function SignupPage() {
     })
     .then(response => response.json())
     .then(userData => {
-      const response = axios.post('http://localhost:3001/googleSignup', formData);
+      const response = axios.post('http://localhost:3001/auth/googleLogin', formData);
+      console.warn(formData)
+      //const response = axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', formData);
     })
     .catch(error => {
       console.error("Error fetching user data:", error);
@@ -122,7 +125,7 @@ export default function SignupPage() {
             {loading===false?(
               <div>Sign Up</div>
             ):(
-              <div class="spinner-border" style={{height:"20px",width:"20px"}}></div>       
+              <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>       
             )}
           </button>
           <div className="or">or</div>
