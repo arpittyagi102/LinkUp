@@ -82,11 +82,7 @@ export default function SignupPage() {
     })
     .then(response => response.json())
     .then(userData => {
-      console.log("User Data:", userData);
-      // Access specific properties of the userData object
-      console.log("Name:", userData.name);
-      console.log("Email:", userData.email); 
-      console.log("Picture:", userData.picture);
+      const response = axios.post('http://localhost:3001/googleSignup', formData);
     })
     .catch(error => {
       console.error("Error fetching user data:", error);
