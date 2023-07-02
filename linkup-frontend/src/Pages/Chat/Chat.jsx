@@ -23,7 +23,7 @@ export default function Chat() {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/user/getallusers");
+        const response = await axios.get("https://linkup-backend-k05n.onrender.com/user/getallusers");
         setfriendslist(response.data);
       } catch (error) {
         console.error(error);
@@ -37,11 +37,14 @@ export default function Chat() {
     const getcookies = Cookies.get('linkupdata')
     const userData = crypto.decrypt(getcookies);
 
-    const socket = io.connect("http://localhost:3001");
+    const socket = io.connect("https://linkup-backend-k05n.onrender.com");
     setSocket(socket);
 
     socket.emit("initialData",userData);
 
+    socket.on("initialData",(onlinePeople)=>{
+      setOnlineFriends([...onlinePeople]);
+    })
     socket.on("online",(data)=>{
       console.log(data.name+" is online");
       if(!onlineFriends.includes(data.email)){
@@ -50,6 +53,9 @@ export default function Chat() {
     })
 
     socket.on("offline",(data)=>{
+      const temp=[...onlineFriends];
+      temp.splice(data.email,1);
+      setOnlineFriends(temp);
       console.log(data.name+" is offline");
     })
     
