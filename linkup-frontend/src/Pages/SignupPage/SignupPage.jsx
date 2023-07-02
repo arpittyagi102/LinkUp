@@ -14,12 +14,18 @@ export default function SignupPage() {
   const crypto = new SimpleCrypto(secretKey);
   const navigate=useNavigate();
 
-  const getcookies = Cookies.get('linkupdata')
-  const { email } = crypto.decrypt(getcookies);
+  try{
+    const getcookies = Cookies.get('linkupdata')
+    const { email } = crypto.decrypt(getcookies);
 
-  if(email){
-    navigate('/chat');
-  } 
+    if(email){
+      navigate('/chat');
+    } 
+  } catch (err){
+    console.log(err);
+  }
+
+ 
   
   const [formData,setFormData] = useState({
     fname:'',

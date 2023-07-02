@@ -96,3 +96,7 @@ We will review your pull request, provide feedback if necessary, and merge it on
 ## Contact
 
 If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact us at arpittyagirocks@gmail.com
+
+## Issues
+- Add a `already have an account` in signup page 
+- google login userdata in not saved in database

@@ -2,38 +2,58 @@ import React, { useState, useEffect } from "react";
 import "./Chat.css";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
-import Friends from "../../Components/FriendsList/Friends";
 import Message from "../../Components/Messages/Message";
-
-export default function Chat() {
+import axios from 'axios';
+import SimpleCrypto from 'simple-crypto-js';
+  
+export default function Chat() { 
   const [friendslist, setfriendslist] = useState([]);
   const [active, setactive] = useState(null);
   const [message, setmessage] = useState("");
   const [messagelist, setmessagelist] = useState([]);
   const [friendactive, setfriendactive] = useState();
+  const [onlineFriends,setOnlineFriends] = useState([]);
   const [socket, setSocket] = useState(null);
   const cookies = Cookies.get("linkup-login");
   const currentuser = friendslist.find((user) => user.email === cookies);
   const username = "Current User";
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const crypto = new SimpleCrypto(secretKey);
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/userslist");
-        const userdata = await response.json();
-        setfriendslist(userdata);
+        const response = await axios.get("http://localhost:3001/user/getallusers");
+        setfriendslist(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, []);
+  }, []); 
 
-  useEffect(() => {
+   useEffect(() => {
+
+    const getcookies = Cookies.get('linkupdata')
+    const userData = crypto.decrypt(getcookies);
+
     const socket = io.connect("http://localhost:3001");
     setSocket(socket);
 
-    socket.on("recieve-message", (data) => {
+    socket.emit("initialData",userData);
+
+    socket.on("online",(data)=>{
+      console.log(data.name+" is online");
+      if(!onlineFriends.includes(data.email)){
+        setOnlineFriends([...onlineFriends,data.email]);
+      }
+    })
+
+    socket.on("offline",(data)=>{
+      console.log(data.name+" is offline");
+    })
+    
+    socket.on("recieve-message", (data) => { 
         console.log("Mesage recieved",data)
         setmessagelist((prevMessages) => [...prevMessages, data]);
     });
@@ -41,10 +61,12 @@ export default function Chat() {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, []);  
 
   function sendmessage() {
-    const time = new Date();
+    console.log("Online People Are :");
+    console.log(onlineFriends);
+    /* const time = new Date();
     console.log(`Friend active is ${friendactive}`)
     const recipientEmail = friendactive;
 
@@ -55,7 +77,7 @@ export default function Chat() {
         time,
     });
 
-    setmessage("");
+    setmessage(""); */
   }
 
   function handlefriendsclick(friend, index) {
@@ -67,28 +89,28 @@ export default function Chat() {
   return (
     <>
       <div className="outer">
-      <div className="friends-list-outer">
-                    <div className="friends-list-upper">
-                        <div className="add-new-btn">
-                            Add New
-                        </div>
-                        <div className="friends-list-title">
-                            <h1>Chat</h1>
-                            <div className="search-bar">
-                                <input type="text"/>
-                            </div>
-                        </div>
-                    </div>
-                    {friendslist.map((friend,index)=>(
-                        <div 
-                            className={`friends-outer ${index === active ? "active" : ""}`}
-                            onClick={()=>{handlefriendsclick(friend,index)}}
-                            key={index}>
-                            {friend.name}
-                        </div>
-                    ))}
-
-                </div>
+          <div className="friends-list-outer">
+              <div className="friends-list-upper">
+                  <div className="add-new-btn">
+                      Add New
+                  </div>
+                  <div className="friends-list-title">
+                      <h1>Chat</h1>
+                      <div className="search-bar">
+                          <input type="text"/>
+                      </div>
+                  </div>
+              </div>
+              {friendslist.map((friend,index)=>(
+                  <div 
+                      className={`friends-outer ${index === active ? "active" : ""}`}
+                      onClick={()=>{handlefriendsclick(friend,index)}}
+                      key={index}>
+                      {friend.name}
+                      <div className={`${onlineFriends.includes(friend.email) && "online"}`}></div>
+                  </div>  
+              ))}
+          </div>
         <div className="chat-interface-outer">
           <h1>{friendactive}</h1>
           <div className="chat-interface">

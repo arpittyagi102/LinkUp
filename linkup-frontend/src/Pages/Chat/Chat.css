@@ -114,3 +114,36 @@
 .message-input:focus{
     outline:none
 }
+.friends-outer{
+    width: 100%;
+    border-collapse: collapse;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border:solid rgb(221, 221, 249);
+    background-color: white;
+    border-width:1px 0px;
+    padding:5%;
+}
+.active{
+    border-left-width: 10px;
+    border-left-color:rgb(117, 117, 204);
+    translate:5px;
+    background-color: rgb(221, 221, 249);
+    box-shadow:none;
+}
+.friends-outer:has(+ .active){
+    z-index: 1;
+    border-radius: 0px 0px 30px 0px;
+    box-shadow:  0 10px 10px -10px rgba(0, 0, 0, 0.4);
+}
+.active + .friends-outer{
+    border-radius: 0px 30px 0px 0px;
+}
+.online{
+    height: 7px;
+    width: 7px;
+    margin:5px;
+    border-radius: 100%;
+    background-color: green;
+}
