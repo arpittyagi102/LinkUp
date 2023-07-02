@@ -8,7 +8,7 @@ const routes=[
     {
         path:'/',
         exact:true,
-        element:<Chat/>
+        element:<SignupPage/>
     },
     {
         path:'/chat',

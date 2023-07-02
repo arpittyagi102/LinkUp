@@ -9,7 +9,18 @@ import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
 
 export default function SignupPage() {
+  
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const crypto = new SimpleCrypto(secretKey);
+  const navigate=useNavigate();
 
+  const getcookies = Cookies.get('linkupdata')
+  const { email } = crypto.decrypt(getcookies);
+
+  if(email){
+    navigate('/chat');
+  } 
+  
   const [formData,setFormData] = useState({
     fname:'',
     lname:'',
@@ -18,9 +29,6 @@ export default function SignupPage() {
   })
   const [output,setOutput] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate=useNavigate();
-  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
-  const crypto = new SimpleCrypto(secretKey);
 
   function handleChange(e){
     setFormData({ ...formData, [e.target.name]: e.target.value });
