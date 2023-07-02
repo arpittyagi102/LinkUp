@@ -13,36 +13,37 @@ export default function LoginPage(){
     const [emailinput, setemailinput] = useState("");
     const [passwordinput, setpasswordinput] = useState("");
     const [output, setOutput] = useState("");
-    const navigate=useNavigate();
-    const secretKey = process.env.CRYPTO_SECRET;
+    const [loading, setLoading] = useState(false);
 
-    //const crypto = new SimpleCrypto(secretKey);
-console.log(secretKey)
+    const navigate=useNavigate();
+    const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+    const crypto = new SimpleCrypto(secretKey);
+
     const handleSubmit = async (e)=>{
+      setLoading(true);
        if(emailinput==="" || passwordinput===""){
           setOutput("all fields are required");
+          setLoading(false);
           return;
         }
         try {
           const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput});
           if(response.status===200){
+            setLoading(false);
             console.log("Login Successfull")
             const { payload } = response.data;
-            console.log("Payload Generated",payload)
             const accessToken = crypto.encrypt(payload);
-            console.log("accessToken Generated")
             Cookies.set('linkupdata',accessToken);
-            console.log("Cookies are Set !!!");
-            console.log(Cookies.get('linkupdata'));
             navigate('/chat');
           }    
         } catch (err) {
+          setLoading(false);
           console.log(err.response); 
         }
     }
       
-    const login = useGoogleLogin({
-        client_id: process.env.client_id || "727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com",
+    const googlelogin = useGoogleLogin({
+        client_id: process.env.REACT_APP_CLIENT_ID,
         onSuccess: response => loginsuccess(response),
     });
     
@@ -55,10 +56,10 @@ console.log(secretKey)
           },
         });
         const userData = userInfoResponse.data;
-        console.warn(userData);
-        
-        const loginResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
-        console.log(loginResponse);
+        const accessToken = crypto.encrypt(userData);
+        Cookies.set('linkupdata',accessToken);
+        navigate('/chat');
+
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -79,12 +80,18 @@ console.log(secretKey)
                             value={passwordinput} onChange={(e)=>{setpasswordinput(e.target.value)}}   />
 
                     <div style={{color:"red"}}>{output}</div>
-                    <input type="submit" className="login-btn" value="Login" onClick={handleSubmit}/>
+                    <button className="login-btn"  onClick={handleSubmit}>
+                      {loading===false?(
+                        <div>Login</div>
+                      ):(
+                        <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>       
+                      )}
+                    </button>
                     <div style={{ textAlign: "center" }} ><Link to={'/forgot'}>Forgot your Password?</Link></div>
                     <div>Don't have an account <Link to={'/signup'}>sign up</Link></div>
                     <div className="or">or</div>
-                    <div className="google-login-btn" onClick={()=>{login()}}>
-                        Login with Google
+                    <div className="google-login-btn" onClick={googlelogin}>
+                        continue with Google
                         <img src={googleicon} className="googleicon" alt="google-icon"/>
                     </div>
 

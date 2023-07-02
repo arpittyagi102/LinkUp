@@ -5,6 +5,8 @@ import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import SimpleCrypto from 'simple-crypto-js';
 
 export default function SignupPage() {
 
@@ -17,6 +19,8 @@ export default function SignupPage() {
   const [output,setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate=useNavigate();
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const crypto = new SimpleCrypto(secretKey);
 
   function handleChange(e){
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -69,11 +73,11 @@ export default function SignupPage() {
       }
     }}
 
-  const googlelogin = useGoogleLogin({
-      client_id: process.env.client_id || "727992305515-cvm709miv8d2fnmtqcf9ovv0vgqktsdc.apps.googleusercontent.com",
+    const googlelogin = useGoogleLogin({
+      client_id: process.env.REACT_APP_CLIENT_ID,
       onSuccess: response => loginsuccess(response),
   });
-
+  
   async function loginsuccess(response) {
     try {
       const { access_token } = response;
@@ -83,10 +87,10 @@ export default function SignupPage() {
         },
       });
       const userData = userInfoResponse.data;
-      console.warn(userData);
-      
-      const loginResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
-      console.log(loginResponse);
+      const accessToken = crypto.encrypt(userData);
+      Cookies.set('linkupdata',accessToken);
+      navigate('/chat');
+
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -131,7 +135,7 @@ export default function SignupPage() {
           </button>
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
-            Sign up with Google
+            continue with Google
             <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>
         </div>
