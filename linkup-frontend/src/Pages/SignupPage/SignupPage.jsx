@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { BasicSchema } from "../../../src/Schemas";
 import io from "socket.io-client";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
 
 export default function SignupPage() {
 
@@ -34,15 +36,34 @@ export default function SignupPage() {
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, []); 
 
-  const handlesubmit = function () {
-    if (!socket) console.error("Not connected to server");
+const onSubmit = async (values, actions) => {
+  console.log(values);
+  setfname(values.firstname)
+  setlname(values.lastname)
+  setemail(values.email)
+  setpassword(values.password)  
+
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
+  actions.resetForm()
+  if (!socket) console.error("Not connected to server");
     const userdata = { fname: fname, lname: lname, email: email, password: password };
     console.log("Register Button clicked");
     socket.emit("signup-attempt", userdata);
-  };
-
+  
+}
+  const { values, handleBlur, handleChange, isSubmitting,errors, handleSubmit, touched } = useFormik({
+    initialValues: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: BasicSchema,
+    onSubmit,
+  })
   return (
     <>
       <div className="signup-page-outer">
@@ -51,29 +72,44 @@ export default function SignupPage() {
           <div className="signup-page-title">
             Get <span style={{ color: "blue" }}>Link Up</span>
           </div>
-
-          <div className="form-input-names">
-            <div>
-              <div className="label">First Name</div>
-              <input type="text" placeholder="Arpit" value={fname} onChange={(e) => setfname(e.target.value)} />
-            </div>
-            <div>
-              <div className="label">Last Name</div>
-              <input type="text" placeholder="Tyagi" value={lname} onChange={(e) => setlname(e.target.value)} />
-            </div>
-          </div>
-
-          <div className="label">Email Address</div>
-          <input type="email" placeholder="youremail@example.com" value={email} onChange={(e) => setemail(e.target.value)} />
-
-          <div className="label">Password</div>
-          <input type="password" placeholder="••••••••••" value={password} onChange={(e) => setpassword(e.target.value)} />
-
-          <div>
-            <input type="checkbox" /> Remember me
-          </div>
-
-          <input type="submit" className="signup-btn" onClick={handlesubmit} value="Register" />
+              <form onSubmit={handleSubmit} autoComplete="off"> 
+                  <div className="form-input-names">
+                    <div>
+                      <div className="label">First Name</div>
+                      <input type="text" placeholder="Arpit" value={values.firstname} onChange={handleChange} 
+                      onBlur={handleBlur} 
+                        id="firstname"
+                        className={errors.firstname && touched.firstname ? 'input-error' : ''}
+                      />
+                       {errors.firstname && touched.firstname && <p className='error'>{errors.firstname}</p>}
+                    </div>
+                    <div>
+                      <div className="label">Last Name</div>
+                      <input type="text" placeholder="Tyagi" value={values.lastname} 
+                      onBlur={handleBlur}
+                      onChange={handleChange} 
+                      id="lastname" className={errors.lastname && touched.lastname ? 'input-error' : ''}/>
+                      {errors.lastname && touched.lastname && <p className='error'>{errors.lastname}</p>}
+                    </div>
+                  </div>   
+                  <div className="label">Email Address</div>
+                  
+                  <input 
+                  type="email"
+                  id="email" 
+                  onBlur={handleBlur} 
+                  placeholder="youremail@example.com" 
+                  value={values.email} onChange={handleChange} className={errors.email && touched.email ? 'input-error' : ''} />
+                  {errors.email && touched.email && <p className='error'>{errors.email}</p>}
+                  <div className="label">Password</div>
+                  <input type="password" placeholder="••••••••••" 
+                  onBlur={handleBlur} id="password" value={values.password} onChange={handleChange} className={errors.password && touched.password ? 'input-error' : ''}/>
+                  {errors.password && touched.password && <p className='error'>{errors.password}</p>}
+                  <div>
+                    <input type="checkbox" /> Remember me
+                  </div>
+                  <input type="submit" className="signup-btn" value="Register" disabled={isSubmitting}/>
+              </form>
           <div className="or">or</div>
           <div className="google-signup-btn">
             Sign up with Google

@@ -87,3 +87,12 @@
     height: 100vh;
     float: right;
 }
+
+/* validation css */
+input.input-error,
+select.input-error {
+  border: 1px solid#fc8181 !important;
+}
+input:disabled {
+    opacity: 0.35;
+  }
