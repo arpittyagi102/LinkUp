@@ -6,37 +6,92 @@ import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import SimpleCrypto from 'simple-crypto-js';
 
 export default function SignupPage() {
-
-  const [fname, setfname] = useState("");
-  const [lname, setlname] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [socket, setSocket] = useState(null);
+  
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const crypto = new SimpleCrypto(secretKey);
   const navigate=useNavigate();
 
-  useEffect(() => {
-    //const socket = io.connect("http://localhost:3001");
-    const socket = io.connect("https://linkup-backend-k05n.onrender.com/");
-    setSocket(socket);
+  try{
+    const getcookies = Cookies.get('linkupdata')
+    const { email } = crypto.decrypt(getcookies);
 
-    socket.on("signup-attempt-response", (response) => {
-        console.log("Signup attempt response came ", response);
-        if(response === "SUCCESSFULL"){
-            navigate('/login')
+    if(email){
+      navigate('/chat');
+    } 
+  } catch (err){
+    console.log(err);
+  } 
+  
+  const [formData,setFormData] = useState({
+    fname:'',
+    lname:'',
+    email:'',
+    password:'',
+  })
+  const [output,setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function handleChange(e){
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  const handlesubmit = async (e) => {
+    setLoading(true);
+    if(!formData.fname || !formData.lname || !formData.email || !formData.password){
+      setOutput("all fields are required");
+      setLoading(false);
+      return;
+    }
+    if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+      setOutput("please enter a valid email");
+      setLoading(false);
+      return;
+    }
+    if(formData.password.length < 6){
+      setOutput("password must be at least 6 characters long");
+      setLoading(false);
+      return;
+    }
+    try {
+      //const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
+      setLoading(false);
+      console.log(response);
+
+      if(!navigator.onLine){
+        setOutput("You are connected to internet")
+      }
+      if(response.status === 200){
+        navigate("/login");
+      }
+      else if(response.status === 404){
+        setOutput("Unable to connect to server");
+      }
+
+    } catch (err) {
+      console.log(err);
+      if (err.response) {
+        setLoading(false);
+        if (err.response.status === 404) {
+          setOutput("Unable to connect to server");
+        } else {
+          setOutput(err.response.data.message);
         }
-        else if(response === "USERALREADYEXISTS")
-            alert("A user with this email address is already exists")
-        else if(response === "UNSUCCESSFULL")
-            alert("An error Occured")
-    
-    });
+      } else {
+        setOutput("Network error occurred");
+      }
+    }}
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []); 
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }
 
 const onSubmit = async (values, actions) => {
   console.log(values);
@@ -64,6 +119,29 @@ const onSubmit = async (values, actions) => {
     validationSchema: BasicSchema,
     onSubmit,
   })
+    const googlelogin = useGoogleLogin({
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      onSuccess: response => loginsuccess(response),
+  });
+  
+  async function loginsuccess(response) {
+    try {
+      const { access_token } = response;
+      const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      const userData = userInfoResponse.data;
+      const accessToken = crypto.encrypt(userData);
+      Cookies.set('linkupdata',accessToken);
+      navigate('/chat');
+
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  } 
+
   return (
     <>
       <div className="signup-page-outer">
@@ -108,11 +186,11 @@ const onSubmit = async (values, actions) => {
                   <div>
                     <input type="checkbox" /> Remember me
                   </div>
-                  <input type="submit" className="signup-btn" value="Register" disabled={isSubmitting}/>
+                  <input type="submit" className="signup-btn" value="Sign Up" disabled={isSubmitting}/>
               </form>
           <div className="or">or</div>
-          <div className="google-signup-btn">
-            Sign up with Google
+          <div className="google-signup-btn" onClick={googlelogin}>
+            continue with Google
             <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>
         </div>

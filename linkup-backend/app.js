@@ -1,23 +1,26 @@
 const express = require("express");
+const bodyParser = require('body-parser');
+const cors = require("cors");
 const app = express();
 const http = require("http");
-const cors = require("cors");
+const { MongoClient } = require("mongodb");
 const { Server } = require("socket.io");
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
-
-app.use(cors()); // Add cors middleware
+const socketEvents = require('./socketEvents.js')
+require("dotenv").config();
 
 const server = http.createServer(app);
+app.use(bodyParser.json());
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://getlinkup.vercel.app"],
+};
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://getlinkup.vercel.app');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
+  next();
 });
-
 
 const io = new Server(server, {
   cors: {
@@ -25,70 +28,30 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+socketEvents(io);
 
 const MONGO_URI = process.env.MONGO_URI;
 const DB_NAME = process.env.DB_NAME;
-const PORT = process.env.PORT || 3001;
-
-let db; 
+let db;
 
 MongoClient.connect(MONGO_URI, { useUnifiedTopology: true })
-  .then((client) => {
-    console.log('Connected to MongoDB Atlas');
-    db = client.db(DB_NAME);
-    server.listen(3001, () => {
-      console.log("SERVER IS RUNNING..");
-      console.log("listening on port %d", server.address().port);
+ .then((client) => {
+   console.log("Connected to MongoDB Atlas");
+   db = client.db(DB_NAME);
+
+  const authController = require('./controllers/authController')(db);
+   const authRoutes = require('./routes/authRoutes')(authController);
+   app.use('/auth', authRoutes);
+
+  const userController = require('./controllers/userController')(db);
+   const userRoutes = require('./routes/userRoutes')(userController);
+   app.use('/user', userRoutes);
+
+    const PORT = process.env.PORT || 3001;
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error(err);
-});
-
-io.on("connection",(socket)=>{
-    console.log("A user connected")
-    socket.emit("CTS");
-
-    socket.on("signup-attempt", async (userdata) =>{
-      console.log("A Sign up attempt is made with data :",userdata)
-      const users = db.collection('users');
-      const checkuser = await users.findOne({email:userdata.email})
-       
-      if(checkuser){
-        console.log("User Already exitst");
-        socket.emit("signup-attempt-response","USERALREADYEXISTS");
-      } 
-      else {
-      await users.insertOne(userdata).then(()=>{
-        console.log(`A user registerend with email :${userdata.email}`);
-        socket.emit("signup-attempt-response","SUCCESSFULL");
-      }).catch((err) => {
-        console.error(err);
-        socket.emit("signup-attempt-response","UNSUCCESSFULL")
-      })}
-    }) 
-
-    socket.on("login-attempt",async (userdata) =>{
-      console.log("A login attempt is made with ",userdata);
-      const users = db.collection('users');
-      const user = await users.findOne({email:userdata.email})
-      if(!user)
-        socket.emit("login-attempt-response","WRONGEMAIL")
-      else if(user.email===userdata.email && user.password===userdata.password){
-        socket.emit("login-attempt-response","SUCCESSFULL")
-      }
-      else if(user.email===userdata.email && user.password!==userdata.password)
-        socket.emit("login-attempt-response","WRONGPASSWORD")
-      else
-        socket.emit("login-attempt-response","UNSUCCESSFULL")
-    })
-    
-    socket.on("disconnect",()=>{
-      console.log("A user disconnected")
-    })
-})
-
-
-
-
-
+ })
+ .catch((err) => {
+   console.error(err);
+ });

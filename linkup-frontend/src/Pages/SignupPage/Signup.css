@@ -114,3 +114,14 @@ select.input-error {
 input:disabled {
     opacity: 0.35;
   }
+  .error {
+    color:red;
+  }
+@media screen and (max-width: 1000px) {
+    .sidebar{
+        display:none;
+    }
+    .signup-form-outer{
+        margin:0px 30px;
+    }
+}

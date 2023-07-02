@@ -1,0 +1,8 @@
+const express = require('express');
+const router = express.Router();
+
+module.exports = (userController) => {
+    router.get('/getuser/:email',userController.getuser);
+    router.get('/getallusers',userController.getallusers);
+    return router;
+}
