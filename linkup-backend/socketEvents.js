@@ -1,22 +1,30 @@
+const { on } = require("nodemon");
+
 module.exports = (io) => {
-    io.on('connection', (socket) => {
-      let userData;
-      let onlinePeople=[];
-  
-      socket.on("initialData", (userDatacame) => {
-        userData = userDatacame;
-        console.log(userData.name, "is online");
-        onlinePeople=[...onlinePeople,userData.email];
-        socket.emit("initialdata",onlinePeople);
-        io.emit("online", userData);
-      });
-  
-      socket.on("disconnect", () => {
-        if (userData) {
-          console.log(userData.name, "is offline");
-          io.emit("offline", userData);
-        }
-      });
+  let onlinePeople = [];
+
+  io.on('connection', (socket) => {
+    let userData;
+
+    socket.on("initialData", (userDatacame) => {
+      userData = userDatacame;      
+      if(!onlinePeople.includes(userData.email)){
+        onlinePeople.push(userData.email);
+        console.log(userData.name+" is online");
+      }
+      io.emit("online-people", onlinePeople);
     });
-  };
-  
+
+    socket.on("disconnect", () => {
+      if (userData) {
+        if(onlinePeople.includes(userData.email)){
+          console.log(userData.name+" is offline");
+          const temp=[...onlinePeople];
+          temp.splice(userData.email,1);
+          onlinePeople=temp;
+        }
+       io.emit("online-people", onlinePeople);
+      }
+    });
+  });
+};

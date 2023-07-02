@@ -42,27 +42,9 @@ export default function Chat() {
 
     socket.emit("initialData",userData);
 
-    socket.on("initialData",(onlinePeople)=>{
-      setOnlineFriends([...onlinePeople]);
+    socket.on("online-people",(onlinePeople)=>{
+      setOnlineFriends(onlinePeople);
     })
-    socket.on("online",(data)=>{
-      console.log(data.name+" is online");
-      if(!onlineFriends.includes(data.email)){
-        setOnlineFriends([...onlineFriends,data.email]);
-      }
-    })
-
-    socket.on("offline",(data)=>{
-      const temp=[...onlineFriends];
-      temp.splice(data.email,1);
-      setOnlineFriends(temp);
-      console.log(data.name+" is offline");
-    })
-    
-    socket.on("recieve-message", (data) => { 
-        console.log("Mesage recieved",data)
-        setmessagelist((prevMessages) => [...prevMessages, data]);
-    });
 
     return () => {
       socket.disconnect();
@@ -70,8 +52,6 @@ export default function Chat() {
   }, []);  
 
   function sendmessage() {
-    console.log("Online People Are :");
-    console.log(onlineFriends);
     /* const time = new Date();
     console.log(`Friend active is ${friendactive}`)
     const recipientEmail = friendactive;

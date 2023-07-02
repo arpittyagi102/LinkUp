@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 export default function Users() {
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch("http://localhost:3001/userslist");
@@ -12,7 +12,7 @@ export default function Users() {
       }
     };
     fetchData();
-  }, []);
+  }, []); */
 
   return (
     <>
