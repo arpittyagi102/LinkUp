@@ -16,6 +16,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "react-scripts": "^5.0.1",
+    "simple-crypto-js": "^3.0.1",
     "socket.io-client": "^4.6.1",
     "web-vitals": "^2.1.4"
   },

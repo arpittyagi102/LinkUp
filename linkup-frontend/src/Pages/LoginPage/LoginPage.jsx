@@ -6,14 +6,15 @@ import { Link,useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import jwt from 'jsonwebtoken';
+import SimpleCrypto from 'simple-crypto-js';
 
 export default function LoginPage(){
-
+ 
     const [emailinput, setemailinput] = useState("");
     const [passwordinput, setpasswordinput] = useState("");
     const [output, setOutput] = useState("");
     const navigate=useNavigate();
+    const crypto = new SimpleCrypto(process.env.CRYPTO_SECRET)
 
     const handleSubmit = async (e)=>{
        if(emailinput==="" || passwordinput===""){
@@ -26,7 +27,7 @@ export default function LoginPage(){
             console.log("Login Successfull")
             const { payload } = response.data;
             console.log("Payload Generated",payload)
-            const accessToken = jwt.sign(payload,process.env.JWT_SECRET);
+            const accessToken = crypto.encrypt(payload);
             console.log("accessToken Generated",accessToken)
             Cookies.set('linkupdata',accessToken);
             console.log("Cookies are Set !!!");
@@ -34,7 +35,7 @@ export default function LoginPage(){
             navigate('/chat');
           }    
         } catch (err) {
-          console.log(err.response);
+          console.log(err.response); 
         }
     }
       
