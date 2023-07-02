@@ -14,8 +14,10 @@ export default function LoginPage(){
     const [passwordinput, setpasswordinput] = useState("");
     const [output, setOutput] = useState("");
     const navigate=useNavigate();
-    const crypto = new SimpleCrypto(process.env.CRYPTO_SECRET)
+    const secretKey = process.env.CRYPTO_SECRET;
 
+    //const crypto = new SimpleCrypto(secretKey);
+console.log(secretKey)
     const handleSubmit = async (e)=>{
        if(emailinput==="" || passwordinput===""){
           setOutput("all fields are required");
@@ -28,7 +30,7 @@ export default function LoginPage(){
             const { payload } = response.data;
             console.log("Payload Generated",payload)
             const accessToken = crypto.encrypt(payload);
-            console.log("accessToken Generated",accessToken)
+            console.log("accessToken Generated")
             Cookies.set('linkupdata',accessToken);
             console.log("Cookies are Set !!!");
             console.log(Cookies.get('linkupdata'));
