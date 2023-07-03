@@ -147,6 +147,13 @@ export default function SignupPage() {
               <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>       
             )}
           </button>
+          <button className="signup-btn"  onClick={handleSubmit}>
+            {loading===false?(
+              <div>Already have an account?</div>
+            ):(
+              <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>       
+            )}
+          </button>
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
             continue with Google
