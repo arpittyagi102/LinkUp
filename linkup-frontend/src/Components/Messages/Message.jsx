@@ -1,16 +1,16 @@
 import React from "react";
 
-export default function Message({username,sendby,time,message}){
+export default function Message({currentUser,sendby,time,message}){
     return(
         <>
-            {username===sendby ? 
+            {currentUser===sendby.name ? 
             (
                 <div className="sent-message">
                     <div className="msg">{message}</div>
                 </div>
             ):(
                 <div className="received-message">
-                    <div>{username}</div>
+                    <div>{sendby.name}</div>
                     <div className="msg">{message}</div>
                 </div>
             )}

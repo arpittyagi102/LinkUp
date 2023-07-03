@@ -10,13 +10,12 @@ export default function Chat() {
   const [friendslist, setfriendslist] = useState([]);
   const [active, setactive] = useState(null);
   const [message, setmessage] = useState("");
-  const [messagelist, setmessagelist] = useState([]);
-  const [friendactive, setfriendactive] = useState();
+  const [messagelist, setMessageList] = useState([]);
+  const [friendactive, setfriendactive] = useState([]);
   const [onlineFriends,setOnlineFriends] = useState([]);
   const [socket, setSocket] = useState(null);
-  const cookies = Cookies.get("linkup-login");
-  const currentuser = friendslist.find((user) => user.email === cookies);
-  const username = "Current User";
+  const [currentUser, setCurrentUser] = useState();
+
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
 
@@ -25,25 +24,39 @@ export default function Chat() {
       try {
         const response = await axios.get("https://linkup-backend-k05n.onrender.com/user/getallusers");
         setfriendslist(response.data);
-      } catch (error) {
+        } catch (error) {
         console.error(error);
       }
     };
     fetchData();
   }, []); 
 
+  useEffect(() => {
+    if(friendslist.length){
+      setfriendactive(friendslist[0]);
+    }
+  }, [friendslist]);
+
    useEffect(() => {
-
     const getcookies = Cookies.get('linkupdata')
-    const userData = crypto.decrypt(getcookies);
-
+    const temp = crypto.decrypt(getcookies);
+    
     const socket = io.connect("https://linkup-backend-k05n.onrender.com");
-    setSocket(socket);
-
-    socket.emit("initialData",userData);
+    socket.on('connect', () => {
+      const socketID = socket.id;   
+      setSocket(socket);
+      setCurrentUser({...temp,socketID});
+      //socket.emit("initialData",currentUser);
+    });
 
     socket.on("online-people",(onlinePeople)=>{
       setOnlineFriends(onlinePeople);
+    })
+
+    socket.on("recieve-message",(messageData)=>{
+      setMessageList(prev => [...prev,messageData]);
+      //console.log(currentUser);
+//      console.log(updatedCurrentUser);
     })
 
     return () => {
@@ -51,25 +64,32 @@ export default function Chat() {
     };
   }, []);  
 
+  useEffect(()=>{
+    if(currentUser){
+      console.log(currentUser);
+      socket.emit("initialData",currentUser);
+    }
+  },[currentUser])
+
   function sendmessage() {
-    /* const time = new Date();
-    console.log(`Friend active is ${friendactive}`)
-    const recipientEmail = friendactive;
+
+    const time = new Date();
+    console.log(`Current user is`,currentUser);
 
     socket.emit("send-message", {
-        sendby:currentuser.email,
-        sendto:recipientEmail,
+        sendby:currentUser,
+        sendto:friendactive,
         message,
         time,
     });
 
-    setmessage(""); */
+    setmessage(""); 
   }
 
   function handlefriendsclick(friend, index) {
     setactive(index);
-    setfriendactive(friend.email);
-    console.log(`Friend active is`,friend)
+    setfriendactive(friend);
+    setMessageList([]);
   }
 
   return (
@@ -98,12 +118,12 @@ export default function Chat() {
               ))}
           </div>
         <div className="chat-interface-outer">
-          <h1>{friendactive}</h1>
+          <h1>{friendactive.name}</h1>
           <div className="chat-interface">
             <div className="chat-messages">
               {messagelist.map((data, key) => (
                 <Message
-                  username={currentuser.name}
+                  currentUser={currentUser.name}
                   sendby={data.sendby}
                   time={data.time}
                   message={data.message}
