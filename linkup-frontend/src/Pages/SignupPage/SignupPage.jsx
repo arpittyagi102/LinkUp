@@ -4,6 +4,7 @@ import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleOneTapLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
@@ -91,6 +92,13 @@ export default function SignupPage() {
       client_id: process.env.REACT_APP_CLIENT_ID,
       onSuccess: response => loginsuccess(response),
   });
+
+    const oneTapGooglelogin = useGoogleOneTapLogin({
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      onSuccess: credentialResponse => {
+        loginsuccess(credentialResponse);
+      }
+    });
   
   async function loginsuccess(response) {
     try {
@@ -150,6 +158,10 @@ export default function SignupPage() {
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
             continue with Google
+            <img src={googleicon} className="googleicon" alt="google-icon" />
+          </div>
+          <div className="google-signup-btn" onClick={oneTapGooglelogin}>
+            Quick Login
             <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>
         </div>
