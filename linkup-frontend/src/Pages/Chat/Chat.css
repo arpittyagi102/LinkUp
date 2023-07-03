@@ -45,10 +45,13 @@
 .search-bar{
     border-radius: 50px;
     background-color:rgb(221, 221, 249) ;
+    display: flex;
+    justify-content: center;
 }
 .search-bar input{
     background-color: transparent;
     border: none;
+    max-width: 90%;
 }
 .search-bar input:focus{
     outline:none
