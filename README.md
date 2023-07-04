@@ -81,6 +81,9 @@ npm start
 http://localhost:3000
 ```
 
+# For automatic setup
+ run `setup.sh` in terminal
+
 ## Contributing
 
 We welcome contributions from the community to enhance LinkUp further. To contribute, please follow these steps:
