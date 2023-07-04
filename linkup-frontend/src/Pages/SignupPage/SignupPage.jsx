@@ -147,6 +147,9 @@ export default function SignupPage() {
               <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>       
             )}
           </button>
+          <div>
+            Already have an account? <a href = "/login">Login</a>
+          </div>
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
             continue with Google
