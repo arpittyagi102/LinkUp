@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
@@ -93,13 +93,10 @@ export default function SignupPage() {
       onSuccess: response => loginsuccess(response),
   });
 
-    const oneTapGooglelogin = useGoogleOneTapLogin({
-      client_id: process.env.REACT_APP_CLIENT_ID,
-      onSuccess: credentialResponse => {
-        loginsuccess(credentialResponse);
-      }
+    useGoogleOneTapLogin({
+       onSuccess: credentialResponse => loginsuccess(credentialResponse),
     });
-  
+
   async function loginsuccess(response) {
     try {
       const { access_token } = response;
@@ -158,10 +155,6 @@ export default function SignupPage() {
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
             continue with Google
-            <img src={googleicon} className="googleicon" alt="google-icon" />
-          </div>
-          <div className="google-signup-btn" onClick={oneTapGooglelogin}>
-            Quick Login
             <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>
         </div>
