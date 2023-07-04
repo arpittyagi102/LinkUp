@@ -54,8 +54,10 @@ npm install
 
 4. Set up the environment variables:
 
-- Create a .env file in the server directory.
-- Add the required environment variables, such as database connection URL, JWT secret key, and any other configuration variables.
+```
+cp ./env_sample/.env.backend.sample ./linkup-backend/.env
+cp ./env_sample/.env.frontend.sample ./linkup-frontend/.env
+```
 
 5. Start the development server:
 
@@ -78,6 +80,9 @@ npm start
 ```bash
 http://localhost:3000
 ```
+
+# For automatic setup
+ run `setup.sh` in terminal
 
 ## Contributing
 
