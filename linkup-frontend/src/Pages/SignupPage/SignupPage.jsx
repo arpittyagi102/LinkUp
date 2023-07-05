@@ -15,19 +15,19 @@ export default function SignupPage() {
   const crypto = new SimpleCrypto(secretKey);
   const navigate=useNavigate();
 
-  try{
-    const getcookies = Cookies.get('linkupdata')
-    const { email } = crypto.decrypt(getcookies);
-
-    if(email){
-      navigate('/chat');
-    } 
-  } catch (err){
-    console.log(err);
-  }
-
- 
+    try{
+      const getcookies = Cookies.get('linkupdata')
+      const { email } = crypto.decrypt(getcookies);
   
+      if(email){
+        navigate('/chat');
+      } 
+    } catch (err){
+      console.log(err);
+    }  
+
+
+    
   const [formData,setFormData] = useState({
     fname:'',
     lname:'',
@@ -59,8 +59,8 @@ export default function SignupPage() {
       return;
     }
     try {
-      //const response = await axios.post('http://localhost:3001/auth/signup', formData);
-      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
+      const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
       setLoading(false);
       console.log(response);
 
