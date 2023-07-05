@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import Cookies from 'js-cookie';
