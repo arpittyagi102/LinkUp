@@ -148,7 +148,7 @@ export default function SignupPage() {
             )}
           </button>
           <div>
-            Already have an account? <a href = "/login">log in</a>
+            Already have an account <Link to={'/login'}>log in</Link>
           </div>
           <div className="or">or</div>
           <div className="google-signup-btn" onClick={googlelogin}>
