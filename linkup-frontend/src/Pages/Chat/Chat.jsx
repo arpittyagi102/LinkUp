@@ -8,8 +8,7 @@ import SimpleCrypto from 'simple-crypto-js';
 
 const RenderFriendList = ({ friendsList, active, onlineFriends, handleFriendsClick }) => (
   <>
-    {console.log("inside component ",friendsList?.length)}
-    {/* {friendsList.map((friend, index) => (
+    {friendsList.map((friend, index) => (
       <div
         className={`friends-outer ${index === active ? "active" : ""}`}
         onClick={() => {
@@ -22,7 +21,7 @@ const RenderFriendList = ({ friendsList, active, onlineFriends, handleFriendsCli
           className={`${onlineFriends.includes(friend.email) && "online"}`}
         ></div>
       </div>
-      ))} */}
+      ))}
   </>
 );
 
@@ -131,7 +130,7 @@ export default function Chat() {
     setMessage(""); 
   }
 
-  function handlefriendsclick(friend, index) {
+  function handleFriendsClick(friend, index) {
     setActive(index);
     setFriendActive(friend);
     setMessageList([]);
@@ -162,7 +161,11 @@ export default function Chat() {
           {console.log("before component ",filterFriendList.length)}
           {
             filterFriendList.length!==0 ?
-          (<RenderFriendList friendsList={filterFriendList} active={active} onlineFriends={onlineFriends} handlefriendsclick={handlefriendsclick} />):(<h1>Loading</h1>)}
+          (
+            <RenderFriendList friendsList={filterFriendList} active={active} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
+          ):(
+            <h1>Loading</h1>
+          )}
           
         </div>
         <div className="chat-interface-outer">
