@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const http = require("http");
 const { Server } = require("socket.io");
-const socketEvents = require('./socketEvents.js')
+const socketEvents = require('./startup/socketEvents.js')
 const server = http.createServer(app);
 require("dotenv").config();
 
