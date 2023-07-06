@@ -39,6 +39,8 @@ export default function Chat() {
   const [searchState, setSearchState] = useState("");
   
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+
+
   const crypto = new SimpleCrypto(secretKey);
 
   useEffect(() => {

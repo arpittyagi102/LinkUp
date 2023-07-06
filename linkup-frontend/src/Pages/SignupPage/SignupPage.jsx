@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
 
 export default function SignupPage() {
-  
+
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
   const navigate=useNavigate();
@@ -25,9 +25,12 @@ export default function SignupPage() {
     } catch (err){
       console.log(err);
     }  
-
-
-    
+    if(email){
+      navigate('/chat');
+    }
+  } catch (err){
+    console.log(err);
+  }
   const [formData,setFormData] = useState({
     fname:'',
     lname:'',
@@ -59,8 +62,10 @@ export default function SignupPage() {
       return;
     }
     try {
+
       const response = await axios.post('http://localhost:3001/auth/signup', formData);
       //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
+
       setLoading(false);
       console.log(response);
 
@@ -78,6 +83,7 @@ export default function SignupPage() {
           navigate("/login");
         },1000);
       }
+
       }
       else if(response.status === 404){
         setOutput("Unable to connect to server");
@@ -97,9 +103,9 @@ export default function SignupPage() {
       }
     }}
 
-    const googlelogin = useGoogleLogin({
-      client_id: process.env.REACT_APP_CLIENT_ID,
-      onSuccess: response => loginsuccess(response),
+  const googlelogin = useGoogleLogin({
+    client_id: process.env.REACT_APP_CLIENT_ID,
+    onSuccess: response => loginsuccess(response),
   });
 
     useGoogleOneTapLogin({
@@ -123,36 +129,37 @@ export default function SignupPage() {
       console.error("Error fetching user data:", error);
     }
   }
-  
+
 
   return (
-    <>
-      <div className="signup-page-outer">
-        <img src={SidebarImage} alt="Internet Error" className="sidebar" />
-        <div className="signup-form-outer">
-          <div className="signup-page-title">
-            Get <span style={{ color: "blue" }}>Link Up</span>
-          </div>
-
-          <div className="form-input-names">
-            <div>
-              <div className="label">First Name</div>
-              <input type="text" placeholder="Arpit" value={formData.fname} name="fname" onChange={handleChange} />
+      <>
+        <div className="signup-page-outer">
+          <img src={SidebarImage} alt="Internet Error" className="sidebar" />
+          <div className="signup-form-outer">
+            <div className="signup-page-title">
+              Get <span style={{ color: "blue" }}>Link Up</span>
             </div>
-            <div>
-              <div className="label">Last Name</div>
-              <input type="text" placeholder="Tyagi" value={formData.lname} name="lname" onChange={handleChange} />
+
+            <div className="form-input-names">
+              <div>
+                <div className="label">First Name</div>
+                <input type="text" placeholder="Arpit" value={formData.fname} name="fname" onChange={handleChange} />
+              </div>
+              <div>
+                <div className="label">Last Name</div>
+                <input type="text" placeholder="Tyagi" value={formData.lname} name="lname" onChange={handleChange} />
+              </div>
             </div>
-          </div>
 
-          <div className="label">Email Address</div>
-          <input type="email" placeholder="youremail@example.com" value={formData.email} name="email" onChange={handleChange} />
+            <div className="label">Email Address</div>
+            <input type="email" placeholder="youremail@example.com" value={formData.email} name="email" onChange={handleChange} />
 
-          <div className="label">Password</div>
-          <input type="password" placeholder="••••••••••" value={formData.password} name="password" onChange={handleChange} />
-          <div style={{color:"red"}}>
-            {output}
-          </div>
+            <div className="label">Password</div>
+            <input type="password" placeholder="••••••••••" value={formData.password} name="password" onChange={handleChange} />
+            <div style={{color:"red"}}>
+              {output}
+            </div>
+
 
           <button className="signup-btn"  onClick={handleSubmit}>
             {loading===false?(
@@ -168,9 +175,22 @@ export default function SignupPage() {
           <div className="google-signup-btn" onClick={googlelogin}>
             continue with Google
             <img src={googleicon} className="googleicon" alt="google-icon" />
+            <button className="signup-btn"  onClick={handleSubmit}>
+              {loading===false?(
+                  <div>Sign Up</div>
+              ):(
+                  <div className="spinner-border" style={{height:"20px",width:"20px"}}></div>
+              )}
+            </button>
+            <div>
+              Already have an account <Link to={'/login'}>log in</Link>
+            </div>
+            <div className="or">or</div>
+            <div className="google-signup-btn" onClick={googlelogin}>
+              continue with Google
+              <img src={googleicon} className="googleicon" alt="google-icon" />
           </div>
         </div>
-      </div>
-    </>
+      </>
   );
 }
