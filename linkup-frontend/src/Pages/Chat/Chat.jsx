@@ -5,8 +5,9 @@ import io from "socket.io-client";
 import Message from "../../Components/Messages/Message";
 import axios from 'axios';
 import SimpleCrypto from 'simple-crypto-js';
-  
-export default function Chat() { 
+
+
+export default function Chat() {
   const [friendslist, setfriendslist] = useState([]);
   const [active, setactive] = useState(null);
   const [message, setmessage] = useState("");
@@ -16,7 +17,7 @@ export default function Chat() {
   const [socket, setSocket] = useState(null);
   const [currentUser, setCurrentUser] = useState();
 
-  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET || "DUMMYVALUE";
   const crypto = new SimpleCrypto(secretKey);
 
    useEffect(() => {

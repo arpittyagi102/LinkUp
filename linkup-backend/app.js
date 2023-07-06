@@ -6,7 +6,7 @@ const http = require("http");
 const { MongoClient } = require("mongodb");
 const { Server } = require("socket.io");
 const socketEvents = require('./socketEvents.js')
-require("dotenv").config();
+require("dotenv").config(); 
 
 const server = http.createServer(app);
 app.use(bodyParser.json());
