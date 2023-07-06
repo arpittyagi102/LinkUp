@@ -120,12 +120,12 @@ export default function LoginPage(){
                             showState == true?(
                                 showAlert && (
                                     <div className="success-alert">
-                                        <img src={CheckMarkImage} className="alert-img"></img>&nbsp;&nbsp;Successfully logged in!
+                                        <img src={CheckMarkImage} className="alert-img"></img>Successfully logged in!
                                     </div>)
                             ):(
                                 showAlert && (
                                     <div className="error-alert">
-                                        <img src={CrossImage} className="alert-img"></img>&nbsp;&nbsp;{output}
+                                        <img src={CrossImage} className="alert-img"></img>{output}
                                     </div>)
                               )
                         }
