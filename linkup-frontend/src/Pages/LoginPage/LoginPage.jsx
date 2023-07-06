@@ -7,7 +7,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
-import MarkImage from "../../Assets/mark.png";
+import CheckMarkImage from "../../Assets/check-mark.png";
 import CrossImage from "../../Assets/cross.png";
 
 export default function LoginPage(){
@@ -120,7 +120,7 @@ export default function LoginPage(){
                             showState == true?(
                                 showAlert && (
                                     <div className="success-alert">
-                                        <img src={MarkImage} className="alert-img"></img>&nbsp;&nbsp;Successfully logged in!
+                                        <img src={CheckMarkImage} className="alert-img"></img>&nbsp;&nbsp;Successfully logged in!
                                     </div>)
                             ):(
                                 showAlert && (
