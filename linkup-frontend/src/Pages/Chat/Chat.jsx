@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Chat.css";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
@@ -21,7 +21,7 @@ const RenderFriendList = ({ friendsList, active, onlineFriends, handleFriendsCli
           className={`${onlineFriends.includes(friend.email) && "online"}`}
         ></div>
       </div>
-      ))}
+    ))}
   </>
 );
 
@@ -31,14 +31,16 @@ export default function Chat() {
   const [active, setActive] = useState(null);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState({});
-  const [friendActive, setFriendActive] = useState(friendsList[0]);
+  const [friendActive, setFriendActive] = useState(null);
   const [onlineFriends, setOnlineFriends] = useState([]);
-  const [socket, setSocket] = useState(null);
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
   const [searchState, setSearchState] = useState("");
 
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
+
+  const currentUserRef = useRef(null);
+  const socketRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,6 @@ export default function Chat() {
         );
         setFriendsList(response.data);
         setFilterFriendList(response.data);
-        //console.log(friendsList);
       } catch (error) {
         console.log(error);
       }
@@ -56,48 +57,40 @@ export default function Chat() {
     fetchData();
   }, []);
 
-/*   useEffect(()=>{
-    if(friendsList.length)
-      console.log(friendsList);
-  },[friendsList]) */
-
   useEffect(() => {
-    if(filterFriendList.length){
-      setFriendActive(filterFriendList[0]);
-      setMessageList((prev) => ({
-        [filterFriendList[0].email] : [],
-      }))
-    }
-  }, [filterFriendList]);
-
-   useEffect(() => {
-    const getcookies = Cookies.get('linkupdata')
+    const getcookies = Cookies.get('linkupdata');
     const temp = crypto.decrypt(getcookies);
-    console.log("Cookies found with name ",temp.name);
+    setCurrentUser({ ...temp });
+
+    currentUserRef.current = { ...temp };
 
     const socket = io.connect("http://localhost:3001");
+    socketRef.current = socket;
+
     socket.on('connect', () => {
-      console.log("Connected to Socket");
-      const socketID = socket.id;   
-      setSocket(socket);
-      setCurrentUser({...temp,socketID});
-      //socket.emit("initialData",currentUser);
+      const socketID = socket.id;
+      setCurrentUser(prevUser => ({ ...prevUser, socketID }));
+      socket.emit("initialData", { ...temp, socketID }); // Emit initialData after the connection is established
     });
 
-    socket.on("online-people",(onlinePeople)=>{
+    socket.on("online-people", (onlinePeople) => {
       setOnlineFriends(onlinePeople);
-    })
-      
+    });
+
     socket.on("recieve-message", (messageData) => {
+      const currentUser = currentUserRef.current;
+
       const friendEmail =
-        messageData.sendto?.email === currentUser.email
+        messageData.sendto.email === currentUser?.email
           ? messageData.sendby.email
           : messageData.sendto.email;
-    
-      setMessageList((prev) => ({
-        ...prev,
-        [friendEmail]: [...(prev[friendEmail] || []), messageData],
-      }));
+
+      if (friendEmail) {
+        setMessageList((prev) => ({
+          ...prev,
+          [friendEmail]: [...(prev[friendEmail] || []), messageData],
+        }));
+      }
     });
 
     return () => {
@@ -111,95 +104,88 @@ export default function Chat() {
         friend.name.toLowerCase().includes(searchState.toLowerCase())
       );
       setFilterFriendList(filteredList);
+    }    else {
+      setFilterFriendList(friendsList);
     }
-
-    return () => setFilterFriendList([])
-  }, [searchState]);
-
-  
-  useEffect(()=>{
-    if(currentUser){
-      //console.log(currentUser);
-      socket.emit("initialData",currentUser);
-    }
-  },[currentUser])
+  }, [searchState, friendsList]);
 
   function sendmessage() {
-
     const time = new Date();
-    //console.log(`Current user is`,currentUser);
 
-    socket.emit("send-message", {
-        sendby:currentUser,
-        sendto:friendActive,
-        message,
-        time,
+    socketRef.current.emit("send-message", {
+      sendby: currentUserRef.current,
+      sendto: friendActive,
+      message,
+      time,
     });
 
-    setMessage(""); 
+    setMessage("");
   }
 
   function handleFriendsClick(friend, index) {
     setActive(index);
     setFriendActive(friend);
-  
+
     const friendMessages = messageList[friend.email] || [];
     setMessageList((prev) => ({
       ...prev,
       [friend.email]: friendMessages,
     }));
   }
-  
+
   const handleSearchChange = (e) => {
-    setSearchState((_) => e.target.value);
+    setSearchState(e.target.value);
   };
+
+  function debugging() {
+    console.log("Current User is", currentUserRef.current?.name);
+    console.log(messageList);
+  }
 
   return (
     <>
       <div className="outer">
         <div className="friends-list-outer">
           <div className="friends-list-upper">
-            <div className="add-new-btn" onClick={()=>{console.log(messageList)}}>Add New</div>
+            <div className="add-new-btn" onClick={debugging}>Add New</div>
             <div className="friends-list-title">
               <h1>Chat</h1>
               <div className="search-bar">
                 <input
                   type="text"
                   name="search"
-                  defaultValue={searchState}
+                  value={searchState}
                   onChange={handleSearchChange}
                 />
               </div>
             </div>
           </div>
-          {/* {console.log("before component ",filterFriendList.length)} */}
-          {
-            filterFriendList.length!==0 ?
-          (
-            <RenderFriendList friendsList={filterFriendList} active={active} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
-          ):(
+          {filterFriendList.length !== 0 ? (
+            <RenderFriendList
+              friendsList={filterFriendList}
+              active={active}
+              onlineFriends={onlineFriends}
+              handleFriendsClick={handleFriendsClick}
+            />
+          ) : (
             <h1>Loading</h1>
           )}
-          
         </div>
         <div className="chat-interface-outer">
           <h1>{friendActive?.name}</h1>
           <div className="chat-interface">
-          <div className="chat-messages">
-  {friendActive &&
-    messageList[friendActive.email]?.map((messageData, key) => (
-      <Message
-        currentUser={currentUser.name}
-        sendby={messageData.sendby}
-        time={messageData.time}
-        message={messageData.message}
-        key={key}
-      />
-    ))}
-</div>
-
-
-
+            <div className="chat-messages">
+              {friendActive &&
+                messageList[friendActive.email]?.map((messageData, key) => (
+                  <Message
+                    currentUser={currentUserRef.current?.name}
+                    sendby={messageData.sendby}
+                    time={messageData.time}
+                    message={messageData.message}
+                    key={key}
+                  />
+                ))}
+            </div>
             <div className="message-input-outer">
               <input
                 type="text"

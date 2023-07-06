@@ -13,6 +13,7 @@ module.exports = (io) => {
       if (!onlinePeople.includes(userData.email)) {
         onlinePeople.push(userData.email);
         console.log(userData.name + " is online");
+        console.log(emailToSocketIdMap);
       }
       emailToSocketIdMap.set(userData.email, socket.id);
       io.emit("online-people", onlinePeople);
@@ -34,7 +35,7 @@ module.exports = (io) => {
     socket.on("send-message", (messageData) => {
       const recipientEmail = messageData.sendto.email;
       const recipientSocketID = emailToSocketIdMap.get(recipientEmail);
-      console.log(messageData);
+      //console.log(messageData);
       socket.emit("recieve-message", messageData);
       io.to(recipientSocketID).emit("recieve-message", messageData);
     });
