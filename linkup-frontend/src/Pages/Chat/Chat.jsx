@@ -144,10 +144,12 @@ export default function Chat() {
     setFriendActive(friend);
   
     const friendMessages = messageList[friend.email] || [];
-    setMessageList(friendMessages);
+    setMessageList((prev) => ({
+      ...prev,
+      [friend.email]: friendMessages,
+    }));
   }
   
-
   const handleSearchChange = (e) => {
     setSearchState((_) => e.target.value);
   };
@@ -157,7 +159,7 @@ export default function Chat() {
       <div className="outer">
         <div className="friends-list-outer">
           <div className="friends-list-upper">
-            <div className="add-new-btn">Add New</div>
+            <div className="add-new-btn" onClick={()=>{console.log(messageList)}}>Add New</div>
             <div className="friends-list-title">
               <h1>Chat</h1>
               <div className="search-bar">
