@@ -31,14 +31,28 @@ export default function LoginPage(){
           if(response.status===200){
             setLoading(false);
             console.log("Login Successfull")
+            setOutput(
+              <div style={{color:"green"}}>
+                <div>Successfully logged in!</div>
+                <div>Please wait......</div>
+              </div>
+            );
             const { payload } = response.data;
             const accessToken = crypto.encrypt(payload);
             Cookies.set('linkupdata',accessToken);
-            navigate('/chat');
-          }    
+            setTimeout(() => {
+                  navigate('/chat');
+                  }, 1000);
+          }
         } catch (err) {
           setLoading(false);
-          console.log(err.response); 
+          console.log(err.response);
+            if (err.response) {
+                setLoading(false);
+                setOutput(err.response.data.message);
+            } else {
+                setOutput("Network error occurred");
+            }
         }
     }
       
