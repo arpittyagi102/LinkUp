@@ -30,13 +30,13 @@ export default function Chat() {
   const [filterFriendList, setFilterFriendList] = useState([]);
   const [active, setActive] = useState(null);
   const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
-  const [friendActive, setFriendActive] = useState();
+  const [messageList, setMessageList] = useState({});
+  const [friendActive, setFriendActive] = useState(friendsList[0]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [socket, setSocket] = useState(null);
   const [currentUser, setCurrentUser] = useState();
   const [searchState, setSearchState] = useState("");
-  
+
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
 
@@ -62,19 +62,22 @@ export default function Chat() {
   },[friendsList]) */
 
   useEffect(() => {
-    //console.log(filterFriendList);
     if(filterFriendList.length){
       setFriendActive(filterFriendList[0]);
-      //console.log(filterFriendList);
+      setMessageList((prev) => ({
+        [filterFriendList[0].email] : [],
+      }))
     }
   }, [filterFriendList]);
 
    useEffect(() => {
     const getcookies = Cookies.get('linkupdata')
     const temp = crypto.decrypt(getcookies);
+    console.log("Cookies found with name ",temp.name);
 
     const socket = io.connect("http://localhost:3001");
     socket.on('connect', () => {
+      console.log("Connected to Socket");
       const socketID = socket.id;   
       setSocket(socket);
       setCurrentUser({...temp,socketID});
@@ -85,11 +88,17 @@ export default function Chat() {
       setOnlineFriends(onlinePeople);
     })
       
-    socket.on("recieve-message",(messageData)=>{
-      setMessageList(prev => [...prev,messageData]);
-      //console.log(currentUser);
-//      console.log(updatedCurrentUser);
-    })
+    socket.on("recieve-message", (messageData) => {
+      const friendEmail =
+        messageData.sendto?.email === currentUser.email
+          ? messageData.sendby.email
+          : messageData.sendto.email;
+    
+      setMessageList((prev) => ({
+        ...prev,
+        [friendEmail]: [...(prev[friendEmail] || []), messageData],
+      }));
+    });
 
     return () => {
       socket.disconnect();
@@ -118,7 +127,7 @@ export default function Chat() {
   function sendmessage() {
 
     const time = new Date();
-    console.log(`Current user is`,currentUser);
+    //console.log(`Current user is`,currentUser);
 
     socket.emit("send-message", {
         sendby:currentUser,
@@ -133,8 +142,11 @@ export default function Chat() {
   function handleFriendsClick(friend, index) {
     setActive(index);
     setFriendActive(friend);
-    setMessageList([]);
+  
+    const friendMessages = messageList[friend.email] || [];
+    setMessageList(friendMessages);
   }
+  
 
   const handleSearchChange = (e) => {
     setSearchState((_) => e.target.value);
@@ -158,7 +170,7 @@ export default function Chat() {
               </div>
             </div>
           </div>
-          {console.log("before component ",filterFriendList.length)}
+          {/* {console.log("before component ",filterFriendList.length)} */}
           {
             filterFriendList.length!==0 ?
           (
@@ -171,17 +183,21 @@ export default function Chat() {
         <div className="chat-interface-outer">
           <h1>{friendActive?.name}</h1>
           <div className="chat-interface">
-            <div className="chat-messages">
-              {messageList.map((data, key) => (
-                <Message
-                  currentUser={currentUser.name}
-                  sendby={data.sendby}
-                  time={data.time}
-                  message={data.message}
-                  key={key}
-                />
-              ))}
-            </div>
+          <div className="chat-messages">
+  {friendActive &&
+    messageList[friendActive.email]?.map((messageData, key) => (
+      <Message
+        currentUser={currentUser.name}
+        sendby={messageData.sendby}
+        time={messageData.time}
+        message={messageData.message}
+        key={key}
+      />
+    ))}
+</div>
+
+
+
             <div className="message-input-outer">
               <input
                 type="text"

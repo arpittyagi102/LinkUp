@@ -9,7 +9,6 @@ module.exports = (io) => {
 
     socket.on("initialData", (userDatacame) => {
       userData = userDatacame;
-      console.log(userData);
       if (!userData) return;
       if (!onlinePeople.includes(userData.email)) {
         onlinePeople.push(userData.email);
@@ -35,6 +34,7 @@ module.exports = (io) => {
     socket.on("send-message", (messageData) => {
       const recipientEmail = messageData.sendto.email;
       const recipientSocketID = emailToSocketIdMap.get(recipientEmail);
+      console.log(messageData);
       socket.emit("recieve-message", messageData);
       io.to(recipientSocketID).emit("recieve-message", messageData);
     });
