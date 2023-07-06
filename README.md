@@ -95,6 +95,16 @@ We welcome contributions from the community to enhance LinkUp further. To contri
 3. Commit your changes and push them to your branch.
 
 4. Submit a pull request, clearly documenting the changes and their purpose.
+   
+5. For testing purpose you may use these credentials
+```json
+"email":"rohitsharma@gmail.com",
+"password":123456
+```
+```json
+"email":"viratkohli@gmail.com",
+"password":123456
+``` 
 
 We will review your pull request, provide feedback if necessary, and merge it once it meets the project's standards.
 
