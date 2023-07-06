@@ -25,10 +25,14 @@ export default function LoginPage(){
 
     const handleSubmit = async (e)=>{
       setLoading(true);
-       if(emailinput==="" || passwordinput===""){
-          setOutput("all fields are required");
-          setLoading(false);
-          return;
+        if(emailinput==="" || passwordinput===""){
+            setShowAlert(true);
+            setOutput("all fields are required");
+            setLoading(false);
+            setTimeout(()=>{
+                setShowAlert(false);
+            },3000);
+            return;
         }
         try {
           const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput});
