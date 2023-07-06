@@ -68,7 +68,16 @@ export default function SignupPage() {
         setOutput("You are connected to internet")
       }
       if(response.status === 200){
-        navigate("/login");
+        setOutput(
+          <div style={{color:"green"}}>
+            <div>Account Registration Successful!</div>
+            <div>Redirecting to login page......</div>
+          </div>
+        );
+        setTimeout(()=>{
+          navigate("/login");
+        },1000);
+      }
       }
       else if(response.status === 404){
         setOutput("Unable to connect to server");
