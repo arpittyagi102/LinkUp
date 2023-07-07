@@ -28,6 +28,7 @@ export default function LoginPage(){
         if(emailinput==="" || passwordinput===""){
             setShowAlert(true);
             setOutput("all fields are required");
+            setShowState(false);
             setLoading(false);
             setTimeout(()=>{
                 setShowAlert(false);
