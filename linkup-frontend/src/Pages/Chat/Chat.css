@@ -1,69 +1,55 @@
 .outer{
-    background-color: rgb(221, 221, 249);
+    background-image: linear-gradient(45deg, #4E1F38, #552c2c, #433e58);
     height: 100vh;
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
-.friends-list-outer{
-    height: 90%;
-    width: 400px;
-    margin:40px;
-    border-radius: 50px;
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-}
-.friends-list-upper{
-    width: 100%;
-    background-color: white;
-    box-shadow: 1px 1px 20px rgb(169, 169, 169);
-    border-radius: 50px 50px 0px 0px;
-}
-.add-new-btn{
-    width:90%;
-    border: dotted;
-    border-radius: 40px;
-    height: 70px;
-    margin:20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.friends-list-title{
-    align-self: flex-start;
-    margin:0px 0px 20px 20px;
-    width: 90%;
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-}
-.friends-list-title h1{
-    margin:0px;
-}
-.search-bar{
-    border-radius: 50px;
-    background-color:rgb(221, 221, 249) ;
-    display: flex;
-    justify-content: center;
-}
-.search-bar input{
-    background-color: transparent;
-    border: none;
-    max-width: 90%;
-}
-.search-bar input:focus{
-    outline:none
-}
 .chat-interface-outer{
-    height: 90%;
-    margin: 40px;
+    height: calc(100% - 100px);
+    margin: 50px 100px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     justify-content: space-between;
+}
+.friend-active-details{
+    display: flex;
+}
+.friend-active-picture{
+    height: 50px;
+    opacity: 0.8;
+}
+.friend-active-nl{
+    margin:0 15px;
+}
+.friend-active-name{
+    color:rgb(205, 205, 205);
+    line-height: 1;
+    font-size: 30px;
+    font-family:Arial, Helvetica, sans-serif;
+}
+.friend-active-last-seen{
+    color: #bebebe83;
+    line-height: 1;
+}
+.friend-active-details-icon-cover{
+    margin:10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 40px;
+    background-color: #00000046;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+.friend-active-details-icon-cover:hover{
+    transform: scale(1.2);
+}
+.friend-active-details-icon{
+    height: 30px;
+    opacity: 0.7;
 }
 .chat-messages{
     width: 100%; 
@@ -97,19 +83,20 @@
     border-radius: 20px 20px 20px 0px;
 }
 .message-input-outer{
-    background-color: aquamarine;
+    background-color: rgb(0,0,0,0.4);
     width: 100%;
-    height: 50px;
+    height: 60px;
     border-radius: 30px;
     margin-top:10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 5px 5px 10px -3px grey;
 }
 .message-input{
+    flex-grow: 1;
+    margin-left: 30px;
+    color:rgb(197, 197, 197);
     height: 80%;
-    width:90%;
     background: transparent;
     border:none;
     font-size: 25px;
@@ -117,36 +104,10 @@
 .message-input:focus{
     outline:none
 }
-.friends-outer{
-    width: 100%;
-    border-collapse: collapse;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border:solid rgb(221, 221, 249);
-    background-color: white;
-    border-width:1px 0px;
-    padding:5%;
+.message-input-icons{
+    height: 25px;
+    margin:0 10px;
 }
-.active{
-    border-left-width: 10px;
-    border-left-color:rgb(117, 117, 204);
-    translate:5px;
-    background-color: rgb(221, 221, 249);
-    box-shadow:none;
-}
-.friends-outer:has(+ .active){
-    z-index: 1;
-    border-radius: 0px 0px 30px 0px;
-    box-shadow:  0 10px 10px -10px rgba(0, 0, 0, 0.4);
-}
-.active + .friends-outer{
-    border-radius: 0px 30px 0px 0px;
-}
-.online{
-    height: 7px;
-    width: 7px;
-    margin:5px;
-    border-radius: 100%;
-    background-color: green;
+.message-input-icons:hover{
+    opacity: 0.4;
 }

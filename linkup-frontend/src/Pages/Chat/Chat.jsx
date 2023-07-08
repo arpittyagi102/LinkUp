@@ -3,59 +3,29 @@ import "./Chat.css";
 import Cookies from "js-cookie";
 import io from "socket.io-client";
 import Message from "../../Components/Messages/Message";
-import axios from 'axios';
 import SimpleCrypto from 'simple-crypto-js';
-
-const RenderFriendList = ({ friendsList, active, onlineFriends, handleFriendsClick }) => (
-  <>
-    {friendsList.map((friend, index) => (
-      <div
-        className={`friends-outer ${index === active ? "active" : ""}`}
-        onClick={() => {
-          handleFriendsClick(friend, index);
-        }}
-        key={index}
-      >
-        {friend.name}
-        <div
-          className={`${onlineFriends.includes(friend.email) && "online"}`}
-        ></div>
-      </div>
-    ))}
-  </>
-);
+import FriendsList from "../../Components/FriendsList/Friends";
+import emojiicon from "../../Assets/icons/emoji.svg";
+import imageicon from "../../Assets/icons/image.svg";
+import sendicon from "../../Assets/icons/send.svg";
+import usericon from "../../Assets/icons/user.svg";
+import callicon from "../../Assets/icons/call.svg";
+import videocallicon from "../../Assets/icons/videocall.svg";
+import menuicon from "../../Assets/icons/menu.svg";
 
 export default function Chat() {
-  const [friendsList, setFriendsList] = useState([]);
-  const [filterFriendList, setFilterFriendList] = useState([]);
   const [active, setActive] = useState(null);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState({});
   const [friendActive, setFriendActive] = useState(null);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [searchState, setSearchState] = useState("");
 
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
 
   const currentUserRef = useRef(null);
   const socketRef = useRef(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://linkup-backend-k05n.onrender.com/user/getallusers"
-        );
-        setFriendsList(response.data);
-        setFilterFriendList(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const getcookies = Cookies.get('linkupdata');
@@ -70,7 +40,7 @@ export default function Chat() {
     socket.on('connect', () => {
       const socketID = socket.id;
       setCurrentUser(prevUser => ({ ...prevUser, socketID }));
-      socket.emit("initialData", { ...temp, socketID }); // Emit initialData after the connection is established
+      socket.emit("initialData", { ...temp, socketID });
     });
 
     socket.on("online-people", (onlinePeople) => {
@@ -98,17 +68,6 @@ export default function Chat() {
     };
   }, []);
 
-  useEffect(() => {
-    if (searchState) {
-      const filteredList = friendsList.filter((friend) =>
-        friend.name.toLowerCase().includes(searchState.toLowerCase())
-      );
-      setFilterFriendList(filteredList);
-    }    else {
-      setFilterFriendList(friendsList);
-    }
-  }, [searchState, friendsList]);
-
   function sendmessage() {
     const time = new Date();
 
@@ -133,46 +92,27 @@ export default function Chat() {
     }));
   }
 
-  const handleSearchChange = (e) => {
-    setSearchState(e.target.value);
-  };
-
-  function debugging() {
-    console.log("Current User is", currentUserRef.current?.name);
-    console.log(messageList);
-  }
-
   return (
     <>
       <div className="outer">
-        <div className="friends-list-outer">
-          <div className="friends-list-upper">
-            <div className="add-new-btn" onClick={debugging}>Add New</div>
-            <div className="friends-list-title">
-              <h1>Chat</h1>
-              <div className="search-bar">
-                <input
-                  type="text"
-                  name="search"
-                  value={searchState}
-                  onChange={handleSearchChange}
-                />
-              </div>
-            </div>
-          </div>
-          {filterFriendList.length !== 0 ? (
-            <RenderFriendList
-              friendsList={filterFriendList}
-              active={active}
-              onlineFriends={onlineFriends}
-              handleFriendsClick={handleFriendsClick}
-            />
-          ) : (
-            <h1>Loading</h1>
-          )}
-        </div>
+        <FriendsList active={active} friendActive={friendActive} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
         <div className="chat-interface-outer">
-          <h1>{friendActive?.name}</h1>
+          <div className="friend-active-details">
+          <img src={usericon} className="friend-active-picture" alt="user icon"/>
+          <div className="friend-active-nl">
+            <div className="friend-active-name">{friendActive?.name}</div>
+            <div className="friend-active-last-seen">3 Days ago</div>
+          </div>
+          <div className="friend-active-details-icon-cover" style={{marginLeft:"auto"}}>
+            <img src={callicon} className="friend-active-details-icon" alt="friend-active-details-icon"/>
+          </div>
+          <div className="friend-active-details-icon-cover">
+            <img src={videocallicon} className="friend-active-details-icon" alt="friend-active-details-icon"/>
+          </div>
+          <div className="friend-active-details-icon-cover">
+            <img src={menuicon} className="friend-active-details-icon" height="25px" alt="friend-active-details-icon"/>
+          </div>
+          </div>
           <div className="chat-interface">
             <div className="chat-messages">
               {friendActive &&
@@ -191,6 +131,7 @@ export default function Chat() {
                 type="text"
                 className="message-input"
                 value={message}
+                placeholder="Type your message..."
                 onChange={(e) => {
                   setMessage(e.target.value);
                 }}
@@ -200,6 +141,9 @@ export default function Chat() {
                   }
                 }}
               />
+              <img src={emojiicon} className="message-input-icons" alt="icons"/>
+              <img src={imageicon} className="message-input-icons" alt="icons"/>
+              <img src={sendicon} className="message-input-icons" alt="icons"/>
             </div>
           </div>
         </div>

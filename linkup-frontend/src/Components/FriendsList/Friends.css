@@ -1,5 +1,5 @@
 .friends-outer{
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
     display: flex;
     align-items: center;
@@ -19,8 +19,75 @@
 .friends-outer:has(+ .active){
     z-index: 1;
     border-radius: 0px 0px 30px 0px;
+    box-shadow:  0 10px 10px -10px rgba(0, 0, 0, 0.3);
+}
+.active + .friends-outer{
+    border-radius: 0px 30px 0px 0px;
+}
+.friends-list-outer{
+    height: 90%;
+    width: 400px;
+    margin:40px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+}
+.friends-list-upper{
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.35);
+    color :white;
+    border-radius: 50px 50px 0px 0px;
+}
+.add-new-btn{
+    width:90%;
+    border: dotted;
+    border-radius: 40px;
+    height: 70px;
+    margin:20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.friends-list-title{
+    align-self: flex-start;
+    margin:0px 0px 20px 20px;
+    width: 90%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+.friends-list-title h1{
+    margin:0px;
+}
+.search-bar{
+    border-radius: 50px;
+    background-color:rgba(255, 255, 255, 0.137) ;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.search-bar input{
+    background-color: transparent;
+    border: none;
+    color: white;
+    max-width: 70%;
+}
+.search-bar input:focus{
+    outline:none
+}
+.friends-outer:has(+ .active){
+    z-index: 1;
+    border-radius: 0px 0px 30px 0px;
     box-shadow:  0 10px 10px -10px rgba(0, 0, 0, 0.4);
 }
 .active + .friends-outer{
     border-radius: 0px 30px 0px 0px;
+}
+.online{
+    height: 7px;
+    width: 7px;
+    margin:5px;
+    border-radius: 100%;
+    background-color: green;
 }
