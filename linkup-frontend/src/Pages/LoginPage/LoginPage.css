@@ -90,8 +90,9 @@
 }
 .success-alert{
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 5px ;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #4CAF50;
     padding: 10px;
     color:white;
@@ -105,8 +106,9 @@
 }
 .error-alert{
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 5px ;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #d03333;
     padding: 10px;
     border:none;
