@@ -25,4 +25,4 @@ jobs:
         run: npm ci --prefix linkup-backend/
 
       - name: Run JavaScript file
-        run: node generateContributors.js
+        run: node .github/workflows/generateContributors.js
