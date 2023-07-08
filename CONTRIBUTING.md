@@ -9,18 +9,19 @@ Getting Started
     4. Start the development server with npm start.
 
 Contributing Guidelines
-    • Create a new branch for your contributions: git checkout -b feature/your-feature.
-    • Ensure your code adheres to the existing coding style and conventions.
-    • Include clear and concise commit messages.
-    • Test your changes thoroughly before submitting a pull request.
-    • Update the documentation if necessary.
+To contribute, please follow these steps:
+ •Fork the repository.
+ •Create a new branch for your feature or bug fix.
+ •Commit your changes and push them to your branch.
+ •Submit a pull request, clearly documenting the changes and their purpose.
+ •For testing purpose you may use these credentials
 
-Contributing Guidelines
-    • Create a new branch for your contributions: git checkout -b feature/your-feature.
-    • Ensure your code adheres to the existing coding style and conventions.
-    • Include clear and concise commit messages.
-    • Test your changes thoroughly before submitting a pull request.
-    • Update the documentation if necessary.
+"email":"rohitsharma@gmail.com",
+"password":123456
+"email":"viratkohli@gmail.com",
+"password":123456
+We will review your pull request, provide feedback if necessary, and merge it once it meets the project's standards.
+
 
 Issues
 If you find a bug in the LinkUp project, please open an issue on GitHub.
