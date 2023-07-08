@@ -133,6 +133,12 @@ We welcome contributions from the community to enhance LinkUp further. To contri
 
 We will review your pull request, provide feedback if necessary, and merge it once it meets the project's standards.
 
+## Contributors
+
+hello
+
+<br class="br"/>
+
 ## Contact
 
 If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact us at arpittyagi102@gmail.com
