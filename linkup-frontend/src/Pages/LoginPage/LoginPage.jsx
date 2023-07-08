@@ -51,6 +51,7 @@ export default function LoginPage(){
             },3000);
           }    
         } catch (err) {
+            console.log(err.response);
             setLoading(false);
             setShowAlert(true);
             setShowState(false);
