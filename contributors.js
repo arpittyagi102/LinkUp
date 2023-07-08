@@ -17,7 +17,7 @@ axios.get(`https://api.github.com/repos/${owner}/${repo}/contributors`)
     });
 
     // Read the existing README.md file
-    fs.readFile("../../README.md", 'utf8', (readError, data) => {
+    fs.readFile('README.md', 'utf8', (readError, data) => {
       if (readError) {
         console.error(`Error reading README.md: ${readError}`);
         return;
@@ -31,7 +31,7 @@ axios.get(`https://api.github.com/repos/${owner}/${repo}/contributors`)
       );
 
       // Write the updated content back to the README.md file
-       fs.writeFile("../../README.md", updatedReadmeContent, 'utf8', (writeError) => {
+       fs.writeFile('README.md', updatedReadmeContent, 'utf8', (writeError) => {
         if (writeError) {
           console.error(`Error writing to README.md: ${writeError}`);
           return;
