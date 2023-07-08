@@ -30,6 +30,7 @@ axios.get(`https://api.github.com/repos/${owner}/${repo}/contributors`)
         `## Contributors\n\n${contributorsSection}\n<br class="br"/>`
       );
 
+      console.log(updatedReadmeContent);
       // Write the updated content back to the README.md file
        fs.writeFile('README.md', updatedReadmeContent, 'utf8', (writeError) => {
         if (writeError) {
