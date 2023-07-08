@@ -22,7 +22,7 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm ci --prefix linkup-backend/
+        run: npm i axios fs
 
       - name: Run JavaScript file
         run: node .github/workflows/generateContributors.js
