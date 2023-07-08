@@ -8,6 +8,8 @@ import { useGoogleOneTapLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
+import CheckMarkImage from "../../Assets/check-mark.png";
+import CrossImage from "../../Assets/cross.png";
 
 export default function SignupPage() {
   
@@ -36,6 +38,8 @@ export default function SignupPage() {
   })
   const [output,setOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showState, setShowState] = useState(false);
 
   function handleChange(e){
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,17 +48,32 @@ export default function SignupPage() {
   const handleSubmit = async (e) => {
     setLoading(true);
     if(!formData.fname || !formData.lname || !formData.email || !formData.password){
+      setShowAlert(true);
+      setShowState(false);
       setOutput("all fields are required");
+      setTimeout(()=>{
+        setShowAlert(false);
+      },3000);
       setLoading(false);
       return;
     }
     if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+      setShowAlert(true);
+      setShowState(false);
       setOutput("please enter a valid email");
+      setTimeout(()=>{
+        setShowAlert(false);
+      },3000);
       setLoading(false);
       return;
     }
     if(formData.password.length < 6){
+      setShowAlert(true);
+      setShowState(false);
       setOutput("password must be at least 6 characters long");
+      setTimeout(()=>{
+        setShowAlert(false);
+      },3000);
       setLoading(false);
       return;
     }
@@ -63,28 +82,48 @@ export default function SignupPage() {
       //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
       setLoading(false);
       console.log(response);
-
+      setShowAlert(true);
+      
       if(!navigator.onLine){
         setOutput("You are connected to internet")
       }
       if(response.status === 200){
-        navigate("/login");
+        setShowState(true);
+        setTimeout(()=>{
+          setShowAlert(false);
+          navigate("/login");
+        },3000);
       }
       else if(response.status === 404){
+        setShowState(false);
         setOutput("Unable to connect to server");
+        setTimeout(()=>{
+          setShowAlert(false);
+        },3000);
       }
 
     } catch (err) {
       console.log(err);
+      setShowAlert(true);
+      setShowState(false);
       if (err.response) {
         setLoading(false);
         if (err.response.status === 404) {
           setOutput("Unable to connect to server");
+          setTimeout(()=>{
+            setShowAlert(false);
+          },3000);
         } else {
           setOutput(err.response.data.message);
+          setTimeout(()=>{
+            setShowAlert(false);
+          },3000);
         }
       } else {
         setOutput("Network error occurred");
+        setTimeout(()=>{
+          setShowAlert(false);
+        },3000);
       }
     }}
 
@@ -141,10 +180,20 @@ export default function SignupPage() {
 
           <div className="label">Password</div>
           <input type="password" placeholder="••••••••••" value={formData.password} name="password" onChange={handleChange} />
-          <div style={{color:"red"}}>
-            {output}
-          </div>
-
+          <input type={"hidden"}></input>
+          {
+            showState == true?(
+                showAlert && (
+                    <div className="success-alert">
+                      <img src={CheckMarkImage} className="alert-img"></img>Successful sign up!
+                    </div>)
+            ):(
+                showAlert && (
+                    <div className="error-alert">
+                      <img src={CrossImage} className="alert-img"></img>{output}
+                    </div>)
+            )
+          }
           <button className="signup-btn"  onClick={handleSubmit}>
             {loading===false?(
               <div>Sign Up</div>

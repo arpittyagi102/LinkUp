@@ -7,6 +7,8 @@ import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SimpleCrypto from 'simple-crypto-js';
+import CheckMarkImage from "../../Assets/check-mark.png";
+import CrossImage from "../../Assets/cross.png";
 
 export default function LoginPage(){
  
@@ -14,6 +16,8 @@ export default function LoginPage(){
     const [passwordinput, setpasswordinput] = useState("");
     const [output, setOutput] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [showState, setShowState] = useState(false);
 
     const navigate=useNavigate();
     const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
@@ -21,24 +25,48 @@ export default function LoginPage(){
 
     const handleSubmit = async (e)=>{
       setLoading(true);
-       if(emailinput==="" || passwordinput===""){
-          setOutput("all fields are required");
-          setLoading(false);
-          return;
+        if(emailinput==="" || passwordinput===""){
+            setShowAlert(true);
+            setOutput("all fields are required");
+            setShowState(false);
+            setLoading(false);
+            setTimeout(()=>{
+                setShowAlert(false);
+            },3000);
+            return;
         }
         try {
           const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/login',{email:emailinput,password:passwordinput});
           if(response.status===200){
             setLoading(false);
-            console.log("Login Successfull")
+            console.log("Login Successfull");
+            setShowAlert(true);
+            setShowState(true);
             const { payload } = response.data;
             const accessToken = crypto.encrypt(payload);
             Cookies.set('linkupdata',accessToken);
-            navigate('/chat');
+            setTimeout(()=>{
+                setShowAlert(false);
+                navigate('/chat');
+            },3000);
           }    
         } catch (err) {
-          setLoading(false);
-          console.log(err.response); 
+            console.log(err.response);
+            setLoading(false);
+            setShowAlert(true);
+            setShowState(false);
+            if (err.response) {
+                setOutput(err.response.data.message);
+                setTimeout(()=>{
+                    setShowAlert(false);
+                },3000);
+            } else {
+                setOutput("Network error occurred");
+                setTimeout(()=>{
+                    setShowAlert(false);
+                },3000);
+            }
+
         }
     }
       
@@ -79,7 +107,6 @@ export default function LoginPage(){
                     <input type="password" placeholder="••••••••••"
                             value={passwordinput} onChange={(e)=>{setpasswordinput(e.target.value)}}   />
 
-                    <div style={{color:"red"}}>{output}</div>
                     <button className="login-btn"  onClick={handleSubmit}>
                       {loading===false?(
                         <div>Login</div>
@@ -94,7 +121,20 @@ export default function LoginPage(){
                         continue with Google
                         <img src={googleicon} className="googleicon" alt="google-icon"/>
                     </div>
-
+                    <input type={"hidden"}></input>
+                        {
+                            showState == true?(
+                                showAlert && (
+                                    <div className="success-alert">
+                                        <img src={CheckMarkImage} className="alert-img"></img>Successfully logged in!
+                                    </div>)
+                            ):(
+                                showAlert && (
+                                    <div className="error-alert">
+                                        <img src={CrossImage} className="alert-img"></img>{output}
+                                    </div>)
+                              )
+                        }
                 </div>
                 <img src={SidebarImage} alt="Internet Error" className="sidebar"/>
             </div>
