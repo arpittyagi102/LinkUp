@@ -8,10 +8,19 @@ export default function FriendList({ active, friendActive, onlineFriends, handle
     const [searchState, setSearchState] = useState("");
     const [friendsList, setFriendsList] = useState([]);
     const [filterFriendList, setFilterFriendList] = useState([]);
+    const [searchInputActive, setSearchInputActive] = useState(false);
 
     const handleSearchChange = (e) => {
         setSearchState(e.target.value);
       };
+
+    const handleFocus = () => {
+      setSearchInputActive(true);
+    };
+  
+    const handleBlur = () => {
+      setSearchInputActive(false);
+    };
 
     useEffect(() => {
         if (searchState) {
@@ -43,22 +52,25 @@ export default function FriendList({ active, friendActive, onlineFriends, handle
 
     return (
     <>
-        <div className="friends-list-outer">
+        <div className="left-half-outer">
           <div className="friends-list-upper">
             <div className="add-new-btn">Add New</div>
             <div className="friends-list-title">
               <h1>Chat</h1>
-              <div className="search-bar">
+              <div className={`search-bar ${searchInputActive && "search-input-active"}`}>
                 <input
                   type="text"
                   name="search"
                   value={searchState}
                   onChange={handleSearchChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                 />
                 <img src={searchicon} alt="search" style={{height:"25px"}}/>
               </div>
             </div>
           </div>
+        <div className="friends-list-outer">
           {filterFriendList.length !== 0 ? (
             filterFriendList.map((friend, index) => (
                 <div
@@ -77,6 +89,7 @@ export default function FriendList({ active, friendActive, onlineFriends, handle
           ) : (
             <h1>Loading</h1>
           )}
+        </div>
         </div>
     </>
 )}

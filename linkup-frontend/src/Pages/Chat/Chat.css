@@ -54,15 +54,13 @@
 .chat-messages{
     width: 100%; 
     display: flex;
-    max-height: 500px;   
+    height: 500px;   
     flex-direction: column;
+    justify-content: flex-end;
     overflow-y: scroll;
 }
 ::-webkit-scrollbar {
-    background-color: transparent; 
-}
-::-webkit-scrollbar-thumb {
-    background: blue;
+    display: none;
 }
 .msg{
     font-size: 25px;
@@ -70,17 +68,31 @@
 .sent-message{
     align-self: flex-end;
     margin: 5px;
-    padding:6px 20px;
-    background-color:blue;
     color:white;
+    
+}
+.sent-message .msg{
+    padding:6px 20px;
+    background-color: rgb(0,0,0,0.4);
     border-radius: 20px 20px 0px 20px;
+}
+.sent-message .time,.sent-message .name{
+    margin: 5px 15px;
+    opacity: 0.7;
 }
 .received-message{
     align-self: flex-start;
     margin: 5px;
-    padding:10px 20px;
-    background-color: burlywood;
+    color:white;
+}
+.received-message .msg{
+    padding:6px 20px;
+    background-color: #C624D2;
     border-radius: 20px 20px 20px 0px;
+}
+.received-message .time,.received-message .name{
+    margin: 5px 15px;
+    opacity: 0.7;
 }
 .message-input-outer{
     background-color: rgb(0,0,0,0.4);
