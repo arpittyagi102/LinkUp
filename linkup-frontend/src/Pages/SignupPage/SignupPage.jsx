@@ -137,14 +137,17 @@ export default function SignupPage() {
     });
 
   async function loginsuccess(response) {
+    console.log("login is Successfull ",response);
     try {
       const { access_token } = response;
+      console.log("This is Access Token we Got !! ", access_token)
       const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
       });
       const userData = userInfoResponse.data;
+      console.log("this is user data", userData)
       const accessToken = crypto.encrypt(userData);
       Cookies.set('linkupdata',accessToken);
       //const response = await axios.post('http://localhost:3001/auth/signup', userData);
