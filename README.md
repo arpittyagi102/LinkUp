@@ -1,7 +1,7 @@
 <div align="center">
   <img src="docs/Assets/logo-big-dark.png" width="280">
 </div>
-<h1 align="center">✨ Get Link Up with your friends anywhere and anytime 🔗</h1>
+<h1 align="center">Get Link Up with your friends anywhere and anytime 🔗</h1>
 <p align="center">A MERN stack project that wants to be a social media when it grows up</p>
 <br/>
 <div align="center">
@@ -18,7 +18,7 @@ Welcome to the LinkUp! This is a MERN stack project that provides an attractive 
 
 <br>
 
-![](docs/Assets/linkup-signup-ss.png)
+![video](docs/Assets/demo.mp4)
 
 ## 🌟 Table of contents
 
