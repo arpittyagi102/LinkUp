@@ -151,8 +151,8 @@ export default function SignupPage() {
       console.log("this is user data", userData)
       const accessToken = crypto.encrypt(userData);
       Cookies.set('linkupdata',accessToken);
-      //const response = await axios.post('http://localhost:3001/auth/signup', userData);
-      const postResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', userData);
+      //const response = await axios.post('http://localhost:3001/auth/googleLogin', userData);
+      const postResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/googleLogin', userData);
       if(postResponse.status===200){
         navigate('/chat')
       }
