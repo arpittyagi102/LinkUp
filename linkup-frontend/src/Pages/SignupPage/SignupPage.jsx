@@ -133,7 +133,7 @@ export default function SignupPage() {
   });
 
     useGoogleOneTapLogin({
-       onSuccess: credentialResponse => loginsuccess(credentialResponse),
+       onSuccess:response => loginsuccess(response),
     });
 
   async function loginsuccess(response) {

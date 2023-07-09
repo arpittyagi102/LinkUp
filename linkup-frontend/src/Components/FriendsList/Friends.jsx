@@ -71,7 +71,7 @@ export default function FriendList({ active, friendActive, onlineFriends, handle
             </div>
           </div>
         <div className="friends-list-outer">
-          {filterFriendList.length !== 0 ? (
+          {filterFriendList?.length !== 0 ? (
             filterFriendList.map((friend, index) => (
                 <div
                   className={`friends-outer ${friend.email === friendActive?.email ? "active" : ""}`}

@@ -135,10 +135,27 @@ We will review your pull request, provide feedback if necessary, and merge it on
 
 ## Contributors
 
-hello
+<a href="https://github.com/arpittyagi102">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/94587985?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
+<a href="https://github.com/moonlight0301">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/138412395?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
+<a href="https://github.com/Seckrel">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/43112525?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
+<a href="https://github.com/DeshyDan">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/121970408?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
+<a href="https://github.com/Vyom-V">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/86948055?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
+<a href="https://github.com/Pulkitxm">
+  <img src="https://images.weserv.nl/?url=https://avatars.githubusercontent.com/u/65671483?v=4&h=300&w=300&fit=cover&mask=circle&maxage=7d" width="120px"/>
+</a>
 
 <br class="br"/>
 
 ## Contact
 
-If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact us at arpittyagi102@gmail.com
+If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact me at arpittyagi102@gmail.com, or message me on [Linkedin](https://linkedin.com/in/arpittyagi102)

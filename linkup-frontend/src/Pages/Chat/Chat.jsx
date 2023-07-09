@@ -12,6 +12,7 @@ import usericon from "../../Assets/icons/user.svg";
 import callicon from "../../Assets/icons/call.svg";
 import videocallicon from "../../Assets/icons/videocall.svg";
 import menuicon from "../../Assets/icons/menu.svg";
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Chat() {
   const [active, setActive] = useState(null);
@@ -115,17 +116,29 @@ export default function Chat() {
           </div>
           <div className="chat-interface">
             <div className="chat-messages">
+            <AnimatePresence>
               {friendActive &&
                 messageList[friendActive.email]?.map((messageData, key) => (
-                  <Message
-                    currentUser={currentUserRef.current?.name}
-                    sendby={messageData.sendby}
-                    time={messageData.time}
-                    message={messageData.message}
+                  <motion.div
                     key={key}
-                  />
+                    initial={{ opacity: 0, translateY: 50}}
+                    animate={{ opacity: 1, translateY: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    style={{display:"flex",flexDirection:"column",alignContent:"flex-end"}}
+                  >
+                    <Message
+                      currentUser={currentUserRef.current?.name}
+                      sendby={messageData.sendby}
+                      time={messageData.time}
+                      message={messageData.message}
+                      key={key}
+                    />
+                  </motion.div>
                 ))}
-            </div>
+            </AnimatePresence>
+
+            </div> 
             <div className="message-input-outer">
               <input
                 type="text"
