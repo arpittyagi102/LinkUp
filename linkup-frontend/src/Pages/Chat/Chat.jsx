@@ -18,7 +18,7 @@ export default function Chat() {
   const [active, setActive] = useState(null);
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState({});
-  const [friendActive, setFriendActive] = useState(null);
+  const [friendActive, setFriendActive] = useState(FriendsList[0]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -35,7 +35,7 @@ export default function Chat() {
 
     currentUserRef.current = { ...temp };
 
-    const socket = io.connect("https://linkup-backend-k05n.onrender.com");
+    const socket = io.connect("http://localhost:3001");
     socketRef.current = socket;
 
     socket.on('connect', () => {
@@ -72,12 +72,12 @@ export default function Chat() {
   function sendmessage() {
     const time = new Date();
 
-    socketRef.current.emit("send-message", {
+     socketRef.current.emit("send-message", {
       sendby: currentUserRef.current,
       sendto: friendActive,
       message,
       time,
-    });
+    }); 
 
     setMessage("");
   }
@@ -96,7 +96,7 @@ export default function Chat() {
   return (
     <>
       <div className="outer">
-        <FriendsList active={active} friendActive={friendActive} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
+        <FriendsList active={active} friendActive={friendActive} setFriendActive={setFriendActive} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
         <div className="chat-interface-outer">
           <div className="friend-active-details">
           <img src={usericon} className="friend-active-picture" alt="user icon"/>

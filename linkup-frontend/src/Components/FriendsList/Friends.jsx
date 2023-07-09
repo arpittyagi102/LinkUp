@@ -3,7 +3,7 @@ import axios from "axios";
 import searchicon from "../../Assets/icons/search.svg"
 import "./Friends.css";
 
-export default function FriendList({ active, friendActive, onlineFriends, handleFriendsClick }){
+export default function FriendList({ active, setFriendActive, friendActive, onlineFriends, handleFriendsClick }){
 
     const [searchState, setSearchState] = useState("");
     const [friendsList, setFriendsList] = useState([]);
@@ -41,6 +41,7 @@ export default function FriendList({ active, friendActive, onlineFriends, handle
             );
             setFriendsList(response.data);
             setFilterFriendList(response.data);
+            setFriendActive(response.data[0])
           } catch (error) {
             console.log(error);
           }
