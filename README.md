@@ -1,7 +1,6 @@
 <div align="center">
-<img src="docs/Assets/logo-big-dark.png" width="300px">
+  <img src="docs/Assets/logo-big-dark.png" width="280">
 </div>
-<br/>
 <h1 align="center">✨ Get Link Up with your friends anywhere and anytime 🔗</h1>
 <p align="center">A MERN stack project that wants to be a social media when it grows up</p>
 <br/>
@@ -30,8 +29,9 @@ Welcome to the LinkUp! This is a MERN stack project that provides an attractive 
 - ⚖️ [License](./license)
 - ✨ [Contributors](#contributors)
 - 🤝 [Contact](#contact)
+  
 
-## 🚀 Features
+## 🚀 Features <a id="features"></a>
 
 - 🔒 **Secure Authentication**: Enjoy a safe and secure login process with options for traditional credentials and seamless Google authentication.
 - 🌈 **Aesthetic Interface**: Experience an attractive and visually pleasing chat interface that enhances your conversations and keeps you engaged.
@@ -42,7 +42,8 @@ Welcome to the LinkUp! This is a MERN stack project that provides an attractive 
 - 🎨 **Attractive UI Libraries**: Utilizes libraries like Bootstrap and framer-motion to create a modern and visually appealing user interface.
 - 🤝 **Open-Source Project**: LinkUp is an open-source project, welcoming contributions from the community to enhance its features and functionality.
 
-## 📦 Installation and setup
+
+## 📦 Installation and setup <a id="Installation-and-setup"></a>
 
 To run LinkUp locally on your machine, follow these steps:
 
@@ -98,12 +99,14 @@ http://localhost:3000
 ### For automatic setup
 
 run `setup.sh` in terminal
-
+<br/><br>
 
 ## 📝 Contributing
 
 We welcome contributions from the community to enhance LinkUp further. To Contribute please visit [CONTRIBUTING.md](./CONTRIBUTING.md)
-## ✨ Contributors
+<br><br>
+
+## ✨ Contributors <a id="contributors"></a>
 
 A big thanks to these amazing people who have contributed to this project 🎉
 
@@ -131,6 +134,7 @@ A big thanks to these amazing people who have contributed to this project 🎉
 
 <br class="br"/>
 
-## 🤝 Contact
+
+## 🤝 Contact <a id="contact"></a>
 
 If you have any questions, suggestions, or feedback regarding LinkUp, please feel free to contact me at arpittyagi102@gmail.com, or message me on [Linkedin](https://linkedin.com/in/arpittyagi102)
