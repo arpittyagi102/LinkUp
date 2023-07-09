@@ -2,7 +2,7 @@ import React, { useState,useEffect } from "react";
 import "./Signup.css";
 import googleicon from "../../Assets/google-icon.svg";
 import SidebarImage from "../../Assets/SidebarImageSignup.jpg";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import axios from 'axios';
@@ -78,8 +78,8 @@ export default function SignupPage() {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:3001/auth/signup', formData);
-      //const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
+      //const response = await axios.post('http://localhost:3001/auth/signup', formData);
+      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', formData);
       setLoading(false);
       console.log(response);
       setShowAlert(true);
@@ -147,7 +147,14 @@ export default function SignupPage() {
       const userData = userInfoResponse.data;
       const accessToken = crypto.encrypt(userData);
       Cookies.set('linkupdata',accessToken);
-      navigate('/chat');
+      //const response = await axios.post('http://localhost:3001/auth/signup', userData);
+      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', userData);
+      if(response.status===200){
+        navigate('/chat')
+      }
+      else
+        setOutput("An error occured")
+     /*  navigate('/chat'); */
 
     } catch (error) {
       console.error("Error fetching user data:", error);

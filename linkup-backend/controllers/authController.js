@@ -21,9 +21,17 @@ const signup = async (req, res, db) => {
         const allusers = db.collection('users');
         const user = await allusers.findOne({ email: newUser.email });
 
-        if (user && user.email) {
+        if (user && user.email && user.hashedPassword) {
             res.status(409).json({ message: "User with the provided email already exists" });
             return;
+        }
+
+        if (user && user.email && !user.hashedPassword){
+            await allusers.updateOne(
+                { email: newUser.email },
+                { $set: { hashedPassword:hashedPassword } }
+            )
+            return res.status(200).json({ message: "User successfully created", ...newUser });
         }
 
         await allusers.insertOne(newUser);
@@ -37,7 +45,16 @@ const signup = async (req, res, db) => {
 const googleLogin = async (req, res, db) => {
     try {
         const allusers = db.collection('users');
-         await allusers.insertOne(req.body);
+        const user = await allusers.findOne({ email: req.body.email });
+        if (user && user.email) {
+            await allusers.updateOne(
+                { email: newUser.email },
+                { $set: { picture:req.body.picture } }
+            )
+            res.status(200).json({ message: "User successfully created", ...req.body });
+            return;
+        }
+        await allusers.insertOne(req.body);
         res.status(200).json({ message: "User successfully created", ...req.body });
     } catch (err) {
         console.log(err);
