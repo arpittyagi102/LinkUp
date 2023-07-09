@@ -140,7 +140,8 @@ export default function SignupPage() {
     console.log("login is Successfull ",response);
     try {
       const access_token = response.access_token;
-      console.log("This is Access Token we Got !! ", access_token)
+       console.log("This is Access Token we Got !! ", access_token)
+      
       const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -151,13 +152,13 @@ export default function SignupPage() {
       const accessToken = crypto.encrypt(userData);
       Cookies.set('linkupdata',accessToken);
       //const response = await axios.post('http://localhost:3001/auth/signup', userData);
-      const response = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', userData);
-      if(response.status===200){
+      const postResponse = await axios.post('https://linkup-backend-k05n.onrender.com/auth/signup', userData);
+      if(postResponse.status===200){
         navigate('/chat')
       }
       else
         setOutput("An error occured")
-     /*  navigate('/chat'); */
+     /*  navigate('/chat'); */ 
 
     } catch (error) {
       console.error("Error fetching user data:", error);
