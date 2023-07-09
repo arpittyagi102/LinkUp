@@ -18,7 +18,7 @@ Welcome to the LinkUp! This is a MERN stack project that provides an attractive 
 
 <br>
 
-![video](docs/Assets/demo.mp4)
+![video](./docs/Assets/demo1.gif)
 
 ## 🌟 Table of contents
 
