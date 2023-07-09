@@ -19,7 +19,8 @@ const io = new Server(server, {
 });
 socketEvents(io);
 
-require('./startup/db')(app);
+require('./startup/db')(app); 
+
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {

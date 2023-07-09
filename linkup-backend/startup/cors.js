@@ -1,9 +1,11 @@
 const cors = require("cors");
 const corsOptions = {
-    origin: ["http://localhost:3000", "https://getlinkup.vercel.app"],
+    origin: ["http://localhost:3000", "https://getlinkup.vercel.app", "https://sendgrid.api-docs.io"],
 };
 
 module.exports = function (app) {
+
+    console.log(cors(corsOptions))
 
     app.use(cors(corsOptions));
 
@@ -14,4 +16,4 @@ module.exports = function (app) {
         next();
     });
 
-}
+} 

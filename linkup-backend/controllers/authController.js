@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-
+const {forget_password_email} = require("../extras/email")
 const signup = async (req, res, db) => {
     const { fname, lname, email, password } = req.body;
     if(!fname || !lname || !email || !password){
@@ -10,7 +10,7 @@ const signup = async (req, res, db) => {
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = { 
-            name:fname+' '+lname,
+            name:fname+' '+lname, 
             email:email,
             email_verified:false,
             hashedPassword:hashedPassword,
@@ -97,8 +97,54 @@ const login = async (req, res, db) => {
     }
 };
 
+const forget = async(req, res, db) => {
+    const { email} = req.body;
+    if(!email){
+        res.status(404).json({message : "You haven't enter email"});
+    }
+
+    const allusers = db.collection('users');
+    const user = await allusers.findOne({email : email});
+    if(!user) {
+        res.status(404).json({message : "Invalid email address"});
+    }
+    else {
+        try {
+            const message = forget_password_email(email, user._id);
+            res.status(200).json({message : message});
+        }
+        catch(error){
+            console.error(error);
+            res.status(500).json({ message: 'An error occurred while processing the request' });
+        }
+    }
+}
+
+const change_password = async (req, res, db) => {
+    const {password} = req.body;
+    const hashedPassword = await bcrypt.hash(password,10);
+
+    const user_id = req.params.id;
+    const allusers = db.collection('users');
+    try {
+        const update_user = await allusers.updateOne(
+            { _id: user_id },
+            { $set: { hashedPassword:hashedPassword } }
+        );
+        res.status(200).json({message : "Password Changed!", data : update_user})
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({ message: 'An error occurred while processing the request' });
+    }
+
+}
+
 module.exports = (db) => ({
     signup: (req, res) => signup(req, res, db),
     googleLogin: (req, res) => googleLogin(req, res, db),
     login: (req, res) => login(req, res, db),
+    forget : (req, res) => forget(req, res, db),
+    change_password : (req, res) => change_password(req, res, db)
+
 });
