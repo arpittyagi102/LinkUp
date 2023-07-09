@@ -19,7 +19,9 @@ Welcome to the LinkUp! This is a MERN stack project that provides an attractive 
 <br>
 
 <div align="center">
-[docs_Assets_demo.webm](https://github.com/arpittyagi102/LinkUp/assets/94587985/e18116f9-b2f6-4dbf-b8b3-28184e6183ea)
+  
+[docs_Assets_demo.webm](https://github.com/arpittyagi102/LinkUp/assets/94587985/dfbcd51f-16e8-491d-89ba-3d9b28ccdd9c)
+
 </div>
 
 ## 🌟 Table of contents
