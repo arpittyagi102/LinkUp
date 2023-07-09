@@ -10,7 +10,7 @@ require("dotenv").config();
 app.use(bodyParser.json());
 
 require('./startup/cors.js')(app);
-
+ 
 const io = new Server(server, {
   cors: {
     origin: ["http://localhost:3000", "https://getlinkup.vercel.app"],

@@ -18,7 +18,7 @@ export default function Message({ currentUser, sendby, time, message }) {
     <>
       {currentUser === sendby.name ? (
         <div className="sent-message">
-          <div className="msg" style={{ width: "min-content", maxWidth: "200px" }}>{message}</div>
+          <div className="msg" style={{ maxWidth: "20vw" }}>{message}</div>
           <div className="time">{convert(time)}</div>
         </div>
       ) : (
