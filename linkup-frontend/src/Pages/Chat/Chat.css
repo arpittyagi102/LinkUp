@@ -19,8 +19,10 @@
     display: flex;
 }
 .friend-active-picture{
+    border-radius: 100%;
     height: 50px;
     opacity: 0.8;
+    border: solid 2px white;
 }
 .friend-active-nl{
     margin:0 15px;

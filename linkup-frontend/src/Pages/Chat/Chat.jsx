@@ -99,7 +99,8 @@ export default function Chat() {
         <FriendsList active={active} friendActive={friendActive} setFriendActive={setFriendActive} onlineFriends={onlineFriends} handleFriendsClick={handleFriendsClick} />
         <div className="chat-interface-outer">
           <div className="friend-active-details">
-          <img src={usericon} className="friend-active-picture" alt="user icon"/>
+          <img src={friendActive?.picture ? friendActive.picture : usericon} className="friend-active-picture" alt="user icon"/>
+          {console.log(friendActive?.picture)}
           <div className="friend-active-nl">
             <div className="friend-active-name">{friendActive?.name}</div>
             <div className="friend-active-last-seen">3 Days ago</div>
