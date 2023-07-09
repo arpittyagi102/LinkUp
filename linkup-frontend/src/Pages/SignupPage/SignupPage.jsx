@@ -139,7 +139,7 @@ export default function SignupPage() {
   async function loginsuccess(response) {
     console.log("login is Successfull ",response);
     try {
-      const { access_token } = response;
+      const access_token = response.access_token;
       console.log("This is Access Token we Got !! ", access_token)
       const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
         headers: {
