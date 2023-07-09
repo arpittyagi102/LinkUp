@@ -35,7 +35,7 @@ export default function Chat() {
 
     currentUserRef.current = { ...temp };
 
-    const socket = io.connect("http://localhost:3001");
+    const socket = io.connect("https://linkup-backend-k05n.onrender.com");
     socketRef.current = socket;
 
     socket.on('connect', () => {
