@@ -48,8 +48,9 @@ const googleLogin = async (req, res, db) => {
         const user = await allusers.findOne({ email: req.body.email });
         if (user && user.email) {
             await allusers.updateOne(
-                { email: newUser.email },
-                { $set: { picture:req.body.picture } }
+                { email: req.body.email },
+                { $set: { picture:req.body.picture,
+                        email_verified:req.body.email_verified } }
             )
             res.status(200).json({ message: "User successfully created", ...req.body });
             return;
@@ -58,7 +59,7 @@ const googleLogin = async (req, res, db) => {
         res.status(200).json({ message: "User successfully created", ...req.body });
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Failed to insert user into the database" });
+        res.status(500).json({ message: "Failed to insert user into the database",...err });
     }
 };
 
