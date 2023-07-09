@@ -87,7 +87,7 @@ cp ./env_sample/.env.frontend.sample ./linkup-frontend/.env
 - Run the server:
 
 ```bash
-cd ../linkup-backent
+cd ../linkup-backend
 npm start
 ```
 
