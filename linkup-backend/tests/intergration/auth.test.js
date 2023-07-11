@@ -106,11 +106,13 @@ describe("/auth", () => {
 
     describe('/auth/login', () => {
         let email;
+        let password;
 
        
         beforeEach(async () => {
       
             email = "hello@gmail.com";
+            password = 'dummy';
             usercollection = db.collection('users');
 
             const hashedPassword = await bcrypt.hash("dummy", 10)
@@ -133,16 +135,28 @@ describe("/auth", () => {
              .post('/auth/login')
              .send({
                 email:email,
-                password:"dummy"
+                password:password
              })
         }
-        it('should return 400 if email or password are not entered' , async () => {
+
+        it('should return 400 if email is not specified' , async () => {
             email =''
 
             const res = await exec();
 
             expect(res.status).toBe(400)
         })
+
+        it('should return 400 if password is not specified' , async () => {
+            password =''
+
+            const res = await exec();
+            expect(res.status).toBe(400)
+        
+        })
+
+        
+
 
     })
 })
