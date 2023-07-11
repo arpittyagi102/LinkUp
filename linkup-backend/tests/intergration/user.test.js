@@ -49,7 +49,7 @@ describe('/auth', () => {
 
         const exec = async () => {
             return await request(server)
-                .post('/getuser/' + email)
+                .get('/getuser/' + email)
                 .send()
         }
         it('should return 404 if the user is not found', async () => {
@@ -59,13 +59,12 @@ describe('/auth', () => {
             expect(res.status).toBe(404)
 
         })
-
-
-
-
-
-
-
+        
+        it('should return 200 is the user with the email was found', async () => {
+            
+            const res = await exec();
+            expect(res.status).toBe(200)
+        })
 
     })
 
