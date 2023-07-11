@@ -22,8 +22,17 @@ describe("/auth", () => {
  await connection.close();
     })
     describe('/auth/signup', () => {
-        it('should return 400 if the fields are not specified', async () => {
-            fname ='';
+        it("should return the dummy user we entered", async () => {
+            const dummyUser = await usercollection.findOne({fname:"Dummy"})
+
+            expect(dummyUser).toMatchObject({
+                fname: "Dummy",
+                lname: "EVes",
+                email: "email@gmail.com",
+                password: "12345"
+            })
+
+        })
             const res = await exec()
 
             expect(res.status).toBe(400 )
