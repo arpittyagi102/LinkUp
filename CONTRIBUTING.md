@@ -5,7 +5,7 @@ When it comes to open source, there are different ways you can contribute, all o
 
 ## Setup the Project
 
-In order to contribute to a project on GitHub, you must first get a copy of the project running locally on your computer. This process is sometimes called a "build process". 
+In order to contribute to a project on GitHub, you must first get a copy of the project running locally on your computer. This process is sometimes called a "build process".
 
 There are five steps to building this project:
 
@@ -35,7 +35,7 @@ A *clone* is a downloaded version of a repository. Cloning our fork lets you dow
 
 Use `git` to clone your fork
 
-```
+```bash
 git clone https://github.com/YOUR-USERNAME/LinkUp
 ```
 
@@ -47,33 +47,34 @@ This project uses [npm](https://www.npmjs.com/), a command-line tool bundled wit
 
 First, navigate into the project's directory
 
-```
+```bash
 cd LinkUp
 ```
 
 Next, Create a branch and switch to the branch which is a good industry practice don't operate on main branch
 
-```
+```bash
 git branch YOUR_BRANCH_NAME
 git checkout YOUR_BRANCH_NAME
 ```
 
 Now, Install the dependencies for the server
-```
+
+```bash
 cd linkup-backend
 npm install
 ```
 
 Install the dependencies for the client
 
-```
+```bash
 cd ../linkup-frontend
 npm install
 ```
 
 Set up the environment variables
 
-```
+```bash
 cp ./env_sample/.env.backend.sample ./linkup-backend/.env
 cp ./env_sample/.env.frontend.sample ./linkup-frontend/.env
 ```
@@ -81,14 +82,15 @@ cp ./env_sample/.env.frontend.sample ./linkup-frontend/.env
 Start the development server
 
 Run the Server
-```
+
+```bash
 ../linkup-backend
 npm start
 ```
 
-
 Run the Client
-```
+
+```bash
 cd ../linkup-frontend
 npm start
 ```
@@ -97,22 +99,24 @@ npm start
 
 Access on Web-Browser
 
-```
+```bash
 http://localhost:3000
 ```
 
 **For automatic setup run  ```setup.sh``` in terminal**
 
-For testing purposes this credentials can be used:
+## Testing for backend
 
-```
-"email":"rohitsharma@gmail.com",
-"password":123456
-```
+1. navigate the the linkup-backend folder using
 
-```
-"email":"viratkohli@gmail.com",
-"password":123456
+```bash
+cd ../linkup-frontend
+```  
+
+2. run npm test using the following command
+
+```bash
+npm test
 ```
 
 ## Submit a Pull Request
@@ -120,31 +124,34 @@ For testing purposes this credentials can be used:
 Making changes on a *fork* doesn't affect the original code, in order to fix an issue in the main project, you *want* to change the original code. A *pull request* is a GitHub feature that lets you do just that!
 
 There are three steps to submitting a pull request:
+
 1. [Save your changes locally](#save-your-changes-locally)
 2. [Send your changes to your fork](#send-your-changes-to-your-fork)
 3. [Open a Pull Request](#open-a-pull-request)
 
-
 ### Save your changes locally
 
 First, get a list of all the files you have changed.
-```
+
+```bash
 git status
 ```
 
 Next, *stage* the file you want to save. This will add the file to a new list that is ready to be saved.
 
-```
+```bash
 git add src/YOUR_FILES
 ```
 
 Next, verify that the file has been staged correctly. Notice that the text color has changed, and your file is now in a list that says "Changes to be committed" instead of "Changes not staged for commit"
-```
+
+```bash
 git status
 ```
 
 Finally, save your staged files.
-```
+
+```bash
 git commit -m "Commit_Message"
 ```
 
@@ -154,7 +161,7 @@ You'll often hear this process called *committing* changes. It's the exact same 
 
 With one simple `git` command, you can send the changes you just committed locally to your *fork* on GitHub.
 
-```
+```bash
 git push origin BRANCH_NAME
 ```
 
@@ -164,7 +171,6 @@ git push origin BRANCH_NAME
 2. Select the option to **compare across forks**
 3. Select **your username** in the `head fork` option
 4. Select **LinkUp** in the `base fork` option
-4. Click **Create Pull Request**
-
+5. Click **Create Pull Request**
 
 Now that you have successfully opened a pull request, now patiently wait for someone to respond. Always remember the open source community is supportive and generous but they have jobs, families and friends so wait patiently before contacting them directly.
