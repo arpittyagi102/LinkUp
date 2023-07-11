@@ -171,10 +171,10 @@ describe("/auth", () => {
         it("should return a payload when user logs in", async () => {
 
             const res = await exec();
-            const user = await usercollection.findOne({email:email})
+            const user = await usercollection.findOne({ email: email })
 
             const payload = res._body['payload'];
-            expect(payload).toHaveProperty('name',user.name)
+            expect(payload).toHaveProperty('name', user.name)
             expect(payload).toHaveProperty('email', user.email)
             expect(payload).toHaveProperty('picture', user.picture)
             expect(payload).toHaveProperty('friends', user.friends)
