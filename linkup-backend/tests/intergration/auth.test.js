@@ -21,6 +21,7 @@ describe("/auth", () => {
     afterEach(async () => {
         server.close()
         await connection.close();
+
     })
 
 
@@ -44,10 +45,14 @@ describe("/auth", () => {
             await usercollection.insertOne(dummyUser);
         })
         
+        
         afterEach(async () => {
             await usercollection.deleteMany({});
         })
 
+
+
+    
 
         const exec = async () => {
             return await request(server).post('/auth/signup').send({
@@ -59,6 +64,9 @@ describe("/auth", () => {
         }
 
         
+        
+
+
 
         it('should return 400 if all the fields are not specified', async () => {
             fname = '';
@@ -69,9 +77,9 @@ describe("/auth", () => {
 
         it('should return 409 if user with that email already exists', async () => {
             email = "email@gmail.com";
-         
+
             const res = await exec();
-            
+
             expect(res.status).toBe(409)
 
         })
@@ -85,7 +93,7 @@ describe("/auth", () => {
             expect(user).toHaveProperty('lname', "dummy")
             expect(user).toHaveProperty('email', "email@gmail.com")
         })
-      
+
         it("should return 200 if the user is inserted into the database", async () => {
             const res = await exec()
             const newUser = await usercollection.findOne({ email: email })
@@ -93,6 +101,48 @@ describe("/auth", () => {
             expect(newUser.email).toBe(email)
         })
 
+
+    })
+
+    describe('/auth/login', () => {
+        let email;
+
+       
+        beforeEach(async () => {
+      
+            email = "hello@gmail.com";
+            usercollection = db.collection('users');
+
+            const hashedPassword = await bcrypt.hash("dummy", 10)
+            const dummyUser = {
+                fname: "Dummy",
+                lname: "dummy",
+                email: "email@gmail.com",
+                hashedPassword: hashedPassword
+            }
+            await usercollection.insertOne(dummyUser);
+        })
+        
+        
+        afterEach(async () => {
+            await usercollection.deleteMany({});
+        })
+
+        const exec = async () => {
+             return await request(server)
+             .post('/auth/login')
+             .send({
+                email:email,
+                password:"dummy"
+             })
+        }
+        it('should return 400 if email or password are not entered' , async () => {
+            email =''
+
+            const res = await exec();
+
+            expect(res.status).toBe(400)
+        })
 
     })
 })
