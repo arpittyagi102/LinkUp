@@ -43,4 +43,9 @@ describe("/auth", () => {
             expect(res.body).toBe(409)
 
         })
+        it("should return 200 if the user is inserted into the database", async () => {
+            const res = await exec()
+            const newUser = await usercollection.findOne({email:email})
+            expect(res.status).toBe(200);
+            expect(newUser.email).toBe(email)
         })
