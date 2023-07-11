@@ -155,7 +155,11 @@ describe("/auth", () => {
         
         })
 
-        
+        it("should retun 404 is user with the email was not found", async () => {
+            email = "invalid@gmail.com"
+            const res = await exec();
+            expect(res.status).toBe(404)
+        })
 
 
     })
