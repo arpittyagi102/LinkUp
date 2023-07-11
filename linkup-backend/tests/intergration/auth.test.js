@@ -35,5 +35,12 @@ describe("/auth", () => {
         })
             const res = await exec()
 
-            expect(res.status).toBe(400 )
+        it('should return 409 if user with that email already exists', async () => {
+            email = "email@gmail.com";
+
+            const res = await exec();
+
+            expect(res.body).toBe(409)
+
+        })
         })
