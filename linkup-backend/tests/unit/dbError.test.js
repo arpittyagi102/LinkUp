@@ -31,20 +31,42 @@ describe('/user/', () => {
                 status: jest.fn(() => res),
                 json: jest.fn()
             };
-            const db = {
-                collection: () => ({
-                    findOne: () => {
-                        throw new Error('db error');
-                    },
-                })
+    describe("POST /auth/signup", () => {
+        let res;
+        let db;
+        let req;
+
+
+        beforeEach(() => {
+            res = {
+                status: jest.fn(() => res),
+                json: jest.fn()
             };
-            const req = {
-                params: jest.fn(() =>{email:'email'})
+
+            db = {
+                collection: jest.fn().mockReturnValue(
+                    { findOne: () => { throw new Error("Database error") } }
+                )
+            };
+
+            req = {
+                body: {
+                    fname: 'fname',
+                    lname: 'lname',
+                    email: 'email',
+                    password: 'password'
+                }
             }
 
-            const controller = userController(db); // Create an instance of the controller using the exported factory function
-            await controller.getuser(req, res);
+        })
+
+        it('should return 500 if there is a database error', async () => {
+            const controller = authController(db);
+            await controller.signup(req, res);
             expect(res.status).toHaveBeenCalledWith(500)
+        }
+        )
+    })
 
 
         })
