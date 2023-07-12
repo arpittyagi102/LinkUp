@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "jest --detectOpenHandles --verbose --watchAll --setupFiles dotenv/config"
+    "test": "jest --detectOpenHandles --coverage --coverageDirectory='./tests/coverage/'   --verbose --watchAll --setupFiles dotenv/config"
   },
   "author": "",
   "license": "ISC",
