@@ -3,8 +3,27 @@ const { signup, login, googleLogin } = require('../../controllers/authController
 
 
 describe('/user/', () => {
+    let res;
+    let db;
+    let req;
+    let controller;
 
+    beforeEach(() => {
+        res = {
+            status: jest.fn(() => res),
+            json: jest.fn()
+        };
 
+        db = {
+            collection: () => { throw new Error("Database error") }
+        };
+
+        req = {
+            params: jest.fn(() => { email: 'email' })
+        }
+
+        controller = userController(db);
+    })
 
     describe('GET /user/getuser/:email', () => {
         it('should return 500 if there is a database error', async () => {
