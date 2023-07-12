@@ -3,6 +3,22 @@
 First of all thanks for showing interest to contribute to LinkUp 💖
 When it comes to open source, there are different ways you can contribute, all of which are valuable. Here's a few guidelines that should help you as you prepare your contribution.
 
+Table of Contents
+=================
+
+* [Contributing for LinkUp](#contributing-for-linkup)
+  * [Setup the Project](#setup-the-project)
+    * [Set up Git and Install Node.js](#set-up-git-and-install-nodejs)
+    * [Fork the repository](#fork-the-repository)
+    * [Clone your fork](#clone-your-fork)
+    * [Install dependencies](#install-dependencies)
+    * [Run the project](#run-the-project)
+  * [Testing for backend](#testing-for-backend)
+  * [Submit a Pull Request](#submit-a-pull-request)
+    * [Save your changes locally](#save-your-changes-locally)
+    * [Send your changes to your fork](#send-your-changes-to-your-fork)
+    * [Open a Pull Request](#open-a-pull-request)
+
 ## Setup the Project
 
 In order to contribute to a project on GitHub, you must first get a copy of the project running locally on your computer. This process is sometimes called a "build process".
@@ -110,10 +126,13 @@ http://localhost:3000
 1. navigate the the linkup-backend folder using
 
 ```bash
-cd ../linkup-frontend
+cd ../linkup-backend
 ```  
 
 2. run npm test using the following command
+
+Test uses [Jest](https://jestjs.io/) and [Supertest](https://www.npmjs.com/package/supertest) to test the backend API endpoints.
+Coverage is generated under the test/coverage folder. To view the coverage report, open the index.html file in your browser.
 
 ```bash
 npm test
