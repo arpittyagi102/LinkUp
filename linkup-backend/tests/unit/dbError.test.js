@@ -67,12 +67,41 @@ describe('/user/', () => {
         }
         )
     })
+    describe("POST /auth/googleLogin", () => {
+        let res;
+        let db;
+        let req;
 
+
+        beforeEach(() => {
+            res = {
+                status: jest.fn(() => res),
+                json: jest.fn()
+            };
+
+            db = {
+                collection: jest.fn().mockReturnValue(
+                    { findOne: () => { throw new Error("Database error") } }
+                )
+            };
+
+            req = {
+                body: {
+                    fname: 'fname',
+                    lname: 'lname',
+                    email: 'email',
+                    password: 'password'
+                }
+            }
 
         })
 
+        it('should return 500 if there is a database error', async () => {
 
-
-
+            const controller = authController(db);
+            await controller.googleLogin(req, res);
+            expect(res.status).toHaveBeenCalledWith(500)
+        }
+        )
     })
 })
