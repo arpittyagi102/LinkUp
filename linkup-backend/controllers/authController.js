@@ -37,7 +37,6 @@ const signup = async (req, res, db) => {
         await allusers.insertOne(newUser);
         res.status(200).json({ message: "User successfully created", ...newUser });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: "Failed to insert user into the database" });
     }
 };
@@ -58,7 +57,6 @@ const googleLogin = async (req, res, db) => {
         await allusers.insertOne(req.body);
         res.status(200).json({ message: "User successfully created", ...req.body });
     } catch (err) {
-        console.log(err);
         res.status(500).json({ message: "Failed to insert user into the database",...err });
     }
 };
@@ -91,7 +89,6 @@ const login = async (req, res, db) => {
                 res.status(401).json({ message: 'Wrong password' });
             }
         } catch (error) {
-            console.error(error);
             res.status(500).json({ message: 'An error occurred while processing the request' });
         }
     }

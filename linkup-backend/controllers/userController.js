@@ -8,7 +8,6 @@ const getuser = async (req, res, db) => {
     else
       return res.status(200).json({ ...userdata });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Failed to retrieve user details', error });
   }
 };
@@ -19,7 +18,6 @@ const getallusers = async (req, res, db) => {
     const allUsers = await allusers.find({}, { projection: { hashedPassword: 0 } }).toArray();
     return res.status(200).json(allUsers);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Failed to retrieve users data', error });
   }
 };
