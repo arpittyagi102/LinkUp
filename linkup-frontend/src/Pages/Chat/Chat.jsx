@@ -13,6 +13,7 @@ import callicon from "../../Assets/icons/call.svg";
 import videocallicon from "../../Assets/icons/videocall.svg";
 import menuicon from "../../Assets/icons/menu.svg";
 import { motion, AnimatePresence } from 'framer-motion';
+import Picker from "emoji-picker-react";
 
 export default function Chat() {
   const [active, setActive] = useState(null);
@@ -21,6 +22,7 @@ export default function Chat() {
   const [friendActive, setFriendActive] = useState(FriendsList[0]);
   const [onlineFriends, setOnlineFriends] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
   const crypto = new SimpleCrypto(secretKey);
@@ -77,14 +79,16 @@ export default function Chat() {
       sendto: friendActive,
       message,
       time,
-    }); 
+    });
 
     setMessage("");
+    setShowEmojiPicker(false);
   }
 
   function handleFriendsClick(friend, index) {
     setActive(index);
     setFriendActive(friend);
+    setShowEmojiPicker(false)
 
     const friendMessages = messageList[friend.email] || [];
     setMessageList((prev) => ({
@@ -92,6 +96,16 @@ export default function Chat() {
       [friend.email]: friendMessages,
     }));
   }
+
+  const handleEmojiPickerhideShow = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const handleEmojiClick = (emojiData, event) => {
+      const emoji = emojiData.emoji
+      const msg = message + emoji;
+      setMessage(msg);
+  };
 
   return (
     <>
@@ -139,7 +153,7 @@ export default function Chat() {
                 ))}
             </AnimatePresence>
 
-            </div> 
+            </div>
             <div className="message-input-outer">
               <input
                 type="text"
@@ -155,7 +169,12 @@ export default function Chat() {
                   }
                 }}
               />
-              <img src={emojiicon} className="message-input-icons" alt="icons"/>
+              <img src={emojiicon} className="message-input-icons" alt="icons"  onClick={handleEmojiPickerhideShow}/>
+              {showEmojiPicker && (
+                <div className="picker-container">
+                  <Picker onEmojiClick={handleEmojiClick} theme="dark"/>
+                </div>
+              )}
               <img src={imageicon} className="message-input-icons" alt="icons"/>
               <img src={sendicon} className="message-input-icons" alt="icons"/>
             </div>
