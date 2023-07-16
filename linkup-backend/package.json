@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --detectOpenHandles --coverage --coverageDirectory='./tests/coverage/'   --verbose --watchAll --setupFiles dotenv/config"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +19,9 @@
     "mongodb": "^5.5.0",
     "nodemon": "^2.0.22",
     "socket.io": "^4.6.1"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1",
+    "supertest": "^6.3.3"
   }
 }
