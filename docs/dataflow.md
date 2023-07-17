@@ -19,5 +19,6 @@ flowchart TD
         C --> D
     end
 ```
+These all need to be connected together
 
 ---

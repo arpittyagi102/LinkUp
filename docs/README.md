@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+<h1 align="center"> Welcome to LinkUp  </h1>
+=======
 # Login Page
 
 ```bash
@@ -106,3 +109,5 @@ useEffect(() => {
 }, []);
 ```
 and now i was able to send socket events from anywhere in the page
+### this needs to be changes now
+>>>>>>> 60b50fabf3f813794e59d64a01c71d6a2615d2b9

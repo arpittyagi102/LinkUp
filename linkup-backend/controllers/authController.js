@@ -17,7 +17,7 @@ const signup = async (req, res, db) => {
             picture:null,
             friends:[]
         };
-
+        
         const allusers = db.collection('users');
         const user = await allusers.findOne({ email: newUser.email });
 
