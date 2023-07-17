@@ -35,6 +35,7 @@ export default function SignupPage() {
     email: "",
     password: "",
   });
+  const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showState, setShowState] = useState(false);
