@@ -115,6 +115,7 @@ export default function SignupPage() {
   });
 
   async function loginsuccess(response) {
+    setLoading(true);
     console.log("login is Successfull ", response);
     try {
       const access_token = response.access_token;
