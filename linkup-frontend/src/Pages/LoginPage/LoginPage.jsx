@@ -95,7 +95,7 @@ export default function LoginPage(){
 
     return(
         <>
-            <div className="login-page-outer">
+            <div className="login-page-outer"> 
                 <div className="login-form-outer">
                     <div className="login-page-title">Welcome back</div>
 

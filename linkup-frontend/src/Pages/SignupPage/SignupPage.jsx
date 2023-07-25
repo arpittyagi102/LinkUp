@@ -128,9 +128,9 @@ export default function SignupPage() {
     }}
 
     const googlelogin = useGoogleLogin({
-      client_id: process.env.REACT_APP_CLIENT_ID,
-      onSuccess: response => loginsuccess(response),
-  });
+        client_id: process.env.REACT_APP_CLIENT_ID,
+        onSuccess: response => loginsuccess(response),
+    });
 
     useGoogleOneTapLogin({
        onSuccess:response => loginsuccess(response),
