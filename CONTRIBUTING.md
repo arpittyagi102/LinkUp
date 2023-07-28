@@ -37,7 +37,7 @@ Once you get the project built, see if you can fix some [issues](https://github.
 
 > All GitHub projects are backed by a version control software called *Git*. You'll need to [set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git) in order to contribute to *any* project on GitHub.
 
-**Link Up** is a real time chatting application project, it utilizes MERN and socket.io. You'll need to [install Node.js](https://nodejs.org/en/) in order to run the project.
+**Link Up** is a real time chatting application project, it utilizes, MERN, socket.io. You'll need to [install Node.js](https://nodejs.org/en/) in order to run the project.
 
 ### Fork the repository
 
@@ -67,7 +67,7 @@ First, navigate into the project's directory
 cd LinkUp
 ```
 
-Next, create a branch and switch to that branch. As a good industry practice, avoid operating on the main branch.
+Next, Create a branch and switch to the branch which is a good industry practice don't operate on main branch
 
 ```bash
 git branch YOUR_BRANCH_NAME
@@ -113,7 +113,7 @@ npm start
 
 ### Run the project
 
-Access via Web-Browser
+Access on Web-Browser
 
 ```bash
 http://localhost:3000
