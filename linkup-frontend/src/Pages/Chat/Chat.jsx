@@ -29,6 +29,7 @@ export default function Chat() {
 
   const currentUserRef = useRef(null);
   const socketRef = useRef(null);
+  const chatMessagesRef = useRef(null);
 
   useEffect(() => {
     const getcookies = Cookies.get('linkupdata');
@@ -66,10 +67,17 @@ export default function Chat() {
       }
     });
 
+    scrollToBottom();
+    
+
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(()=>{
+
+  })
 
   function sendmessage() {
     const time = new Date();
@@ -83,6 +91,13 @@ export default function Chat() {
 
     setMessage("");
     setShowEmojiPicker(false);
+    scrollToBottom();
+  }
+
+  function scrollToBottom() {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
   }
 
   function handleFriendsClick(friend, index) {
@@ -130,7 +145,7 @@ export default function Chat() {
           </div>
           </div>
           <div className="chat-interface">
-            <div className="chat-messages">
+            <div className="chat-messages" ref={chatMessagesRef}>
             <AnimatePresence>
               {friendActive &&
                 messageList[friendActive.email]?.map((messageData, key) => (
