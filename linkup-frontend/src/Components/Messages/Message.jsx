@@ -15,6 +15,7 @@ export default function Message({ currentUser, sendby, time, message }) {
   }
 
   return (
+    
     <>
       {currentUser === sendby.name ? (
         <div className="sent-message">

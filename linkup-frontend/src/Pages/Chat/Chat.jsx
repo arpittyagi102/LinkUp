@@ -65,9 +65,11 @@ export default function Chat() {
           [friendEmail]: [...(prev[friendEmail] || []), messageData],
         }));
       }
+
+
     });
 
-    scrollToBottom();
+  
     
 
     return () => {
@@ -75,9 +77,7 @@ export default function Chat() {
     };
   }, []);
 
-  useEffect(()=>{
 
-  })
 
   function sendmessage() {
     const time = new Date();
@@ -91,14 +91,9 @@ export default function Chat() {
 
     setMessage("");
     setShowEmojiPicker(false);
-    scrollToBottom();
+
   }
 
-  function scrollToBottom() {
-    if (chatMessagesRef.current) {
-      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-    }
-  }
 
   function handleFriendsClick(friend, index) {
     setActive(index);
