@@ -5,8 +5,8 @@ const LazyLoader = () => {
 
     return (
         <div role='fallback'
-            className=" main-fallback center-item">
-            <div className="outer-roll center-item ">
+            className=" main-fallback ">
+            <div className="outer-roll ">
             </div>
         </div>
     )

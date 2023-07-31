@@ -9,17 +9,12 @@
     height:6rem;
     border: 7px solid #000;
     border-radius: 50%;
-    border-right-color: transparent;
-    border-left-color: transparent;
-    animation: rotate 1s ease-in-out infinite;
+    border-top-color: transparent;
+    animation: rotate 0.8s ease-in-out infinite;
 }
 
 @keyframes rotate {
     0% {
-        rotate: 180deg;
-    }
-
-    50% {
-        rotate: -180deg;
+        transform: rotate(360deg);
     }
 }

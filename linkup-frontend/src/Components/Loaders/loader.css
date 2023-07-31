@@ -1,0 +1,23 @@
+.loader {
+    background-color: transparent;
+    display: grid;
+    place-items: center;
+    background-color: transparent;
+    padding-block: 1rem;
+    
+}
+
+.load-roller {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 3px solid #ffd1d1;
+    border-top-color: transparent;
+    animation: rotate 0.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(360deg);
+    }
+}
