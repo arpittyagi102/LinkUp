@@ -1,0 +1,20 @@
+.main-fallback {
+    display: grid;
+    height: 100dvh;
+    place-items: center;
+}
+
+.outer-roll {
+    width: 6rem;
+    height:6rem;
+    border: 7px solid #000;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: rotate 0.8s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(360deg);
+    }
+}

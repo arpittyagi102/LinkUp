@@ -1,11 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import routes from "./Routes";
+import LazyLoader from "./Components/Loaders/LazyLoader";
 
 export default function App() {
   return (
     <>
-        <Routes> 
+      <Suspense fallback={<LazyLoader/>}>
+        <Routes>
           {routes.map((route, index) => (
             <Route
               key={index}
@@ -14,6 +16,7 @@ export default function App() {
             />
           ))}
         </Routes>
+      </Suspense>
     </>
   )
 }

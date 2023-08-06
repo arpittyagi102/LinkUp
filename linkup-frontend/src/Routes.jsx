@@ -1,39 +1,40 @@
-import LoginPage from './Pages/LoginPage/LoginPage'
-import SignupPage from './Pages/SignupPage/SignupPage';
-import ForgotPass from './Pages/ForgotPass/ForgotPass';
-import Chat from './Pages/Chat/Chat';
-import Users from './Pages/Users/Users';
+import React, { lazy } from 'react';
+const LoginPage = lazy(() => import('./Pages/LoginPage/LoginPage'));
+const SignupPage = lazy(() => import('./Pages/SignupPage/SignupPage'));
+const ForgotPass = lazy(() => import('./Pages/ForgotPass/ForgotPass'));
+const Chat = lazy(() => import('./Pages/Chat/Chat'));
+const Users = lazy(() => import('./Pages/Users/Users'));
 
-const routes=[
+const routes = [
     {
-        path:'/',
-        exact:true,
-        element:<SignupPage/>
+        path: '/',
+        exact: true,
+        element: <SignupPage />
     },
     {
-        path:'/chat',
-        exact:true,
-        element:<Chat/>
+        path: '/chat',
+        exact: true,
+        element: <Chat />
     },
     {
-        path:'/login',
-        exact:true,
-        element:<LoginPage/>
+        path: '/login',
+        exact: true,
+        element: <LoginPage />
     },
     {
-        path:'/signup',
-        exact:true,
-        element:<SignupPage/>
+        path: '/signup',
+        exact: true,
+        element: <SignupPage />
     },
     {
-        path:'/forgot',
-        exact:true,
-        element:<ForgotPass/>
+        path: '/forgot',
+        exact: true,
+        element: <ForgotPass />
     },
     {
-        path:'/users',
-        exact:true,
-        element:<Users/>
+        path: '/users',
+        exact: true,
+        element: <Users />
     }
 ]
 
