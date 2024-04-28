@@ -24,7 +24,8 @@ export default function Chat() {
   const [onlineFriends, setOnlineFriends] = useState([])
   const [currentUser, setCurrentUser] = useState(null)
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-  const [timeDis, setTimeDis] = useState("")
+  const [timeDis, setTimeDis] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const secretKey = process.env.REACT_APP_CRYPTO_SECRET
   const crypto = new SimpleCrypto(secretKey)
@@ -92,16 +93,27 @@ export default function Chat() {
     setActive(index)
     setFriendActive(friend)
     setShowEmojiPicker(false)
-
+    
     const friendMessages = messageList[friend.email] || []
     setMessageList((prev) => ({
       ...prev,
       [friend.email]: friendMessages,
     }))
+
+    setTimeout(() => {
+      setMenuOpen(false);
+    }, 500);
   }
 
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker)
+  }
+
+  const handleMenuClick = () => {
+    if(window.innerWidth < 1024){
+      setMenuOpen((menuOpen) => !menuOpen);
+    }
+
   }
 
   const handleEmojiClick = (emojiData, event) => {
@@ -109,6 +121,7 @@ export default function Chat() {
     const msg = message + emoji
     setMessage(msg)
   }
+
   useEffect(() => {
     if (friendActive?.lastSeen)
       setTimeDis(
@@ -118,18 +131,36 @@ export default function Chat() {
       )
   }, [friendActive])
 
+  useEffect(() => {
+    const handleOutsideClick = (e) => {
+      const friendsList = document.getElementById('friends-list');
+      if (friendsList && !friendsList.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleOutsideClick);
+  
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+  
+
   return (
     <>
       <div className="outer">
         <FriendsList
           active={active}
-          friendActive={friendActive}
+          friendActive={friendActive} 
           setFriendActive={setFriendActive}
           onlineFriends={onlineFriends}
           handleFriendsClick={handleFriendsClick}
+          menuOpen={menuOpen}
+          setmenuOpen={setMenuOpen}
         />
         {friendActive && (
-          <div className="chat-interface-outer">
+          <div className="chat-interface-outer" style={menuOpen ? {filter:"blur(10px)"} : {}} onClick={()=>{ if(menuOpen) setMenuOpen(false)}}>
             <div className="friend-active-details">
               <img
                 src={friendActive?.picture ? friendActive.picture : usericon}
@@ -157,7 +188,7 @@ export default function Chat() {
                   alt="friend-active-details-icon"
                 />
               </div>
-              <div className="friend-active-details-icon-cover">
+              <div className="friend-active-details-icon-cover" onClick={handleMenuClick}>
                 <img
                   src={menuicon}
                   className="friend-active-details-icon"

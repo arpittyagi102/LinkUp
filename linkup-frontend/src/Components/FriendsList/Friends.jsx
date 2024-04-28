@@ -4,7 +4,7 @@ import searchicon from "../../Assets/icons/search.svg"
 import "./Friends.css";
 import Loader from "../Loaders/Loader";
 
-export default function FriendList({ active, setFriendActive, friendActive, onlineFriends, handleFriendsClick }) {
+export default function FriendList({ active, setFriendActive, friendActive, onlineFriends, handleFriendsClick, menuOpen, setMenuOpen }) {
 
   const [searchState, setSearchState] = useState("");
   const [friendsList, setFriendsList] = useState([]);
@@ -54,7 +54,7 @@ export default function FriendList({ active, setFriendActive, friendActive, onli
 
   return (
     <>
-      <div className="left-half-outer">
+      <div className="left-half-outer" style={menuOpen ? {display:"block", position:"absolute"} : {}}>
         <div className="friends-list-upper">
           <div className="add-new-btn">Add New</div>
           <div className="friends-list-title">
