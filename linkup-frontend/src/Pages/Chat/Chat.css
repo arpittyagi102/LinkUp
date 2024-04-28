@@ -163,6 +163,20 @@
         font-size: 20px;
         max-width: 60vw;
     }
+    .sent-message{
+        margin: 3px;
+    }
+    .sent-message .time{
+        font-size: 10px;
+        margin: 3px 10px;
+    }
+    .received-message{
+        margin: 3px;
+    }
+    .received-message .time{
+        font-size: 10px;
+        margin: 3px 10px;
+    }
   }
   
   @media screen and (max-width: 500px) {
@@ -174,6 +188,7 @@
     }
     .message-input-outer input{
         font-size: 20px;
+        width: 100px;
     }
     .message-input-icons{
         height: 20px;
