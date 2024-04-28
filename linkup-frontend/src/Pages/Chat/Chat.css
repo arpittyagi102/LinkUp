@@ -67,6 +67,7 @@
 }
 .msg{
     font-size: 25px;
+    max-width: 20vw;
 }
 .sent-message{
     align-self: flex-end;
@@ -158,5 +159,35 @@
     .chat-interface-outer{
         width: 90vw;
     }
+    .msg{
+        font-size: 20px;
+        max-width: 60vw;
+    }
   }
   
+  @media screen and (max-width: 500px) {
+    .chat-interface-outer{
+        width: 95vw;
+    }
+    .friend-active-name{
+        font-size: 20px;
+    }
+    .message-input-outer input{
+        font-size: 20px;
+    }
+    .message-input-icons{
+        height: 20px;
+        margin: 0 5px;
+    }
+    .message-input-outer{
+        padding-right: 5px;
+    }
+    .friend-active-details-icon-cover {
+        scale:0.7;
+        margin:0px;
+    }
+    .msg{
+        font-size: 20px;
+        max-width: 80vw;
+    }
+  }

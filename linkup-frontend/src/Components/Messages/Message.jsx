@@ -1,4 +1,5 @@
 import React, { useEffect, useState,useRef } from "react";
+import "../../Pages/Chat/Chat.css";
 
 export default function Message({ currentUser, sendby, time, message }) {
   function convert(dateTimeString) {
@@ -24,7 +25,7 @@ export default function Message({ currentUser, sendby, time, message }) {
     <>
       {currentUser === sendby.name ? (
         <div className="sent-message" ref={ref}>
-          <div className="msg" style={{ maxWidth: "20vw" }}>{message}</div>
+          <div className="msg">{message}</div>
           <div className="time">{convert(time)}</div>
         </div>
       ) : (
