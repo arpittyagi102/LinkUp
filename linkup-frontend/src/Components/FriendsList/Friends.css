@@ -1,6 +1,7 @@
 .left-half-outer{
     width:400px;
     height: 90%;
+    flex-direction: column;
 }
 .friends-list-upper{
     width: 100%;
@@ -88,4 +89,19 @@
     box-shadow: 0 10px 20px 0px rgba(0, 0, 0, 0.5);
     z-index: 10;
     position: relative;
+}
+@media screen and (max-width: 500px) {
+    .left-half-outer{
+        height: 100%;
+        width: 100%;
+    }
+    .friends-list-upper{
+        border-radius: 0px;
+    }
+    .friends-list-outer{
+        height: 100%;
+    }
+    .friends-list-outer:last-child{
+        border-radius: 0px;
+    }
 }

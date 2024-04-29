@@ -1,126 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react'
-import './Chat.css'
-import Cookies from 'js-cookie'
-import io from 'socket.io-client'
-import Message from '../../Components/Messages/Message'
-import SimpleCrypto from 'simple-crypto-js'
-import FriendsList from '../../Components/FriendsList/Friends'
-import emojiicon from '../../Assets/icons/emoji.svg'
-import imageicon from '../../Assets/icons/image.svg'
-import sendicon from '../../Assets/icons/send.svg'
-import usericon from '../../Assets/icons/user.svg'
-import callicon from '../../Assets/icons/call.svg'
-import videocallicon from '../../Assets/icons/videocall.svg'
-import menuicon from '../../Assets/icons/menu.svg'
-import { motion, AnimatePresence } from 'framer-motion'
-import Picker from 'emoji-picker-react'
-import { parseISO, formatDistanceToNow } from 'date-fns'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import './Chat.css';
+import Cookies from 'js-cookie';
+import io from 'socket.io-client';
+import Message from '../../Components/Messages/Message';
+import SimpleCrypto from 'simple-crypto-js';
+import FriendsList from '../../Components/FriendsList/Friends';
+import emojiicon from '../../Assets/icons/emoji.svg';
+import imageicon from '../../Assets/icons/image.svg';
+import sendicon from '../../Assets/icons/send.svg';
+import usericon from '../../Assets/icons/user.svg';
+import callicon from '../../Assets/icons/call.svg';
+import videocallicon from '../../Assets/icons/videocall.svg';
+import menuicon from '../../Assets/icons/menu.svg';
+import { motion, AnimatePresence } from 'framer-motion';
+import Picker from 'emoji-picker-react';
+import { parseISO, formatDistanceToNow } from 'date-fns';
 
 export default function Chat() {
-  const [active, setActive] = useState(null)
-  const [message, setMessage] = useState('')
-  const [messageList, setMessageList] = useState({})
-  const [friendActive, setFriendActive] = useState(FriendsList[0])
-  const [onlineFriends, setOnlineFriends] = useState([])
-  const [currentUser, setCurrentUser] = useState(null)
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
-  const [timeDis, setTimeDis] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [active, setActive] = useState(null);
+  const [message, setMessage] = useState('');
+  const [messageList, setMessageList] = useState({});
+  const [friendActive, setFriendActive] = useState(FriendsList[0]);
+  const [onlineFriends, setOnlineFriends] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [timeDis, setTimeDis] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const secretKey = process.env.REACT_APP_CRYPTO_SECRET
-  const crypto = new SimpleCrypto(secretKey)
+  const secretKey = process.env.REACT_APP_CRYPTO_SECRET;
+  const crypto = new SimpleCrypto(secretKey);
 
-  const currentUserRef = useRef(null)
-  const socketRef = useRef(null)
-  const chatMessagesRef = useRef(null)
+  const currentUserRef = useRef(null);
+  const socketRef = useRef(null);
+  const chatMessagesRef = useRef(null);
 
   useEffect(() => {
-    const getcookies = Cookies.get('linkupdata')
-    const temp = crypto.decrypt(getcookies)
-    setCurrentUser({ ...temp })
+    const getcookies = Cookies.get('linkupdata');
+    const temp = crypto.decrypt(getcookies);
+    setCurrentUser({ ...temp });
 
-    currentUserRef.current = { ...temp }
+    currentUserRef.current = { ...temp };
 
-    const socket = io.connect('https://linkup-backend-k05n.onrender.com')
-    socketRef.current = socket
+    const socket = io.connect('https://linkup-backend-k05n.onrender.com');
+    socketRef.current = socket;
 
     socket.on('connect', () => {
-      const socketID = socket.id
-      setCurrentUser((prevUser) => ({ ...prevUser, socketID }))
-      socket.emit('initialData', { ...temp, socketID })
-    })
+      const socketID = socket.id;
+      setCurrentUser((prevUser) => ({ ...prevUser, socketID }));
+      socket.emit('initialData', { ...temp, socketID });
+    });
 
     socket.on('online-people', (onlinePeople) => {
-      setOnlineFriends(onlinePeople)
-    })
+      setOnlineFriends(onlinePeople);
+    });
 
     socket.on('recieve-message', (messageData) => {
-      const currentUser = currentUserRef.current
+      const currentUser = currentUserRef.current;
 
       const friendEmail =
         messageData.sendto.email === currentUser?.email
           ? messageData.sendby.email
-          : messageData.sendto.email
+          : messageData.sendto.email;
 
       if (friendEmail) {
         setMessageList((prev) => ({
           ...prev,
           [friendEmail]: [...(prev[friendEmail] || []), messageData],
-        }))
+        }));
       }
-    })
+    });
 
     return () => {
-      socket.disconnect()
-    }
-  }, [])
-
-  function sendmessage() {
-    const time = new Date()
-
-    socketRef.current.emit('send-message', {
-      sendby: currentUserRef.current,
-      sendto: friendActive,
-      message,
-      time,
-    })
-
-    setMessage('')
-    setShowEmojiPicker(false)
-  }
-
-  function handleFriendsClick(friend, index) {
-    setActive(index)
-    setFriendActive(friend)
-    setShowEmojiPicker(false)
-    
-    const friendMessages = messageList[friend.email] || []
-    setMessageList((prev) => ({
-      ...prev,
-      [friend.email]: friendMessages,
-    }))
-
-    setTimeout(() => {
-      setMenuOpen(false);
-    }, 500);
-  }
-
-  const handleEmojiPickerhideShow = () => {
-    setShowEmojiPicker(!showEmojiPicker)
-  }
-
-  const handleMenuClick = () => {
-    if(window.innerWidth < 1024){
-      setMenuOpen((menuOpen) => !menuOpen);
-    }
-
-  }
-
-  const handleEmojiClick = (emojiData, event) => {
-    const emoji = emojiData.emoji
-    const msg = message + emoji
-    setMessage(msg)
-  }
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (friendActive?.lastSeen)
@@ -128,31 +81,67 @@ export default function Chat() {
         formatDistanceToNow(parseISO(friendActive?.lastSeen), {
           addSuffix: true,
         })
-      )
-  }, [friendActive])
+      );
+  }, [friendActive]);
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      const friendsList = document.getElementById('friends-list');
-      if (friendsList && !friendsList.contains(e.target)) {
-        setMenuOpen(false);
-      }
-    };
-  
-    document.addEventListener('mousedown', handleOutsideClick);
-  
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-  
+  const sendmessage = () => {
+    const time = new Date();
+
+    socketRef.current.emit('send-message', {
+      sendby: currentUserRef.current,
+      sendto: friendActive,
+      message,
+      time,
+    });
+
+    setMessage('');
+    setShowEmojiPicker(false);
+  };
+
+  const handleFriendsClick = (friend, index) => {
+    setActive(index);
+    setFriendActive(friend);
+    setShowEmojiPicker(false);
+
+    const friendMessages = messageList[friend.email] || [];
+    setMessageList((prev) => ({
+      ...prev,
+      [friend.email]: friendMessages,
+    }));
+
+    setTimeout(() => {
+      setMenuOpen(false);
+    }, 500);
+  };
+
+  const handleEmojiPickerhideShow = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const handleMenuClick = () => {
+    if (window.innerWidth < 1024) {
+      setMenuOpen((menuOpen) => !menuOpen);
+    }
+  };
+
+  const handleEmojiClick = (emojiData, event) => {
+    const emoji = emojiData.emoji;
+    const msg = message + emoji;
+    setMessage(msg);
+  };
+
+  useLayoutEffect(() => {
+    if (chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  }, [messageList]);
 
   return (
     <>
       <div className="outer">
         <FriendsList
           active={active}
-          friendActive={friendActive} 
+          friendActive={friendActive}
           setFriendActive={setFriendActive}
           onlineFriends={onlineFriends}
           handleFriendsClick={handleFriendsClick}
@@ -160,7 +149,13 @@ export default function Chat() {
           setmenuOpen={setMenuOpen}
         />
         {friendActive && (
-          <div className="chat-interface-outer" style={menuOpen ? {filter:"blur(10px)"} : {}} onClick={()=>{ if(menuOpen) setMenuOpen(false)}}>
+          <div
+            className="chat-interface-outer"
+            style={menuOpen ? { filter: 'blur(10px)' } : {}}
+            onClick={() => {
+              if (menuOpen) setMenuOpen(false);
+            }}
+          >
             <div className="friend-active-details">
               <img
                 src={friendActive?.picture ? friendActive.picture : usericon}
@@ -188,7 +183,10 @@ export default function Chat() {
                   alt="friend-active-details-icon"
                 />
               </div>
-              <div className="friend-active-details-icon-cover" onClick={handleMenuClick}>
+              <div
+                className="friend-active-details-icon-cover"
+                onClick={handleMenuClick}
+              >
                 <img
                   src={menuicon}
                   className="friend-active-details-icon"
@@ -232,11 +230,11 @@ export default function Chat() {
                   value={message}
                   placeholder="Type your message..."
                   onChange={(e) => {
-                    setMessage(e.target.value)
+                    setMessage(e.target.value);
                   }}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      sendmessage()
+                    if (e.key === 'Enter' && message.length > 0) {
+                      sendmessage();
                     }
                   }}
                 />
@@ -267,5 +265,5 @@ export default function Chat() {
         )}
       </div>
     </>
-  )
+  );
 }

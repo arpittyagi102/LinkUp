@@ -54,7 +54,7 @@ export default function FriendList({ active, setFriendActive, friendActive, onli
 
   return (
     <>
-      <div className="left-half-outer" style={menuOpen ? {display:"block", position:"absolute"} : {}}>
+      <div className="left-half-outer" style={menuOpen ? {display:"flex", position:"absolute"} : {}}>
         <div className="friends-list-upper">
           <div className="add-new-btn">Add New</div>
           <div className="friends-list-title">

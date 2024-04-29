@@ -14,6 +14,12 @@
     justify-content: space-between;
     width:55vw;
 }
+.chat-interface{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
 .friend-active-details{ 
     display: flex;
 }
@@ -97,6 +103,7 @@
 .received-message .time,.received-message .name{
     margin: 5px 15px;
     opacity: 0.7;
+    font-size: 12px;
 }
 .message-input-outer{
     background-color: rgb(0,0,0,0.4);
@@ -150,6 +157,7 @@
     z-index: 1;
     animation: slideIn 0.3s ease-out;
   }
+
 
   @media screen and (max-width: 1000px) {
     .left-half-outer{
@@ -205,4 +213,4 @@
         font-size: 20px;
         max-width: 80vw;
     }
-  }
+}
