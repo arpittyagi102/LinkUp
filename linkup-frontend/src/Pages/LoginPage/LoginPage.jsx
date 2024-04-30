@@ -64,6 +64,7 @@ export default function LoginPage() {
   });
 
   async function loginsuccess(response) {
+    console.log("login success", response)
     try {
       const { access_token } = response;
       const userInfoResponse = await axios.get(
