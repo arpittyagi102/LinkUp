@@ -258,6 +258,7 @@ export default function Chat() {
                   src={sendicon}
                   className="message-input-icons"
                   alt="icons"
+                  onClick={sendmessage}
                 />
               </div>
             </div>

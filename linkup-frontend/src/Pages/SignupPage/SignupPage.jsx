@@ -110,9 +110,9 @@ export default function SignupPage() {
     onSuccess: (response) => loginsuccess(response),
   });
 
-  useGoogleOneTapLogin({
-    onSuccess: (response) => loginsuccess(response),
-  });
+  //useGoogleOneTapLogin({        // google one tap login gives a different type of response as compared to google login
+  //  onSuccess: (response) => loginsuccess(response),
+  //});
 
   async function loginsuccess(response) {
     setLoading(true);
